@@ -35,7 +35,7 @@ func _on_lobby_created(connected: int, this_lobby_id: int) -> void:
 		Steam.setLobbyJoinable(lobby_id, true);
 		Steam.setLobbyData(lobby_id, "name", Main.player_username + "'s Lobby");
 		
-		print("CREATED LOBBY: ", lobby_id);
+		print("CREATED LOBBY: ", Main.lobby_id_to_base64(lobby_id));
 		var set_relay: bool = Steam.allowP2PPacketRelay(true);
 		
 		get_tree().change_scene_to_file("res://scenes/game.tscn");
@@ -96,8 +96,7 @@ func read_p2p_packet() -> void:
 		if readable_data.has("message"):
 			match readable_data["message"]:
 				"handshake":
-					print("PLAYER: ", readable_data["username"], "HAS JOINED.");
-					get_lobby_members();
+					_on_p2p_handshake(readable_data);
 				"player_position":
 					_update_remote_player_position(readable_data);
 
@@ -123,11 +122,53 @@ func make_p2p_handshake() -> void:
 	send_p2p_packet(0, {"message": "handshake", "steam_id": Main.player_steam_id, "username": Main.player_username});
 
 
+## Called whenever the lobby gains or loses a player
+func _on_lobby_chat_update(plobby_id: int, changed_id: int, making_change_id: int, chat_state: int) -> void:
+	if chat_state == Steam.CHAT_MEMBER_STATE_CHANGE_LEFT or chat_state == Steam.CHAT_MEMBER_STATE_CHANGE_DISCONNECTED:
+		remove_player(changed_id);
+
+
+## Removes a player from the game
+func remove_player(steam_id: int) -> void:
+	var game = get_tree().current_scene;
+	if not game: return;
+	
+	for player in game.get_node("Players").get_children():
+		if player.get_steam_id() == steam_id:
+			player.queue_free();
+			break;
+
+
+## Called whenever a P2P handshake happens.
+func _on_p2p_handshake(data: Dictionary) -> void:
+	print("PLAYER: ", data["username"], " HAS JOINED.");
+	
+	get_lobby_members();
+	
+	var game = get_tree().current_scene;
+	if not game: return;
+	
+	for player in game.get_node("Players").get_children():
+		if player.get_steam_id() == data["steam_id"]: return;
+	
+	var player_instance = game.player_scene.instantiate();
+	player_instance.set_steam_id(data["steam_id"]);
+	player_instance.name = data["steam_name"];
+	player_instance.add_to_group("players");
+	player_instance.set_is_local(data["steam_id"] == Main.player_steam_id);
+	game.players_root.add_child(player_instance);
+
+
 ## Updates the position of a remote player.
 func _update_remote_player_position(data: Dictionary) -> void:
 	var remote_steam_id: int = data["steam_id"];
-	var pos: Vector2 = data["pos"];
+	var pos: Vector2 = data["position"];
+	var vel: Vector2 = data["velocity"];
 	
-	for player in get_tree().get_first_node_in_group("players").get_parent().get_children():
+	var game = get_tree().current_scene;
+	if not game: return;
+	
+	for player in game.get_node("Players").get_children():
 		if player.get_steam_id() == remote_steam_id and not player.get_is_local():
 			player.global_position = pos;
+			player.velocity = vel;

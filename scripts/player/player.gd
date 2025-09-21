@@ -35,11 +35,14 @@ func _physics_process(delta: float) -> void:
 		
 		# Apply velocity changes
 		velocity_component.move(self);
+		
+		_send_position_p2p();
+	else: velocity_component.move(self);
 
 
 ## Local-only: Sends a P2P packet containing the position of the player.
 func _send_position_p2p() -> void:
-	var packet: Dictionary = {"message": "player_position", "steam_id": steam_id, "position": global_position};
+	var packet: Dictionary = {"message": "player_position", "steam_id": steam_id, "position": global_position, "velocity": velocity};
 	Network.send_p2p_packet(0, packet);
 
 

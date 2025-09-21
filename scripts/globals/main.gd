@@ -24,3 +24,18 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	# Let Steam do its thing I guess
 	Steam.run_callbacks();
+
+
+## Changes the long [member lobby_id] to base64.
+func lobby_id_to_base64(lobby_id: int) -> String:
+	var arr: PackedByteArray = PackedByteArray();
+	for i in range(8): arr.append((lobby_id >> (i * 8)) & 0xFF);
+	return Marshalls.raw_to_base64(arr);
+
+
+## Changes the short [member b64] to a lobby ID.
+func base64_to_lobby_id(b64: String) -> int:
+	var arr: PackedByteArray = Marshalls.base64_to_raw(b64);
+	var value: int = 0;
+	for i in range(arr.size()): value |= int(arr[i]) << (i * 8);
+	return value;

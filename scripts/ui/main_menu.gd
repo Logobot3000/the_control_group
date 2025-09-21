@@ -25,5 +25,5 @@ func _on_host_button_pressed() -> void:
 
 ## Called when the join button is pressed.
 func _on_join_button_pressed() -> void:
-	var id: int = int(lobby_id.text);
+	var id: int = Main.base64_to_lobby_id(lobby_id.text);
 	Network.join_lobby(id);
