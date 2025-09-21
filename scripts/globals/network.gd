@@ -98,6 +98,8 @@ func read_p2p_packet() -> void:
 				"handshake":
 					print("PLAYER: ", readable_data["username"], "HAS JOINED.");
 					get_lobby_members();
+				"player_position":
+					_update_remote_player_position(readable_data);
 
 
 ## Reads up to [member Constants.PACKET_READ_LIMIT] packets.
@@ -119,3 +121,13 @@ func _on_p2p_session_request(remote_id: int):
 ## Makes a P2P handshake.
 func make_p2p_handshake() -> void:
 	send_p2p_packet(0, {"message": "handshake", "steam_id": Main.player_steam_id, "username": Main.player_username});
+
+
+## Updates the position of a remote player.
+func _update_remote_player_position(data: Dictionary) -> void:
+	var remote_steam_id: int = data["steam_id"];
+	var pos: Vector2 = data["pos"];
+	
+	for player in get_tree().get_first_node_in_group("players").get_parent().get_children():
+		if player.get_steam_id() == remote_steam_id and not player.get_is_local():
+			player.global_position = pos;

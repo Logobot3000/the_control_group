@@ -13,6 +13,7 @@ func _ready() -> void:
 		var player_instance = player_scene.instantiate();
 		player_instance.set_steam_id(member["steam_id"]);
 		player_instance.name = member["steam_name"];
+		player_instance.add_to_group("players");
 		
 		if member["steam_id"] == Main.player_steam_id:
 			player_instance.set_is_local(true);
