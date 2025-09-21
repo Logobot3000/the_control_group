@@ -1,7 +1,5 @@
 extends Node
 
-## Determines whether or not local multiplayer is enabled.
-var local_multiplayer = false;
 ## Shows whether or not the current player is the host of a server.
 var is_host: bool = false;
 ## The lobby ID.
@@ -10,10 +8,6 @@ var lobby_id: int = 0;
 var lobby_members: Array = [];
 ## The max amount of lobby members there can be.
 var max_lobby_members: int = 4;
-## For local multiplayer only: allows local multiplayer to work
-var peer: MultiplayerPeer = null;
-## For local multiplayer only: the port for the server. Screw you Manogna.
-var port: int = 42069;
 
 
 func _ready() -> void:
@@ -27,91 +21,29 @@ func _process(delta: float) -> void:
 		read_all_p2p_packets();
 
 
-func _unhandled_input(event: InputEvent) -> void:
-	if event.is_action("enable_local_multiplayer", true):
-		local_multiplayer = true;
-		print("LOCAL MULTIPLAYER ENABLED");
-	if event.is_action("disable_local_multiplayer", true):
-		local_multiplayer = false;
-		print("LOCAL MULTIPLAYER DISABLED");
-
-
 ## Creates a lobby.
 func create_lobby(lobby_type: int) -> void:
-	if not local_multiplayer:
-		if lobby_id == 0: # If the player is not already in a lobby
-			is_host = true;
-			Steam.createLobby(lobby_type, max_lobby_members);
-	else:
-		var server : ENetMultiplayerPeer = ENetMultiplayerPeer.new();
-		var error : int = server.create_server(port, max_lobby_members, 1);
-		print("ENet create_server returned: ", error);
-		if error == OK:
-			peer = server;
-			var sm : SceneMultiplayer = SceneMultiplayer.new();
-			sm.multiplayer_peer = peer;
-			get_tree().set_multiplayer(sm);
-			get_tree().multiplayer.peer_connected.connect(_on_peer_connected);
-			get_tree().multiplayer.peer_disconnected.connect(_on_peer_disconnected);
-			is_host = true;
-			print("Local server started on port ", port);
-			get_tree().change_scene_to_file("res://scenes/game.tscn");
-		else:
-			push_warning("Failed to start local server (error " + str(error) + ")");
+	if lobby_id == 0: # If the player is not already in a lobby
+		is_host = true;
+		Steam.createLobby(lobby_type, max_lobby_members);
 
 
 ## Is called whenever a lobby is created.
 func _on_lobby_created(connected: int, this_lobby_id: int) -> void:
-	if not local_multiplayer:
-		if connected == 1: # If the player is connected to the lobby
-			lobby_id = this_lobby_id;
-			Steam.setLobbyJoinable(lobby_id, true);
-			Steam.setLobbyData(lobby_id, "name", Main.player_username + "'s Lobby");
-			
-			print("CREATED LOBBY: ", Main.lobby_id_to_base64(lobby_id));
-			var set_relay: bool = Steam.allowP2PPacketRelay(true);
+	if connected == 1: # If the player is connected to the lobby
+		lobby_id = this_lobby_id;
+		Steam.setLobbyJoinable(lobby_id, true);
+		Steam.setLobbyData(lobby_id, "name", Main.player_username + "'s Lobby");
 		
-			get_tree().change_scene_to_file("res://scenes/game.tscn");
+		print("CREATED LOBBY: ", Main.lobby_id_to_base64(lobby_id));
+		var set_relay: bool = Steam.allowP2PPacketRelay(true);
+		
+		get_tree().change_scene_to_file("res://scenes/game.tscn");
 
 
 ## Joins a lobby.
 func join_lobby(this_lobby_id: int) -> void:
-	if not local_multiplayer:
-		Steam.joinLobby(this_lobby_id);
-	else:
-		var client : ENetMultiplayerPeer = ENetMultiplayerPeer.new();
-		var error : int = client.create_client("127.0.0.1", port, 1);
-		print("ENet create_client returned: ", error);
-		if error == OK:
-			peer = client;
-			var sm : SceneMultiplayer = SceneMultiplayer.new();
-			sm.multiplayer_peer = peer;
-			get_tree().set_multiplayer(sm);
-			get_tree().multiplayer.peer_connected.connect(_on_peer_connected);
-			get_tree().multiplayer.peer_disconnected.connect(_on_peer_disconnected);
-			is_host = false;
-			print("Local client connected to 127.0.0.1:", port);
-			get_tree().change_scene_to_file("res://scenes/game.tscn");
-		else:
-			push_warning("Failed to join local server (error " + str(error) + ")");
-
-
-## Local only: Called when a new peer joins (including yourself if you’re the host).
-func _on_peer_connected(peer_id: int) -> void:
-	print("Peer connected: ", peer_id);
-	var player_scene: PackedScene = preload("res://scenes/player/player.tscn");
-	var player: Node2D = player_scene.instantiate();
-	player.set_multiplayer_authority(peer_id);
-	player.name = "Player_%s" % str(peer_id);
-	get_tree().current_scene.add_child(player);
-
-
-## Local only: Called when a peer disconnects (or quits the game).
-func _on_peer_disconnected(peer_id: int) -> void:
-	print("Peer disconnected: ", peer_id);
-	var player_node := get_tree().current_scene.get_node_or_null("Player_%s" % str(peer_id));
-	if player_node:
-		player_node.queue_free();
+	Steam.joinLobby(this_lobby_id);
 
 
 ## Is called whenever a lobby is joined.
