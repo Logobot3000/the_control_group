@@ -1,0 +1,17 @@
+[gd_scene load_steps=4 format=3 uid="uid://cuggu4te88tce"]
+
+[ext_resource type="Texture2D" uid="uid://bs81jpogbobt4" path="res://assets/tiles/lobby_lights.png" id="1_pfaf0"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_poit8"]
+texture = ExtResource("1_pfaf0")
+0:0/0 = 0
+1:0/0 = 0
+2:0/0 = 0
+3:0/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_ugba7"]
+sources/0 = SubResource("TileSetAtlasSource_poit8")
+
+[node name="NonInteractableTilesFG" type="TileMapLayer"]
+z_index = -2
+tile_set = SubResource("TileSet_ugba7")

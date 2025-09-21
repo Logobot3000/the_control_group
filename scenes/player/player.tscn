@@ -1,0 +1,41 @@
+[gd_scene load_steps=10 format=3 uid="uid://c16w4qnbtqp14"]
+
+[ext_resource type="PackedScene" uid="uid://ca2wxt2wjjmqs" path="res://scenes/components/velocity_component.tscn" id="1_8afob"]
+[ext_resource type="Script" uid="uid://3eabxdixflc4" path="res://scripts/player/player.gd" id="1_dovo2"]
+[ext_resource type="Texture2D" uid="uid://7df0oilh2ghc" path="res://assets/sprites/base_characters.png" id="2_75vfm"]
+[ext_resource type="PackedScene" uid="uid://cdorjp5slf1rj" path="res://scenes/components/health_component.tscn" id="3_gmlin"]
+[ext_resource type="PackedScene" uid="uid://cmtui1nkguc2l" path="res://scenes/components/hurtbox_component.tscn" id="4_p47bc"]
+[ext_resource type="PackedScene" uid="uid://cgr3fdto232ky" path="res://scenes/components/hurtbox_collision_shape_2d.tscn" id="5_75vfm"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0owmy"]
+atlas = ExtResource("2_75vfm")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_x7p2l"]
+size = Vector2(10, 15)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_0owmy"]
+size = Vector2(12, 17)
+
+[node name="Player" type="CharacterBody2D"]
+collision_layer = 2
+script = ExtResource("1_dovo2")
+velocity_component_path = NodePath("VelocityComponent")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = SubResource("AtlasTexture_0owmy")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 0.5)
+shape = SubResource("RectangleShape2D_x7p2l")
+
+[node name="VelocityComponent" parent="." instance=ExtResource("1_8afob")]
+
+[node name="HealthComponent" parent="." instance=ExtResource("3_gmlin")]
+
+[node name="HurtboxComponent" parent="." instance=ExtResource("4_p47bc")]
+health_component_path = NodePath("../HealthComponent")
+
+[node name="HurtboxCollisionShape2D" parent="HurtboxComponent" instance=ExtResource("5_75vfm")]
+position = Vector2(0, 0.5)
+shape = SubResource("RectangleShape2D_0owmy")
