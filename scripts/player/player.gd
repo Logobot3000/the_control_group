@@ -43,10 +43,7 @@ func _physics_process(delta: float) -> void:
 ## Local-only: Sends a P2P packet containing the position of the player.
 func _send_position_p2p() -> void:
 	var packet: Dictionary = {"message": "player_position", "steam_id": steam_id, "position": global_position, "velocity": velocity};
-	if Network.local_multiplayer and Network.peer:
-		Network.send_local_packet(packet);
-	else:
-		Network.send_p2p_packet(0, packet);
+	Network.send_p2p_packet(0, packet);
 
 
 ## Gets [member steam_id].
