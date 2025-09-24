@@ -6,11 +6,17 @@ extends CharacterBody2D;
 
 ## The actual VelocityComponent for the player found through [member velocity_component_path].
 @onready var velocity_component: VelocityComponent = get_node(velocity_component_path);
+## The sprite for the player.
+@onready var sprite: Sprite2D = $Sprite2D;
 
 ## Determines if the player is currently being controlled by the client. Some functions may be restricted to a local or remote player.
 var is_local: bool = false;
 ## The player's Steam ID.
 var steam_id: int = 0;
+
+
+func _ready() -> void:
+	_set_sprite_color();
 
 
 func _physics_process(delta: float) -> void:
@@ -64,3 +70,30 @@ func set_steam_id(id: int) -> void:
 ## Sets [member is_local].
 func set_is_local(local: bool) -> void:
 	is_local = local;
+
+
+## Set's the player's sprite color based on join order.
+func _set_sprite_color() -> void:
+	var player_index = 0;
+	
+	if not Network.use_local_networking:
+		for i in range(Network.lobby_members.size()):
+			if Network.lobby_members[i]["steam_id"] == steam_id:
+				player_index = i;
+				break;
+	else:
+		if steam_id == 1:  # Host
+			player_index = 0;
+		else:
+			for i in range(Network.lobby_members.size()):
+				if Network.lobby_members[i]["steam_id"] == steam_id:
+					player_index = i;
+					break;
+	
+	player_index = player_index % 4;
+	
+	var atlas_texture = AtlasTexture.new();
+	atlas_texture.atlas = sprite.texture.atlas if sprite.texture is AtlasTexture else sprite.texture;
+	atlas_texture.region = Rect2(player_index * 16, 0, 16, 16);
+	
+	sprite.texture = atlas_texture;

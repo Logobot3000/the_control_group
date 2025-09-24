@@ -24,16 +24,16 @@ func _clamp_health() -> void:
 		died.emit();
 
 
-## Deals [member damage] amount damage to health.
-func damage(damage: float) -> void:
-	health -= damage;
+## Deals [member dmg] amount damage to health.
+func damage(dmg: float) -> void:
+	health -= dmg;
 	_clamp_health();
 	health_updated.emit(health, max_health);
 
 
 ## Heals [member heal] amount of health.
-func heal(heal: float) -> void:
-	damage(-heal);
+func heal(healamt: float) -> void:
+	damage(-healamt);
 
 
 ## Returns whether or not health is equal to 0.
