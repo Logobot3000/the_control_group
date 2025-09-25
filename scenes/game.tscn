@@ -98,3 +98,4 @@ position = Vector2(136, -40)
 scale = Vector2(-1, 0.962)
 
 [node name="MinigameDoor" parent="." instance=ExtResource("6_p57ef")]
+position = Vector2(-4, 0)

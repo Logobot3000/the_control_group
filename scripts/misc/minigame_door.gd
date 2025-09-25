@@ -8,7 +8,6 @@ extends StaticBody2D
 
 func _ready() -> void:
 	spr.play("run");
-	close_door();
 
 
 ## Opens the door.

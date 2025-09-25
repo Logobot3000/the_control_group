@@ -14,10 +14,10 @@ class_name VelocityComponent;
 @export var acceleration: float = 20;
 
 @export_group("Platformer-Specific Settings")
-## Platformer-specific: controls the velocity that each jump has initially. Default 450.0.
-@export var jump_strength: float = 450;
-## Platformer-specific: controls the scale of the gravity that is used. Default 1.0. Note: Internally, the gravity value should be multiplied by 100 and the [member GRAV_CONSTANT] to function correctly.
-@export var gravity: float = 1;
+## Platformer-specific: controls the velocity that each jump has initially. Default 400.0.
+@export var jump_strength: float = 400;
+## Platformer-specific: controls the scale of the gravity that is used. Default 0.9. Note: Internally, the gravity value should be multiplied by 100 and the [member GRAV_CONSTANT] to function correctly.
+@export var gravity: float = 0.9;
 
 ## The stored velocity value in the VelocityComponent.
 var velocity: Vector2 = Vector2.ZERO;
