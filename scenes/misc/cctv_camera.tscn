@@ -1,7 +1,7 @@
 [gd_scene load_steps=10 format=3 uid="uid://bc61n15v87vuw"]
 
 [ext_resource type="Texture2D" uid="uid://l1xjl4qi64lm" path="res://assets/sprites/cctv_cameras.png" id="1_2iinn"]
-[ext_resource type="Script" uid="uid://b5xcxk0xaflcw" path="res://scenes/misc/cctv_camera.gd" id="1_ekcif"]
+[ext_resource type="Script" uid="uid://b5xcxk0xaflcw" path="res://scripts/misc/cctv_camera.gd" id="1_ekcif"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ekcif"]
 atlas = ExtResource("1_2iinn")

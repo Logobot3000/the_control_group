@@ -16,11 +16,13 @@ func _ready() -> void:
 	timer2.timeout.connect(_end_anim);
 
 
+## Plays the scanning animation.
 func _play_anim() -> void:
 	anim.play("scan");
 	timer2.start(4);
 	timer1.start(24);
 
 
+## Ends the scanning animation.
 func _end_anim() -> void:
 	anim.play("default");

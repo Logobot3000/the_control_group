@@ -1,0 +1,276 @@
+[gd_scene load_steps=19 format=3 uid="uid://bmytey1nliqb"]
+
+[ext_resource type="Texture2D" uid="uid://ka57aaah2vpn" path="res://assets/sprites/minigame_door.png" id="1_bm60e"]
+[ext_resource type="Script" uid="uid://bc1fwp7cvnqu0" path="res://scripts/misc/minigame_door.gd" id="1_kdfmh"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kdfmh"]
+atlas = ExtResource("1_bm60e")
+region = Rect2(0, 0, 16, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_421u7"]
+atlas = ExtResource("1_bm60e")
+region = Rect2(16, 0, 16, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_smq8o"]
+atlas = ExtResource("1_bm60e")
+region = Rect2(32, 0, 16, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_b0c4e"]
+atlas = ExtResource("1_bm60e")
+region = Rect2(48, 0, 16, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bp2ii"]
+atlas = ExtResource("1_bm60e")
+region = Rect2(64, 0, 16, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gr4dd"]
+atlas = ExtResource("1_bm60e")
+region = Rect2(80, 0, 16, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tx2u8"]
+atlas = ExtResource("1_bm60e")
+region = Rect2(96, 0, 16, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hs0e5"]
+atlas = ExtResource("1_bm60e")
+region = Rect2(112, 0, 16, 48)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_x6u3t"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kdfmh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_421u7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_smq8o")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_b0c4e")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bp2ii")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gr4dd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tx2u8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hs0e5")
+}],
+"loop": true,
+"name": &"run",
+"speed": 5.0
+}]
+
+[sub_resource type="Gradient" id="Gradient_kdfmh"]
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_421u7"]
+gradient = SubResource("Gradient_kdfmh")
+fill = 1
+fill_from = Vector2(0.506173, 0.503086)
+fill_to = Vector2(0.611111, 0.435185)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_irqgr"]
+size = Vector2(16, 48)
+
+[sub_resource type="Animation" id="Animation_bm60e"]
+resource_name = "open"
+length = 2.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CollisionShape2D:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 2.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(-152, 56), Vector2(-152, 8)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AnimatedSprite2D:position")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 2.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(-152, 56), Vector2(-152, 8)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("AnimatedSprite2D/PointLightGreen:energy")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.75, 0.0]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("AnimatedSprite2D/PointLightRed:energy")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [1.5, 0.0]
+}
+
+[sub_resource type="Animation" id="Animation_kdfmh"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(-152, 56)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("CollisionShape2D:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(-152, 56)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("AnimatedSprite2D/PointLightGreen:energy")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.75]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("AnimatedSprite2D/PointLightRed:energy")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [1.5]
+}
+
+[sub_resource type="Animation" id="Animation_421u7"]
+resource_name = "close"
+length = 2.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 2.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(-152, 8), Vector2(-152, 56)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("CollisionShape2D:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 2.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(-152, 8), Vector2(-152, 56)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("AnimatedSprite2D/PointLightGreen:energy")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(1.5, 2.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 0.75]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("AnimatedSprite2D/PointLightRed:energy")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(1.5, 2.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 1.5]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_smq8o"]
+_data = {
+&"RESET": SubResource("Animation_kdfmh"),
+&"close": SubResource("Animation_421u7"),
+&"open": SubResource("Animation_bm60e")
+}
+
+[node name="MinigameDoor" type="StaticBody2D"]
+z_index = -2
+z_as_relative = false
+script = ExtResource("1_kdfmh")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(-152, 56)
+sprite_frames = SubResource("SpriteFrames_x6u3t")
+animation = &"run"
+frame = 2
+frame_progress = 0.548468
+
+[node name="PointLightGreen" type="PointLight2D" parent="AnimatedSprite2D"]
+position = Vector2(3.5, 1.5)
+color = Color(0, 1, 0, 1)
+energy = 0.75
+texture = SubResource("GradientTexture2D_421u7")
+
+[node name="PointLightRed" type="PointLight2D" parent="AnimatedSprite2D"]
+position = Vector2(5, 5)
+scale = Vector2(0.525, 0.525)
+color = Color(1, 0, 0, 1)
+energy = 1.5
+texture = SubResource("GradientTexture2D_421u7")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-152, 56)
+shape = SubResource("RectangleShape2D_irqgr")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_smq8o")
+}
