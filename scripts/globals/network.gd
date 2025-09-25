@@ -224,7 +224,9 @@ func _on_p2p_handshake(data: Dictionary) -> void:
 	if not game: return;
 	
 	for player in game.get_node("Players").get_children():
-		if player.get_steam_id() == data["steam_id"]: return;
+		if player.get_steam_id() == data["steam_id"]: 
+			_refresh_all_player_sprites();
+			return;
 	
 	var player_instance = game.player_scene.instantiate();
 	player_instance.set_steam_id(data["steam_id"]);
@@ -233,6 +235,20 @@ func _on_p2p_handshake(data: Dictionary) -> void:
 	if not use_local_networking: player_instance.set_is_local(data["steam_id"] == Main.player_steam_id);
 	else: player_instance.set_is_local(data["steam_id"] == multiplayer.get_unique_id());
 	game.players_root.add_child(player_instance);
+	call_deferred("_refresh_all_player_sprites");
+
+
+## Refresh sprite colors for all players in the game
+func _refresh_all_player_sprites() -> void:
+	var game = get_tree().current_scene;
+	if not game: return;
+	
+	# Wait a frame to ensure all players are properly added
+	await get_tree().process_frame;
+	
+	for player in game.get_node("Players").get_children():
+		if player.has_method("update_sprite_colors"):
+			player.update_sprite_colors();
 
 
 ## Updates the position of a remote player.

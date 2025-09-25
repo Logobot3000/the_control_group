@@ -16,7 +16,7 @@ var steam_id: int = 0;
 
 
 func _ready() -> void:
-	_set_sprite_color();
+	call_deferred("_set_sprite_color");
 
 
 func _physics_process(delta: float) -> void:
@@ -72,24 +72,36 @@ func set_is_local(local: bool) -> void:
 	is_local = local;
 
 
+## _set_sprite_color(), bot to be called by network.gd.
+func update_sprite_colors() -> void:
+	_set_sprite_color();
+
+
 ## Set's the player's sprite color based on join order.
 func _set_sprite_color() -> void:
-	var player_index = 0;
+	var sorted_players: Array = [];
 	
 	if not Network.use_local_networking:
-		for i in range(Network.lobby_members.size()):
-			if Network.lobby_members[i]["steam_id"] == steam_id:
-				player_index = i;
-				break;
+		for member in Network.lobby_members:
+			sorted_players.append(member["steam_id"]);
 	else:
-		if steam_id == 1:  # Host
-			player_index = 0;
-		else:
-			for i in range(Network.lobby_members.size()):
-				if Network.lobby_members[i]["steam_id"] == steam_id:
-					player_index = i;
+		if Network.lobby_members.size() > 0:
+			for member in Network.lobby_members:
+				if member["steam_id"] == 1:
+					sorted_players.append(1);
 					break;
+			var other_players: Array = [];
+			for member in Network.lobby_members:
+				if member["steam_id"] != 1:
+					other_players.append(member["steam_id"]);
+			other_players.sort();
+			sorted_players.append_array(other_players);
 	
+	var player_index = 0;
+	for i in range(sorted_players.size()):
+		if sorted_players[i] == steam_id:
+			player_index = i;
+			break;
 	player_index = player_index % 4;
 	
 	var atlas_texture = AtlasTexture.new();
