@@ -5,7 +5,7 @@ signal minigame_started(game_name: String);
 ## Emits when a minigame ended.
 signal minigame_ended(winner_group: String, scores: Dictionary);
 ## Emits when the roles are assigned to the players.
-signal roles_assigned(experimental_group: int, control_group: Array);
+signal roles_assigned(experimental_player: int, control_players: Array);
 ## Emits when the modifiers are selected.
 signal modifiers_selected(experimental_modifier: String, control_modifiers: Dictionary);
 

@@ -172,18 +172,6 @@ func _handle_recieved_packet(sender_id: int, readable_data: Dictionary) -> void:
 				_on_p2p_handshake(readable_data);
 			"player_position":
 				_update_remote_player_position(readable_data);
-			"roles_assigned":
-				_handle_roles_assigned(readable_data);
-			"modifier_selection_start":
-				_handle_modifier_selection_start(readable_data);
-			"modifier_selected":
-				_handle_modifier_selected(readable_data);
-			"minigame_start":
-				_handle_minigame_start(readable_data);
-			"minigame_results":
-				_handle_minigame_results(readable_data);
-			"score_update":
-				_handle_score_update(readable_data);
 
 
 ## Reads up to [member Constants.PACKET_READ_LIMIT] packets.
@@ -355,43 +343,3 @@ func _on_server_disconnected() -> void:
 	lobby_members.clear();
 	is_host = false;
 	lobby_id = 0;
-
-
-## Handle role assignment message
-func _handle_roles_assigned(data: Dictionary) -> void:
-	print(data)
-	print("ROLES ASSIGNED - EXPERIMENTAL: ", data.experimental_group, ", CONTROL: ", data.control_group);
-	
-	if not Network.is_host:
-		var minigame_manager = get_node_or_null("/root/MinigameManager");
-		if minigame_manager:
-			minigame_manager.current_experimental_group = data.experimental_group;
-			minigame_manager.current_control_group = data.control_group;
-			minigame_manager.current_minigame = data.minigame;
-
-
-## Handle modifier selection start
-func _handle_modifier_selection_start(data: Dictionary) -> void:
-	get_tree().change_scene_to_file("res://scenes/ui/modifier_selection.tscn");
-
-
-## Handle modifier selection
-func _handle_modifier_selected(data: Dictionary) -> void:
-	print("Player ", data.player_id, " selected modifier: ", data.modifier_name);
-
-
-## Handle minigame start
-func _handle_minigame_start(data: Dictionary) -> void:
-	print("Starting minigame: ", data.minigame);
-	
-	# This will be handled by MinigameManager changing the scene but we can do any additional setup here if needed
-
-
-## Handle minigame results
-func _handle_minigame_results(data: Dictionary) -> void:
-	print("Minigame results - Winner: ", data.winner_group, ", Scores: ", data.scores);
-
-
-## Handle score updates during minigame
-func _handle_score_update(data: Dictionary) -> void:
-	print("Player ", data.player_id, " scored ", data.points, " points (Total: ", data.total_score, ")");
