@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=4 uid="uid://cf2rpf337i6m6"]
+[gd_scene load_steps=11 format=4 uid="uid://cf2rpf337i6m6"]
 
 [ext_resource type="Script" uid="uid://bmkai2wd67610" path="res://scripts/game.gd" id="1_lbhrr"]
 [ext_resource type="PackedScene" uid="uid://bqt3wowp50fb2" path="res://scenes/tiles/interactable_tiles.tscn" id="2_lbhrr"]
@@ -6,7 +6,6 @@
 [ext_resource type="PackedScene" uid="uid://cdokncf28uuvf" path="res://scenes/tiles/non_interactable_tiles_bg.tscn" id="4_p57ef"]
 [ext_resource type="PackedScene" uid="uid://bc61n15v87vuw" path="res://scenes/misc/cctv_camera.tscn" id="5_iywne"]
 [ext_resource type="PackedScene" path="res://scenes/misc/minigame_door.tscn" id="6_p57ef"]
-[ext_resource type="PackedScene" uid="uid://ddfawvwiw6f5a" path="res://scenes/ui/modifier_selection.tscn" id="7_u5sy4"]
 
 [sub_resource type="Gradient" id="Gradient_lbhrr"]
 offsets = PackedFloat32Array(0, 0.559387, 1)
@@ -101,4 +100,17 @@ scale = Vector2(-1, 0.962)
 [node name="MinigameDoor" parent="." instance=ExtResource("6_p57ef")]
 position = Vector2(-4, 0)
 
-[node name="MinigameUI" parent="." instance=ExtResource("7_u5sy4")]
+[node name="MinigameUI" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="StartMinigameButton" type="Button" parent="MinigameUI"]
+layout_mode = 0
+offset_left = 80.0
+offset_top = 56.0
+offset_right = 207.0
+offset_bottom = 92.0
+scale = Vector2(0.44, 0.44)
+text = "Start Minigame"
