@@ -255,6 +255,8 @@ func _refresh_all_player_sprites() -> void:
 	var game = get_tree().current_scene;
 	if not game: return;
 	
+	if not game.get_node_or_null("Players"): return;
+	
 	# Wait a frame to ensure all players are properly added
 	await get_tree().process_frame;
 	
@@ -272,6 +274,8 @@ func _update_remote_player_position(data: Dictionary) -> void:
 	var game = get_tree().current_scene;
 	if not game: return;
 	
+	if not game.get_node_or_null("Players"): return;
+	
 	for player in game.get_node("Players").get_children():
 		if player.get_steam_id() == remote_steam_id and not player.get_is_local():
 			player.global_position = pos;
@@ -282,7 +286,7 @@ func _update_remote_player_position(data: Dictionary) -> void:
 func _on_peer_connected(id: int) -> void:
 	print("PEER CONNECTED: ", id);
 	
-	var player_name = "Player_" + str(id)
+	var player_name = "Player_" + str(id);
 	lobby_members.append({
 		"steam_id": id,
 		"steam_name": player_name
