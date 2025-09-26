@@ -27,14 +27,11 @@ var modifier_buttons: Array = [];
 
 
 func _ready() -> void:
-	waiting_label.visible = false;
-	
-	call_deferred("_on_modifier_selection_start");
-	
 	if MinigameManager:
+		MinigameManager.connect("modifier_selection_start", _on_modifier_selection_start);
 		MinigameManager.connect("modifier_selected", _on_modifier_selected);
 	
-	
+	waiting_label.visible = false;
 
 
 ## Called when the [member Enums.GameState.MODIFIER_SELECTION] phase begins.
