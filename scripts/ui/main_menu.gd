@@ -1,4 +1,4 @@
-extends Node;
+extends Node
 
 ## The LobbyVisibility ItemList.
 @onready var lobby_visibility: ItemList = $MainMenuUI/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/LobbyVisibility;

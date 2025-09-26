@@ -1,4 +1,4 @@
-extends Node;
+extends Node
 
 ## Emits when local networking is enabled.
 signal local_networking_enabled;
