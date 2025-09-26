@@ -1,0 +1,32 @@
+[gd_scene load_steps=2 format=3 uid="uid://ddfawvwiw6f5a"]
+
+[ext_resource type="Script" uid="uid://bw3chofn4vcdx" path="res://scripts/ui/modifier_selection_ui.gd" id="1_mhrdr"]
+
+[node name="ModifierSelection" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_mhrdr")
+
+[node name="VBox" type="VBoxContainer" parent="."]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="RoleLabel" type="Label" parent="VBox"]
+layout_mode = 2
+
+[node name="InstructionLabel" type="Label" parent="VBox"]
+layout_mode = 2
+
+[node name="ModifierContainer" type="VBoxContainer" parent="VBox"]
+layout_mode = 2
+
+[node name="SelectedModifiersLabel" type="Label" parent="VBox"]
+layout_mode = 2
+
+[node name="WaitingLabel" type="Label" parent="VBox"]
+layout_mode = 2

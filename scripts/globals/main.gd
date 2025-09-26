@@ -1,4 +1,4 @@
-extends Node
+extends Node;
 
 ## The player's Steam ID.
 var player_steam_id: int = 0;
