@@ -1,9 +1,11 @@
-extends Node
+extends Node;
 
 ## The player's Steam ID.
 var player_steam_id: int = 0;
 ## The player's Steam username.
-var player_username: String = ""
+var player_username: String = "";
+## The game state for the entire game.
+var current_game_state: Enums.GameState = Enums.GameState.MAIN_MENU;
 
 
 func _init() -> void:
@@ -39,3 +41,24 @@ func base64_to_lobby_id(b64: String) -> int:
 	var value: int = 0;
 	for i in range(arr.size()): value |= int(arr[i]) << (i * 8);
 	return value;
+
+
+## Updates the active game state for all players.
+func update_game_state(new_game_state: Enums.GameState) -> void:
+	if Network.is_host:
+		current_game_state = new_game_state;
+		var update_game_state: Dictionary = {
+			"message": "update_game_state",
+			"state": current_game_state
+		};
+		Network.send_p2p_packet(0, update_game_state);
+		set_game_state({"state": current_game_state});
+	else:
+		print("Non-host tried to update the game state.");
+
+
+## Called for every peer when the game state is updated.
+func set_game_state(readable_data: Dictionary) -> void:
+	var new_game_state: Enums.GameState = readable_data["state"];
+	current_game_state = new_game_state;
+	MinigameManager.handle_game_state_update(new_game_state);

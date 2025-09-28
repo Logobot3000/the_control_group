@@ -1,4 +1,4 @@
-extends Node
+extends Node;
 
 ## The node to instantiate the players in
 @onready var players_root = $Players;
@@ -17,3 +17,5 @@ func _ready() -> void:
 		if not Network.use_local_networking: player_instance.set_is_local(member["steam_id"] == Main.player_steam_id);
 		else: player_instance.set_is_local(member["steam_id"] == multiplayer.get_unique_id());
 		players_root.add_child(player_instance);
+	
+	await get_tree().process_frame;

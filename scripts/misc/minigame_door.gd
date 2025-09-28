@@ -1,4 +1,7 @@
-extends StaticBody2D
+extends StaticBody2D;
+
+## The door to the next minigame.
+class_name MinigameDoor;
 
 ## The AnimationPlayer that opens and closes the door.
 @onready var anim: AnimationPlayer = $AnimationPlayer;

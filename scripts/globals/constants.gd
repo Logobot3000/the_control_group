@@ -1,4 +1,4 @@
-extends Node
+extends Node;
 
 ## A constant for limiting gravity acceleration in gravity equations. Used in VelocityComponent, but there may be other uses.
 var GRAV_CONSTANT: float = 0.3625;

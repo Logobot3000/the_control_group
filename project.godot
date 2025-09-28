@@ -21,6 +21,7 @@ Enums="*res://scripts/globals/enums.gd"
 Constants="*res://scripts/globals/constants.gd"
 Main="*res://scripts/globals/main.gd"
 Network="*res://scripts/globals/network.gd"
+MinigameManager="*res://scripts/globals/minigame_manager.gd"
 
 [display]
 

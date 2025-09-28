@@ -1,4 +1,4 @@
-extends Node2D
+extends Node2D;
 
 ## The camera part of the camera.
 @onready var camera = $SpriteCamera;

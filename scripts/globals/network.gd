@@ -1,4 +1,4 @@
-extends Node
+extends Node;
 
 ## Emits when local networking is enabled.
 signal local_networking_enabled;
@@ -54,6 +54,7 @@ func _process(delta: float) -> void:
 
 ## Creates a lobby.
 func create_lobby(lobby_type: int) -> void:
+	Main.current_game_state = Enums.GameState.LOBBY;
 	if not use_local_networking:
 		if lobby_id == 0: # If the player is not already in a lobby
 			is_host = true;
@@ -172,6 +173,8 @@ func _handle_recieved_packet(sender_id: int, readable_data: Dictionary) -> void:
 				_on_p2p_handshake(readable_data);
 			"player_position":
 				_update_remote_player_position(readable_data);
+			"update_game_state":
+				Main.set_game_state(readable_data);
 
 
 ## Reads up to [member Constants.PACKET_READ_LIMIT] packets.
@@ -235,6 +238,10 @@ func _on_p2p_handshake(data: Dictionary) -> void:
 	if not use_local_networking: player_instance.set_is_local(data["steam_id"] == Main.player_steam_id);
 	else: player_instance.set_is_local(data["steam_id"] == multiplayer.get_unique_id());
 	game.players_root.add_child(player_instance);
+	
+	if is_host and Main.current_game_state:
+		Main.update_game_state(Main.current_game_state);
+	
 	call_deferred("_refresh_all_player_sprites");
 
 
