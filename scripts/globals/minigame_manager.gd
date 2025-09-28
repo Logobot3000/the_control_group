@@ -2,6 +2,8 @@ extends Node;
 
 ## The name of the current minigame that is active. If this is an empty string, there is no chosen minigame.
 var current_minigame: String = "";
+## The players ready for the next minigame. If array is empty, there are none.
+var ready_for_minigame: Array = [];
 ## The steam/local ID of the current experimental group player. -1 means there is none.
 var current_experimental_group: int = -1;
 ## An array of the steam/local IDs of the current control group players. An empty array means there are none.
@@ -47,3 +49,8 @@ func handle_game_state_update(new_game_state: Enums.GameState) -> void:
 			
 			var door: MinigameDoor = get_tree().current_scene.get_node("MinigameDoor");
 			if door: door.open_door();
+
+
+## Readies a player for the next minigame.
+func set_ready_for_minigame(readable_data: Dictionary) -> void:
+	ready_for_minigame.append(readable_data["steam_id"]);

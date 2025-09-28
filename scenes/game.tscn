@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=4 uid="uid://cf2rpf337i6m6"]
+[gd_scene load_steps=12 format=4 uid="uid://cf2rpf337i6m6"]
 
 [ext_resource type="Script" uid="uid://bmkai2wd67610" path="res://scripts/game.gd" id="1_lbhrr"]
 [ext_resource type="PackedScene" uid="uid://bqt3wowp50fb2" path="res://scenes/tiles/interactable_tiles.tscn" id="2_lbhrr"]
@@ -23,6 +23,9 @@ colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
 gradient = SubResource("Gradient_iywne")
 fill = 1
 fill_from = Vector2(0.5, 0.5)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_p57ef"]
+size = Vector2(72, 80)
 
 [node name="Game" type="Node"]
 script = ExtResource("1_lbhrr")
@@ -99,3 +102,15 @@ scale = Vector2(-1, 0.962)
 
 [node name="MinigameDoor" parent="." instance=ExtResource("6_p57ef")]
 position = Vector2(-4, 0)
+
+[node name="ReadyForMinigame" type="Area2D" parent="."]
+position = Vector2(-200, 56)
+collision_layer = 2
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ReadyForMinigame"]
+position = Vector2(-4, 0)
+shape = SubResource("RectangleShape2D_p57ef")
+debug_color = Color(0, 1, 0, 0.419608)
+
+[connection signal="body_entered" from="ReadyForMinigame" to="." method="_on_ready_for_minigame_entered"]

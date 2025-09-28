@@ -175,6 +175,8 @@ func _handle_recieved_packet(sender_id: int, readable_data: Dictionary) -> void:
 				_update_remote_player_position(readable_data);
 			"update_game_state":
 				Main.set_game_state(readable_data);
+			"ready_for_minigame":
+				MinigameManager.set_ready_for_minigame(readable_data);
 
 
 ## Reads up to [member Constants.PACKET_READ_LIMIT] packets.

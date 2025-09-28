@@ -13,6 +13,8 @@ extends CharacterBody2D;
 var is_local: bool = false;
 ## The player's Steam ID.
 var steam_id: int = 0;
+## Determines whether or not the player is allowed to move.
+var can_move = true;
 
 
 func _ready() -> void:
@@ -20,7 +22,7 @@ func _ready() -> void:
 
 
 func _physics_process(delta: float) -> void:
-	if is_local:
+	if is_local and can_move:
 		# Apply gravity
 		velocity_component.apply_gravity(self, delta);
 		

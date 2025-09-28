@@ -19,3 +19,12 @@ func _ready() -> void:
 		players_root.add_child(player_instance);
 	
 	await get_tree().process_frame;
+
+
+func _on_ready_for_minigame_entered(body: Node2D) -> void:
+	var ready_for_minigame: Dictionary = {
+		"message": "ready_for_minigame",
+		"steam_id": body.steam_id
+	};
+	body.can_move = false;
+	Network.send_p2p_packet(0, ready_for_minigame);
