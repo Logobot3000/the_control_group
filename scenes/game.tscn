@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=4 uid="uid://cf2rpf337i6m6"]
+[gd_scene load_steps=16 format=4 uid="uid://cf2rpf337i6m6"]
 
 [ext_resource type="Script" uid="uid://bmkai2wd67610" path="res://scripts/game.gd" id="1_lbhrr"]
 [ext_resource type="PackedScene" uid="uid://bqt3wowp50fb2" path="res://scenes/tiles/interactable_tiles.tscn" id="2_lbhrr"]
@@ -26,6 +26,45 @@ fill_from = Vector2(0.5, 0.5)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_p57ef"]
 size = Vector2(72, 80)
+
+[sub_resource type="Animation" id="Animation_p57ef"]
+resource_name = "fade_in"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_u5sy4"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_gee14"]
+_data = {
+&"RESET": SubResource("Animation_u5sy4"),
+&"fade_in": SubResource("Animation_p57ef")
+}
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_p57ef"]
+bg_color = Color(0, 0, 0, 1)
 
 [node name="Game" type="Node"]
 script = ExtResource("1_lbhrr")
@@ -100,6 +139,16 @@ position = Vector2(-136, -40)
 position = Vector2(136, -40)
 scale = Vector2(-1, 0.962)
 
+[node name="TV" type="Node" parent="."]
+
+[node name="ReadyTimer" type="Label" parent="TV"]
+offset_left = -64.0
+offset_top = -32.0
+offset_right = 64.0
+offset_bottom = 32.0
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [node name="MinigameDoor" parent="." instance=ExtResource("6_p57ef")]
 position = Vector2(-4, 0)
 
@@ -112,5 +161,57 @@ collision_mask = 2
 position = Vector2(-4, 0)
 shape = SubResource("RectangleShape2D_p57ef")
 debug_color = Color(0, 1, 0, 0.419608)
+
+[node name="Selection" type="CanvasLayer" parent="."]
+follow_viewport_enabled = true
+
+[node name="GroupAssignment" type="Control" parent="Selection"]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 3
+anchors_preset = 0
+offset_left = -160.0
+offset_top = -96.0
+offset_right = 160.0
+offset_bottom = 96.0
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Selection/GroupAssignment"]
+libraries = {
+&"": SubResource("AnimationLibrary_gee14")
+}
+
+[node name="Panel" type="Panel" parent="Selection/GroupAssignment"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_p57ef")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Selection/GroupAssignment/Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 48.0
+offset_top = 32.0
+offset_right = -48.0
+offset_bottom = -32.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="YouAre" type="Label" parent="Selection/GroupAssignment/Panel/VBoxContainer"]
+layout_mode = 2
+text = "You are part of the:"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Group" type="Label" parent="Selection/GroupAssignment/Panel/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_font_sizes/font_size = 26
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [connection signal="body_entered" from="ReadyForMinigame" to="." method="_on_ready_for_minigame_entered"]

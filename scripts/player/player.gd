@@ -43,9 +43,9 @@ func _physics_process(delta: float) -> void:
 		
 		# Apply velocity changes
 		velocity_component.move(self);
-		
-		_send_position_p2p();
 	else: velocity_component.move(self);
+	
+	if is_local: _send_position_p2p();
 
 
 ## Local-only: Sends a P2P packet containing the position of the player.

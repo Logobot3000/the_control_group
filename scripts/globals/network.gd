@@ -67,6 +67,7 @@ func create_lobby(lobby_type: int) -> void:
 			lobby_id = port;
 			
 			lobby_members.append({"steam_id": multiplayer.get_unique_id(), "steam_name": "Host_" + str(randi() % 1000)});
+			Main.player_steam_id = multiplayer.get_unique_id();
 			
 			print("CREATED LOCAL SERVER");
 			get_tree().change_scene_to_file("res://scenes/game.tscn");
@@ -177,6 +178,10 @@ func _handle_recieved_packet(sender_id: int, readable_data: Dictionary) -> void:
 				Main.set_game_state(readable_data);
 			"ready_for_minigame":
 				MinigameManager.set_ready_for_minigame(readable_data);
+			"timer_updated":
+				MinigameManager.update_timer(readable_data);
+			"assign_groups":
+				MinigameManager.assign_groups(readable_data);
 
 
 ## Reads up to [member Constants.PACKET_READ_LIMIT] packets.
@@ -339,6 +344,8 @@ func _on_connected_to_server() -> void:
 		"steam_id": multiplayer.get_unique_id(),
 		"steam_name": "Player_" + str(multiplayer.get_unique_id())
 	});
+	Main.player_steam_id = multiplayer.get_unique_id();
+	
 	
 	# Send handshake
 	make_p2p_handshake();
