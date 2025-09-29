@@ -18,20 +18,20 @@ var is_door_open: bool = false;
 var is_timer_running: bool = false;
 ## The array of the names of all available minigames. UPDATE THIS WHENEVER A MINIGAME IS ADDED.
 var available_minigames: Array = [
-	"test_minigame",
+	"fishing",
 ];
 ## The modifier definitions for each available minigame. UPDATE THIS WHENEVER A MINIGAME IS ADDED.
 var minigame_modifiers: Dictionary = {
-	"test_minigame": {
+	"fishing": {
 		"experimental": [
-			{"name": "Experimental Modifier 1", "description": "Experimental Modifier 1 Description"},
-			{"name": "Experimental Modifier 2", "description": "Experimental Modifier 2 Description"},
-			{"name": "Experimental Modifier 3", "description": "Experimental Modifier 3 Description"}
+			{"id": 1, "name": "Net Harpoon", "description": "Catches multiple fish, but has a slow reel speed"},
+			{"id": 2, "name": "FishTracker6000", "description": "Highlights the fish underwater."},
+			{"id": 3, "name": "Sabotage", "description": "Turn some of the Control Group's fish into jellyfish."}
 		],
 		"control": [
-			{"name": "Control Modifier 1", "description": "Control Modifier 1 Description"},
-			{"name": "Control Modifier 2", "description": "Control Modifier 2 Description"},
-			{"name": "Control Modifier 3", "description": "Control Modifier 3 Description"}
+			{"id": 1, "name": "Upgraded Rod", "description": "Reels in fish faster."},
+			{"id": 2, "name": "Upgraded Lure", "description": "Fish are more attracted to your rod."},
+			{"id": 3, "name": "Upgraded Hook", "description": "Catches two fish instead of one."}
 		]
 	},
 };
@@ -87,7 +87,28 @@ func handle_game_state_update(new_game_state: Enums.GameState) -> void:
 				else:
 					group_label.add_theme_color_override("font_color", Color((25.0 / 256.0), (163.0 / 256.0), (255.0 / 256.0), 1.0));
 					group_label.text = "Control Group";
-
+				
+				await get_tree().create_timer(3).timeout;
+				if Network.is_host:
+					Main.update_game_state(Enums.GameState.MODIFIER_SELECTION);
+		
+		Enums.GameState.MODIFIER_SELECTION:
+			print("STATE UPDATE: MODIFIER_SELECTION");
+			if ready_for_minigame.has(Main.player_steam_id):
+				var modifier_selection_ui = get_tree().current_scene.get_node("Selection").get_node("ModifierSelection");
+				if Main.player_steam_id == current_experimental_group:
+					modifier_selection_ui.get_node("Experimental").visible = true;
+					modifier_selection_ui.get_node("Experimental").get_node("VBoxContainer").get_node("PleaseSelect").add_theme_color_override("font_color", Color((255.0 / 256.0), (213.0 / 256.0), (25.0 / 256.0), 1.0));
+					for modifier in minigame_modifiers[current_minigame]["experimental"]:
+						var modifier_ui_container: VBoxContainer = modifier_selection_ui.get_node("Experimental").get_node("VBoxContainer").get_node("Modifier").get_node("Modifier" + str(modifier["id"]));
+						modifier_ui_container.get_node("Title").text = modifier["name"];
+						modifier_ui_container.get_node("Description").add_theme_color_override("font_color", Color((150.0 / 256.0), (150.0 / 256.0), (150.0 / 256.0), 1.0));
+						modifier_ui_container.get_node("Description").text = modifier["description"];
+				else:
+					modifier_selection_ui.get_node("Control").visible = true;
+					modifier_selection_ui.get_node("Control").get_node("VBoxContainer").get_node("YouAre").add_theme_color_override("font_color", Color((25.0 / 256.0), (163.0 / 256.0), (255.0 / 256.0), 1.0));
+				modifier_selection_ui.get_node("AnimationPlayer").play("fade_in");
+				
 
 ## Readies a player for the next minigame.
 func set_ready_for_minigame(readable_data: Dictionary) -> void:

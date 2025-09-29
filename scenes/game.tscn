@@ -27,21 +27,6 @@ fill_from = Vector2(0.5, 0.5)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_p57ef"]
 size = Vector2(72, 80)
 
-[sub_resource type="Animation" id="Animation_p57ef"]
-resource_name = "fade_in"
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:modulate")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 1),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
-}
-
 [sub_resource type="Animation" id="Animation_u5sy4"]
 length = 0.001
 tracks/0/type = "value"
@@ -55,6 +40,21 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 0,
 "values": [Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_p57ef"]
+resource_name = "fade_in"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_gee14"]
@@ -213,5 +213,169 @@ size_flags_vertical = 1
 theme_override_font_sizes/font_size = 26
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="ModifierSelection" type="Control" parent="Selection"]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 3
+anchors_preset = 0
+offset_left = -160.0
+offset_top = -96.0
+offset_right = 160.0
+offset_bottom = 96.0
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Selection/ModifierSelection"]
+libraries = {
+&"": SubResource("AnimationLibrary_gee14")
+}
+
+[node name="Control" type="Panel" parent="Selection/ModifierSelection"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_p57ef")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Selection/ModifierSelection/Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 48.0
+offset_top = 32.0
+offset_right = -48.0
+offset_bottom = -32.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="YouAre" type="Label" parent="Selection/ModifierSelection/Control/VBoxContainer"]
+layout_mode = 2
+text = "Your modifier is:"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Modifier" type="Label" parent="Selection/ModifierSelection/Control/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_font_sizes/font_size = 26
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ModifierDescription" type="Label" parent="Selection/ModifierSelection/Control/VBoxContainer"]
+layout_mode = 2
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Experimental" type="Panel" parent="Selection/ModifierSelection"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_p57ef")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Selection/ModifierSelection/Experimental"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 48.0
+offset_top = 32.0
+offset_right = -48.0
+offset_bottom = -32.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 10
+alignment = 1
+
+[node name="PleaseSelect" type="Label" parent="Selection/ModifierSelection/Experimental/VBoxContainer"]
+layout_mode = 2
+text = "Please select your modifier:"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Modifier" type="HBoxContainer" parent="Selection/ModifierSelection/Experimental/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 15
+alignment = 1
+
+[node name="Modifier1" type="VBoxContainer" parent="Selection/ModifierSelection/Experimental/VBoxContainer/Modifier"]
+layout_mode = 2
+size_flags_horizontal = 3
+alignment = 2
+
+[node name="Title" type="Label" parent="Selection/ModifierSelection/Experimental/VBoxContainer/Modifier/Modifier1"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 8
+text = "aaaaaaaaaaaaa"
+horizontal_alignment = 1
+
+[node name="Description" type="Label" parent="Selection/ModifierSelection/Experimental/VBoxContainer/Modifier/Modifier1"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 8
+text = "hfdshdfkjhskdjfhskdjfhksjdhfkjsdhf"
+autowrap_mode = 2
+max_lines_visible = 4
+
+[node name="Choose" type="Button" parent="Selection/ModifierSelection/Experimental/VBoxContainer/Modifier/Modifier1"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 10
+text = "Choose"
+
+[node name="Modifier2" type="VBoxContainer" parent="Selection/ModifierSelection/Experimental/VBoxContainer/Modifier"]
+layout_mode = 2
+size_flags_horizontal = 3
+alignment = 2
+
+[node name="Title" type="Label" parent="Selection/ModifierSelection/Experimental/VBoxContainer/Modifier/Modifier2"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 8
+text = "aaaaaaaaaaaaaa"
+horizontal_alignment = 1
+
+[node name="Description" type="Label" parent="Selection/ModifierSelection/Experimental/VBoxContainer/Modifier/Modifier2"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 8
+text = "hfdshdfkjhskdjfhskdjfhksjdhfkjsdhf"
+autowrap_mode = 2
+max_lines_visible = 4
+
+[node name="Choose" type="Button" parent="Selection/ModifierSelection/Experimental/VBoxContainer/Modifier/Modifier2"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 10
+text = "Choose"
+
+[node name="Modifier3" type="VBoxContainer" parent="Selection/ModifierSelection/Experimental/VBoxContainer/Modifier"]
+layout_mode = 2
+size_flags_horizontal = 3
+alignment = 2
+
+[node name="Title" type="Label" parent="Selection/ModifierSelection/Experimental/VBoxContainer/Modifier/Modifier3"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 8
+text = "aaaaaaaaa"
+horizontal_alignment = 1
+
+[node name="Description" type="Label" parent="Selection/ModifierSelection/Experimental/VBoxContainer/Modifier/Modifier3"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 8
+text = "hfdshdfkjhskdjfhskdjfhksjdhfkjsdhf"
+autowrap_mode = 2
+max_lines_visible = 4
+
+[node name="Choose" type="Button" parent="Selection/ModifierSelection/Experimental/VBoxContainer/Modifier/Modifier3"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 10
+text = "Choose"
+
+[node name="Button" type="Button" parent="Selection/ModifierSelection/Experimental/VBoxContainer"]
+layout_mode = 2
+text = "Select"
 
 [connection signal="body_entered" from="ReadyForMinigame" to="." method="_on_ready_for_minigame_entered"]
