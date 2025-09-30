@@ -266,6 +266,7 @@ vertical_alignment = 1
 
 [node name="ModifierDescription" type="Label" parent="Selection/ModifierSelection/Control/VBoxContainer"]
 layout_mode = 2
+text = "Waiting for experimental group..."
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -320,6 +321,7 @@ horizontal_alignment = 1
 layout_mode = 2
 theme_override_font_sizes/font_size = 8
 text = "hfdshdfkjhskdjfhskdjfhksjdhfkjsdhf"
+horizontal_alignment = 1
 autowrap_mode = 2
 max_lines_visible = 4
 
@@ -343,6 +345,7 @@ horizontal_alignment = 1
 layout_mode = 2
 theme_override_font_sizes/font_size = 8
 text = "hfdshdfkjhskdjfhskdjfhksjdhfkjsdhf"
+horizontal_alignment = 1
 autowrap_mode = 2
 max_lines_visible = 4
 
@@ -366,6 +369,7 @@ horizontal_alignment = 1
 layout_mode = 2
 theme_override_font_sizes/font_size = 8
 text = "hfdshdfkjhskdjfhskdjfhksjdhfkjsdhf"
+horizontal_alignment = 1
 autowrap_mode = 2
 max_lines_visible = 4
 
@@ -374,8 +378,9 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 10
 text = "Choose"
 
-[node name="Button" type="Button" parent="Selection/ModifierSelection/Experimental/VBoxContainer"]
+[node name="Select" type="Button" parent="Selection/ModifierSelection/Experimental/VBoxContainer"]
 layout_mode = 2
+focus_mode = 0
 text = "Select"
 
 [connection signal="body_entered" from="ReadyForMinigame" to="." method="_on_ready_for_minigame_entered"]

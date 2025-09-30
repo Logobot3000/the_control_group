@@ -182,6 +182,10 @@ func _handle_recieved_packet(sender_id: int, readable_data: Dictionary) -> void:
 				MinigameManager.update_timer(readable_data);
 			"assign_groups":
 				MinigameManager.assign_groups(readable_data);
+			"control_group_modifier_update":
+				MinigameManager.set_control_group_modifiers(readable_data);
+			"experimental_group_modifier_update":
+				MinigameManager.set_experimental_group_modifier(readable_data);
 
 
 ## Reads up to [member Constants.PACKET_READ_LIMIT] packets.

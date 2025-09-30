@@ -16,6 +16,8 @@ var current_scores: Dictionary = {};
 var is_door_open: bool = false;
 ## Whether or not the countdown timer is already running, meant for the host.
 var is_timer_running: bool = false;
+## Whether or not the experimental group has chosen their modifiers, meant for the host.
+var has_experimental_chosen: bool = false;
 ## The array of the names of all available minigames. UPDATE THIS WHENEVER A MINIGAME IS ADDED.
 var available_minigames: Array = [
 	"fishing",
@@ -47,6 +49,7 @@ func handle_game_state_update(new_game_state: Enums.GameState) -> void:
 			current_modifiers.clear();
 			current_scores.clear();
 			ready_for_minigame.clear();
+			has_experimental_chosen = false;
 			
 			current_minigame = available_minigames[randi() % (available_minigames.size())];
 			
@@ -61,44 +64,46 @@ func handle_game_state_update(new_game_state: Enums.GameState) -> void:
 		
 		Enums.GameState.GROUP_ASSIGNMENT:
 			print("STATE UPDATE: GROUP_ASSIGNMENT")
-			if ready_for_minigame.has(Main.player_steam_id):
-				await get_tree().create_timer(2.5).timeout;
-				var group_assignment_ui = get_tree().current_scene.get_node("Selection").get_node("GroupAssignment");
-				group_assignment_ui.get_node("AnimationPlayer").play("fade_in");
-				
-				if Network.is_host:
-					current_experimental_group = ready_for_minigame[randi() % ready_for_minigame.size()];
-					for id in ready_for_minigame:
-						if id != current_experimental_group:
-							current_control_group.append(id);
-					var group_data: Dictionary = {
-						"message": "assign_groups",
-						"current_experimental_group": current_experimental_group,
-						"current_control_group": current_control_group
-					};
-					Network.send_p2p_packet(0, group_data);
-				
-				await get_tree().create_timer(3).timeout;
-				
-				var group_label: Label = group_assignment_ui.get_node("Panel").get_node("VBoxContainer").get_node("Group");
-				if Main.player_steam_id == current_experimental_group:
-					group_label.add_theme_color_override("font_color", Color((255.0 / 256.0), (213.0 / 256.0), (25.0 / 256.0), 1.0));
-					group_label.text = "Experimental Group";
-				else:
-					group_label.add_theme_color_override("font_color", Color((25.0 / 256.0), (163.0 / 256.0), (255.0 / 256.0), 1.0));
-					group_label.text = "Control Group";
-				
-				await get_tree().create_timer(3).timeout;
-				if Network.is_host:
-					Main.update_game_state(Enums.GameState.MODIFIER_SELECTION);
+			if Network.is_host:
+				current_experimental_group = ready_for_minigame[randi() % ready_for_minigame.size()];
+				for id in ready_for_minigame:
+					if id != current_experimental_group:
+						current_control_group.append(id);
+				var group_data: Dictionary = {
+					"message": "assign_groups",
+					"current_experimental_group": current_experimental_group,
+					"current_control_group": current_control_group
+				};
+				Network.send_p2p_packet(0, group_data);
+			
+			await get_tree().create_timer(2.5).timeout;
+			var group_assignment_ui = get_tree().current_scene.get_node("Selection").get_node("GroupAssignment");
+			
+			if ready_for_minigame.has(Main.player_steam_id): group_assignment_ui.get_node("AnimationPlayer").play("fade_in");
+			
+			await get_tree().create_timer(3).timeout;
+			
+			var group_label: Label = group_assignment_ui.get_node("Panel").get_node("VBoxContainer").get_node("Group");
+			if Main.player_steam_id == current_experimental_group:
+				group_label.add_theme_color_override("font_color", Color((255.0 / 256.0), (213.0 / 256.0), (25.0 / 256.0), 1.0));
+				group_label.text = "Experimental Group";
+			else:
+				group_label.add_theme_color_override("font_color", Color((25.0 / 256.0), (163.0 / 256.0), (255.0 / 256.0), 1.0));
+				group_label.text = "Control Group";
+			
+			await get_tree().create_timer(3).timeout;
+			
+			if Network.is_host:
+				Main.update_game_state(Enums.GameState.MODIFIER_SELECTION);
 		
 		Enums.GameState.MODIFIER_SELECTION:
 			print("STATE UPDATE: MODIFIER_SELECTION");
 			if ready_for_minigame.has(Main.player_steam_id):
-				var modifier_selection_ui = get_tree().current_scene.get_node("Selection").get_node("ModifierSelection");
+				var modifier_selection_ui: Control = get_tree().current_scene.get_node("Selection").get_node("ModifierSelection");
 				if Main.player_steam_id == current_experimental_group:
 					modifier_selection_ui.get_node("Experimental").visible = true;
 					modifier_selection_ui.get_node("Experimental").get_node("VBoxContainer").get_node("PleaseSelect").add_theme_color_override("font_color", Color((255.0 / 256.0), (213.0 / 256.0), (25.0 / 256.0), 1.0));
+					modifier_selection_ui.get_node("Experimental").get_node("VBoxContainer").get_node("Select").pressed.connect(_update_experimental_group_modifier);
 					for modifier in minigame_modifiers[current_minigame]["experimental"]:
 						var modifier_ui_container: VBoxContainer = modifier_selection_ui.get_node("Experimental").get_node("VBoxContainer").get_node("Modifier").get_node("Modifier" + str(modifier["id"]));
 						modifier_ui_container.get_node("Title").text = modifier["name"];
@@ -109,10 +114,52 @@ func handle_game_state_update(new_game_state: Enums.GameState) -> void:
 					modifier_selection_ui.get_node("Control").get_node("VBoxContainer").get_node("YouAre").add_theme_color_override("font_color", Color((25.0 / 256.0), (163.0 / 256.0), (255.0 / 256.0), 1.0));
 				modifier_selection_ui.get_node("AnimationPlayer").play("fade_in");
 				
+			if Network.is_host:
+				var control_group_modifier_update: Dictionary = {
+					"message": "control_group_modifier_update",
+					"modifiers": {}
+				};
+				var i: int = 0;
+				var ids: Array = [];
+				for member in current_control_group:
+					ids.append(i);
+					i += 1;
+				ids.shuffle();
+				if current_control_group.size() == 1:
+					control_group_modifier_update["modifiers"] = {
+						current_control_group[0]: minigame_modifiers[current_minigame]["control"][ids[0]]
+					};
+				elif current_control_group.size() == 2:
+					control_group_modifier_update["modifiers"] = {
+						current_control_group[0]: minigame_modifiers[current_minigame]["control"][ids[0]],
+						current_control_group[1]: minigame_modifiers[current_minigame]["control"][ids[1]]
+					};
+				else:
+					control_group_modifier_update["modifiers"] = {
+						current_control_group[0]: minigame_modifiers[current_minigame]["control"][ids[0]],
+						current_control_group[1]: minigame_modifiers[current_minigame]["control"][ids[1]],
+						current_control_group[2]: minigame_modifiers[current_minigame]["control"][ids[2]]
+					};
+				Network.send_p2p_packet(0, control_group_modifier_update);
+				current_modifiers["control"] = control_group_modifier_update["modifiers"];
+			
+			if Main.player_steam_id == current_experimental_group:
+				await get_tree().create_timer(10).timeout;
+				if not has_experimental_chosen:
+					var experimental_group_modifier_update: Dictionary = {
+						"message": "experimental_group_modifier_update",
+						"modifier": minigame_modifiers[current_minigame]["experimental"][randi() % 3]
+					};
+					Network.send_p2p_packet(0, experimental_group_modifier_update);
+					set_experimental_group_modifier(experimental_group_modifier_update);
+		
+		Enums.GameState.MINIGAME_START:
+			print("STATE UPDATE: MINIGAME_START");
 
 ## Readies a player for the next minigame.
 func set_ready_for_minigame(readable_data: Dictionary) -> void:
-	ready_for_minigame.append(readable_data["steam_id"]);
+	if not ready_for_minigame.has(readable_data["steam_id"]):
+		ready_for_minigame.append(readable_data["steam_id"]);
 
 
 ## Countdown timer for game.
@@ -149,12 +196,10 @@ func update_timer(readable_data: Dictionary) -> void:
 
 ## Do the second half of the logic for the lobby game state.
 func _finish_lobby_handling() -> void:
-	print("yo")
 	var door: MinigameDoor = get_tree().current_scene.get_node("MinigameDoor");
 	await get_tree().create_timer(2).timeout; ## Wait for door to close
 	door.close_door();
 	is_door_open = false;
-	
 	if ready_for_minigame.size() < 2:
 		print("Not enough players to start a minigame");
 		for player in get_tree().current_scene.get_node("Players").get_children():
@@ -175,3 +220,64 @@ func _finish_lobby_handling() -> void:
 func assign_groups(readable_data: Dictionary) -> void:
 	current_experimental_group = readable_data["current_experimental_group"];
 	current_control_group = readable_data["current_control_group"];
+
+
+## Set the control group modifiers.
+func set_control_group_modifiers(readable_data: Dictionary) -> void:
+	current_modifiers["control"] = readable_data["modifiers"];
+
+
+## Do the logic for the experimental group modifier.
+func _update_experimental_group_modifier() -> void:
+	var chosen_modifier: Button = get_viewport().gui_get_focus_owner();
+	if not chosen_modifier: return;
+	var modifier_container: VBoxContainer = chosen_modifier.get_parent();
+	var modifier: Dictionary;
+	for mod in minigame_modifiers[current_minigame]["experimental"]:
+		if mod.get("name") == modifier_container.get_node("Title").text:
+			modifier = mod;
+			break;
+	var experimental_group_modifier_update: Dictionary = {
+		"message": "experimental_group_modifier_update",
+		"modifier": modifier
+	};
+	Network.send_p2p_packet(0, experimental_group_modifier_update);
+	set_experimental_group_modifier(experimental_group_modifier_update);
+
+
+## Set the experimental group modifier
+func set_experimental_group_modifier(readable_data: Dictionary) -> void:
+	if ready_for_minigame.has(Main.player_steam_id):
+		current_modifiers["experimental"] = readable_data["modifier"];
+		has_experimental_chosen = true;
+		var modifier_selection_ui: Control = get_tree().current_scene.get_node("Selection").get_node("ModifierSelection");
+		
+		if Main.player_steam_id == current_experimental_group:
+			for node in modifier_selection_ui.get_node("Experimental").get_node("VBoxContainer").get_node("Modifier").get_children():
+				if node is VBoxContainer:
+					if node.get_node("Title").text != current_modifiers["experimental"]["name"]:
+						node.visible = false;
+					else:
+						node.alignment = 1;
+						node.get_node("Choose").visible = false;
+						node.get_parent().get_parent().get_node("Select").visible = false;
+						node.get_node("Title").add_theme_font_size_override("font_size", 20);
+						node.get_parent().get_parent().get_node("PleaseSelect").text = "Your modifier is:";
+						node.get_parent().size_flags_vertical = 1;
+						node.get_parent().get_parent().add_theme_constant_override("separation", 4);
+		else:
+			var modifier_ui_container: VBoxContainer = modifier_selection_ui.get_node("Control").get_node("VBoxContainer");
+			print(current_modifiers)
+			var modifier = current_modifiers["control"][Main.player_steam_id];
+			modifier_ui_container.get_node("Modifier").text = modifier["name"];
+			modifier_ui_container.get_node("Modifier").add_theme_font_size_override("font_size", 20);
+			modifier_ui_container.get_node("ModifierDescription").add_theme_color_override("font_color", Color((150.0 / 256.0), (150.0 / 256.0), (150.0 / 256.0), 1.0));
+			modifier_ui_container.get_node("ModifierDescription").text = modifier["description"];
+			modifier_ui_container.get_node("ModifierDescription").add_theme_font_size_override("font_size", 8);
+		
+		await get_tree().create_timer(3).timeout;
+		
+		modifier_selection_ui.get_parent().get_node("GroupAssignment").visible = false;
+	
+	if Network.is_host:
+		Main.update_game_state(Enums.GameState.MINIGAME_START);
