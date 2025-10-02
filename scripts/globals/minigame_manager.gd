@@ -51,7 +51,13 @@ func handle_game_state_update(new_game_state: Enums.GameState) -> void:
 			ready_for_minigame.clear();
 			has_experimental_chosen = false;
 			
-			current_minigame = available_minigames[randi() % (available_minigames.size())];
+			if Network.is_host:
+				var minigame_update: Dictionary = {
+					"message": "minigame_update",
+					"minigame": available_minigames[randi() % (available_minigames.size())]
+				};
+				Network.send_p2p_packet(0, minigame_update);
+				set_minigame(minigame_update);
 			
 			## Add narrator dialogue and tv logic here
 			
@@ -156,6 +162,12 @@ func handle_game_state_update(new_game_state: Enums.GameState) -> void:
 		Enums.GameState.MINIGAME_START:
 			print("STATE UPDATE: MINIGAME_START");
 
+
+## Sets the minigame.
+func set_minigame(readable_data: Dictionary) -> void:
+	current_minigame = readable_data["minigame"];
+
+
 ## Readies a player for the next minigame.
 func set_ready_for_minigame(readable_data: Dictionary) -> void:
 	if not ready_for_minigame.has(readable_data["steam_id"]):
@@ -172,7 +184,7 @@ func countdown_timer(time: float) -> void:
 	if Network.is_host:
 		time = snapped(time, 0.1);
 		var timer_update: Dictionary = {
-			"message": "timer_updated",
+			"message": "lobby_timer_updated",
 			"time": time
 		};
 		Network.send_p2p_packet(0, timer_update);
