@@ -15,6 +15,8 @@ var is_local: bool = false;
 var steam_id: int = 0;
 ## Determines whether or not the player is allowed to move.
 var can_move = true;
+## The player's color index. -1 means no color index.
+var player_color_index = -1;
 
 
 func _ready() -> void:
@@ -105,6 +107,7 @@ func _set_sprite_color() -> void:
 			player_index = i;
 			break;
 	player_index = player_index % 4;
+	player_color_index = player_index;
 	
 	var atlas_texture = AtlasTexture.new();
 	atlas_texture.atlas = sprite.texture.atlas if sprite.texture is AtlasTexture else sprite.texture;

@@ -18,10 +18,16 @@ var is_door_open: bool = false;
 var is_timer_running: bool = false;
 ## Whether or not the experimental group has chosen their modifiers, meant for the host.
 var has_experimental_chosen: bool = false;
+## The current minigame instance.
+var current_minigame_instance: BaseMinigame = null;
 ## The array of the names of all available minigames. UPDATE THIS WHENEVER A MINIGAME IS ADDED.
 var available_minigames: Array = [
 	"fishing",
 ];
+## The array of the display names of all available minigames. UPDATE THIS WHENEVER A MINIGAME IS ADDED. This shouldn't be necessary but it is.
+var available_minigame_names: Dictionary = {
+	"fishing": "Fishing",
+};
 ## The modifier definitions for each available minigame. UPDATE THIS WHENEVER A MINIGAME IS ADDED.
 var minigame_modifiers: Dictionary = {
 	"fishing": {
@@ -155,6 +161,29 @@ func handle_game_state_update(new_game_state: Enums.GameState) -> void:
 		
 		Enums.GameState.MINIGAME_START:
 			print("STATE UPDATE: MINIGAME_START");
+			
+			var chosen_minigame_instance_path: String = "res://scenes/minigames/" + current_minigame + ".tscn";
+			current_minigame_instance = load(chosen_minigame_instance_path).instantiate();
+			
+			if ready_for_minigame.has(Main.player_steam_id):
+				for player in get_tree().current_scene.get_node("Players").get_children():
+					match player.player_color_index:
+						0:
+							player.global_position = Vector2(1000 + current_minigame_instance.yellow_player_spawn_position.x, 1000 + current_minigame_instance.yellow_player_spawn_position.y);
+						1:
+							player.global_position = Vector2(1000 + current_minigame_instance.green_player_spawn_position.x, 1000 + current_minigame_instance.green_player_spawn_position.y);
+						2:
+							player.global_position = Vector2(1000 + current_minigame_instance.purple_player_spawn_position.x, 1000 + current_minigame_instance.purple_player_spawn_position.y);
+						3:
+							player.global_position = Vector2(1000 + current_minigame_instance.orange_player_spawn_position.x, 1000 + current_minigame_instance.orange_player_spawn_position.y);
+					player.can_move = true;
+					get_tree().current_scene.get_node("Camera2D").enabled = false;
+				get_tree().current_scene.get_node("Selection").get_node("ModifierSelection").visible = false;
+				get_tree().current_scene.get_node("Selection").get_node("GroupAssignment").visible = false;
+				
+			get_tree().current_scene.add_child(current_minigame_instance);
+			
+			
 
 ## Readies a player for the next minigame.
 func set_ready_for_minigame(readable_data: Dictionary) -> void:
@@ -281,3 +310,8 @@ func set_experimental_group_modifier(readable_data: Dictionary) -> void:
 	
 	if Network.is_host:
 		Main.update_game_state(Enums.GameState.MINIGAME_START);
+
+
+## Updates the current score.
+func update_score(readable_data: Dictionary) -> void:
+	current_scores = readable_data["scores"];

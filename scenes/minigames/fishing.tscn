@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://cx34ikrccmadk"]
+
+[ext_resource type="Script" uid="uid://bt2iq1mgiysc2" path="res://scripts/minigames/fishing.gd" id="1_udlc8"]
+[ext_resource type="PackedScene" uid="uid://7101ew6iodi4" path="res://scenes/minigames/base_minigame.tscn" id="2_47d8f"]
+
+[node name="Fishing" type="Node2D"]
+script = ExtResource("1_udlc8")
+
+[node name="BaseMinigame" parent="." instance=ExtResource("2_47d8f")]
+position = Vector2(1000, 1000)
