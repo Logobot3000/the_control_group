@@ -57,7 +57,13 @@ func handle_game_state_update(new_game_state: Enums.GameState) -> void:
 			ready_for_minigame.clear();
 			has_experimental_chosen = false;
 			
-			current_minigame = available_minigames[randi() % (available_minigames.size())];
+			if Network.is_host:
+				current_minigame = available_minigames[randi() % (available_minigames.size())];
+				var minigame_chosen_data: Dictionary = {
+					"message": "minigame_chosen",
+					"minigame": current_minigame
+				};
+				Network.send_p2p_packet(0, minigame_chosen_data);
 			
 			## Add narrator dialogue and tv logic here
 			
@@ -184,6 +190,11 @@ func handle_game_state_update(new_game_state: Enums.GameState) -> void:
 			get_tree().current_scene.add_child(current_minigame_instance);
 			
 			
+
+## Sets the current minigame.
+func set_current_minigame(readable_data: Dictionary) -> void:
+	current_minigame = readable_data["minigame"];
+
 
 ## Readies a player for the next minigame.
 func set_ready_for_minigame(readable_data: Dictionary) -> void:
