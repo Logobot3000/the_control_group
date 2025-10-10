@@ -315,3 +315,16 @@ func set_experimental_group_modifier(readable_data: Dictionary) -> void:
 ## Updates the current score.
 func update_score(readable_data: Dictionary) -> void:
 	current_scores = readable_data["scores"];
+
+
+## Update visual timer for minigame countdown timer.
+func update_minigame_timer(readable_data: Dictionary) -> void:
+	var minigame_name: NodePath = NodePath(MinigameManager.available_minigame_names[MinigameManager.current_minigame]);
+	var minigame_timer: Label = get_tree().current_scene.get_node(minigame_name).get_node("BaseMinigame").get_node("TV").get_node("MinigameTimer");
+	var time: float = readable_data["time"];
+	if time <= 0: 
+		minigame_timer.text = "";
+		is_timer_running = false;
+		readable_data["minigame_instance"].minigame_ended.emit();
+	else:
+		minigame_timer.text = str(time);

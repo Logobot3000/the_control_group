@@ -82,20 +82,7 @@ func countdown_timer(time: float) -> void:
 			"minigame_instance": self
 		};
 		Network.send_p2p_packet(0, timer_update);
-		update_timer({"time": time, "minigame_instance": self});
+		MinigameManager.update_minigame_timer({"time": time, "minigame_instance": self});
 		
 		await get_tree().create_timer(0.1).timeout;
 		if time > 0: countdown_timer(time - 0.1);
-
-
-## Update visual timer for countdown timer.
-func update_timer(readable_data: Dictionary) -> void:
-	var minigame_name: NodePath = NodePath(MinigameManager.available_minigame_names[MinigameManager.current_minigame]);
-	var minigame_timer: Label = get_tree().current_scene.get_node(minigame_name).get_node("BaseMinigame").get_node("TV").get_node("MinigameTimer");
-	var time: float = readable_data["time"];
-	if time <= 0: 
-		minigame_timer.text = "";
-		is_timer_running = false;
-		minigame_ended.emit();
-	else:
-		minigame_timer.text = str(time);

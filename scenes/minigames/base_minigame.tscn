@@ -32,9 +32,10 @@ position = Vector2(-164, 96)
 [node name="TV" type="Node" parent="."]
 
 [node name="MinigameTimer" type="Label" parent="TV"]
-offset_left = -48.0
-offset_top = -144.0
-offset_right = 48.0
-offset_bottom = -96.0
+offset_left = 952.0
+offset_top = 856.0
+offset_right = 1048.0
+offset_bottom = 904.0
+text = "whoops my code sucks"
 horizontal_alignment = 1
 vertical_alignment = 1
