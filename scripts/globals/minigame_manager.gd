@@ -97,10 +97,10 @@ func handle_game_state_update(new_game_state: Enums.GameState) -> void:
 			
 			var group_label: Label = group_assignment_ui.get_node("Panel").get_node("VBoxContainer").get_node("Group");
 			if Main.player_steam_id == current_experimental_group:
-				group_label.add_theme_color_override("font_color", Color((255.0 / 256.0), (213.0 / 256.0), (25.0 / 256.0), 1.0));
+				group_label.add_theme_color_override("font_color", Constants.GAME_COLORS["experimental"]);
 				group_label.text = "Experimental Group";
 			else:
-				group_label.add_theme_color_override("font_color", Color((25.0 / 256.0), (163.0 / 256.0), (255.0 / 256.0), 1.0));
+				group_label.add_theme_color_override("font_color", Constants.GAME_COLORS["control"]);
 				group_label.text = "Control Group";
 			
 			await get_tree().create_timer(3).timeout;
@@ -114,16 +114,16 @@ func handle_game_state_update(new_game_state: Enums.GameState) -> void:
 				var modifier_selection_ui: Control = get_tree().current_scene.get_node("Selection").get_node("ModifierSelection");
 				if Main.player_steam_id == current_experimental_group:
 					modifier_selection_ui.get_node("Experimental").visible = true;
-					modifier_selection_ui.get_node("Experimental").get_node("VBoxContainer").get_node("PleaseSelect").add_theme_color_override("font_color", Color((255.0 / 256.0), (213.0 / 256.0), (25.0 / 256.0), 1.0));
+					modifier_selection_ui.get_node("Experimental").get_node("VBoxContainer").get_node("PleaseSelect").add_theme_color_override("font_color", Constants.GAME_COLORS["experimental"]);
 					modifier_selection_ui.get_node("Experimental").get_node("VBoxContainer").get_node("Select").pressed.connect(_update_experimental_group_modifier);
 					for modifier in minigame_modifiers[current_minigame]["experimental"]:
 						var modifier_ui_container: VBoxContainer = modifier_selection_ui.get_node("Experimental").get_node("VBoxContainer").get_node("Modifier").get_node("Modifier" + str(modifier["id"]));
 						modifier_ui_container.get_node("Title").text = modifier["name"];
-						modifier_ui_container.get_node("Description").add_theme_color_override("font_color", Color((150.0 / 256.0), (150.0 / 256.0), (150.0 / 256.0), 1.0));
+						modifier_ui_container.get_node("Description").add_theme_color_override("font_color", Constants.GAME_COLORS["gray"]);
 						modifier_ui_container.get_node("Description").text = modifier["description"];
 				else:
 					modifier_selection_ui.get_node("Control").visible = true;
-					modifier_selection_ui.get_node("Control").get_node("VBoxContainer").get_node("YouAre").add_theme_color_override("font_color", Color((25.0 / 256.0), (163.0 / 256.0), (255.0 / 256.0), 1.0));
+					modifier_selection_ui.get_node("Control").get_node("VBoxContainer").get_node("YouAre").add_theme_color_override("font_color", Constants.GAME_COLORS["control"]);
 				modifier_selection_ui.get_node("AnimationPlayer").play("fade_in");
 				
 			if Network.is_host:
@@ -311,7 +311,7 @@ func set_experimental_group_modifier(readable_data: Dictionary) -> void:
 			var modifier = current_modifiers["control"][Main.player_steam_id];
 			modifier_ui_container.get_node("Modifier").text = modifier["name"];
 			modifier_ui_container.get_node("Modifier").add_theme_font_size_override("font_size", 20);
-			modifier_ui_container.get_node("ModifierDescription").add_theme_color_override("font_color", Color((150.0 / 256.0), (150.0 / 256.0), (150.0 / 256.0), 1.0));
+			modifier_ui_container.get_node("ModifierDescription").add_theme_color_override("font_color", Constants.GAME_COLORS["gray"]);
 			modifier_ui_container.get_node("ModifierDescription").text = modifier["description"];
 			modifier_ui_container.get_node("ModifierDescription").add_theme_font_size_override("font_size", 8);
 		
