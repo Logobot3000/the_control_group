@@ -7,7 +7,7 @@ signal local_networking_disabled;
 
 ## The variable that determines whether or not local networking is being used instead of Steam networking. Useful for testing.
 var use_local_networking: bool = false;
-## Shows whether or not the current player is the host of a server.
+## Shows whether or not the current player is the host of a server. Josh.
 var is_host: bool = false;
 ## The lobby ID.
 var lobby_id: int = 0;
