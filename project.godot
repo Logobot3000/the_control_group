@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="The Control Group"
-run/main_scene="uid://caujlbpqc21ml"
+run/main_scene="uid://bscdj2wh22vxs"
 config/features=PackedStringArray("4.4", "Forward Plus")
 config/icon="res://assets/icon.svg"
 
