@@ -1,14 +1,181 @@
-[gd_scene load_steps=9 format=4 uid="uid://bscdj2wh22vxs"]
+[gd_scene load_steps=37 format=4 uid="uid://bscdj2wh22vxs"]
 
 [ext_resource type="Script" uid="uid://c31vxh33c7ku5" path="res://scripts/ui/startup_menu.gd" id="1_ebq67"]
+[ext_resource type="Texture2D" uid="uid://bm2pgqollqbca" path="res://assets/logo.png" id="1_s5o28"]
+[ext_resource type="Texture2D" uid="uid://dg7iqibiefys2" path="res://assets/sprites/start_button.png" id="2_ebq67"]
 [ext_resource type="Script" uid="uid://clrjb8kb3m6cs" path="res://scripts/ui/ad_group.gd" id="2_jtugw"]
+[ext_resource type="Script" uid="uid://c52ctlksmymor" path="res://scripts/ui/start_button.gd" id="3_8k8b7"]
 [ext_resource type="PackedScene" uid="uid://bqt3wowp50fb2" path="res://scenes/tiles/interactable_tiles.tscn" id="3_t8iw3"]
+[ext_resource type="Texture2D" uid="uid://c510teiytyin2" path="res://assets/sprites/quit_button.png" id="4_y3ntw"]
+[ext_resource type="Script" uid="uid://1hvrauxm37s7" path="res://scripts/ui/quit_button.gd" id="5_nbmw6"]
+[ext_resource type="Script" uid="uid://rfv4g2k8qu4w" path="res://scripts/ui/main_menu.gd" id="9_oe7rv"]
 
 [sub_resource type="Gradient" id="Gradient_8k8b7"]
 colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 1)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_y836p"]
 gradient = SubResource("Gradient_8k8b7")
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8k8b7"]
+atlas = ExtResource("2_ebq67")
+region = Rect2(0, 0, 50, 18)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_y836p"]
+atlas = ExtResource("2_ebq67")
+region = Rect2(600, 0, 50, 18)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_y3ntw"]
+atlas = ExtResource("2_ebq67")
+region = Rect2(0, 0, 50, 18)
+
+[sub_resource type="Animation" id="Animation_y3ntw"]
+resource_name = "hover_in"
+length = 0.28
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:texture_hover:region")
+tracks/0/interp = 0
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.04, 0.08, 0.12, 0.16, 0.2, 0.24, 0.28),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Rect2(0, 0, 50, 18), Rect2(50, 0, 50, 18), Rect2(100, 0, 50, 18), Rect2(150, 0, 50, 18), Rect2(200, 0, 50, 18), Rect2(250, 0, 50, 18), Rect2(300, 0, 50, 18), Rect2(350, 0, 50, 18)]
+}
+
+[sub_resource type="Animation" id="Animation_utgyn"]
+resource_name = "hover_out"
+length = 0.28
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:texture_normal:region")
+tracks/0/interp = 0
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.04, 0.08, 0.12, 0.16, 0.2, 0.24, 0.28),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Rect2(350, 0, 50, 18), Rect2(300, 0, 50, 18), Rect2(250, 0, 50, 18), Rect2(200, 0, 50, 18), Rect2(150, 0, 50, 18), Rect2(100, 0, 50, 18), Rect2(50, 0, 50, 18), Rect2(0, 0, 50, 18)]
+}
+
+[sub_resource type="Animation" id="Animation_5gn0v"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:texture_hover:region")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Rect2(0, 0, 50, 18)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:texture_normal:region")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Rect2(0, 0, 50, 18)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_cohpv"]
+_data = {
+&"RESET": SubResource("Animation_5gn0v"),
+&"hover_in": SubResource("Animation_y3ntw"),
+&"hover_out": SubResource("Animation_utgyn")
+}
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_oe7rv"]
+atlas = ExtResource("4_y3ntw")
+region = Rect2(0, 0, 50, 18)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ee2qx"]
+atlas = ExtResource("4_y3ntw")
+region = Rect2(700, 0, 50, 18)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_utgyn"]
+atlas = ExtResource("4_y3ntw")
+region = Rect2(0, 0, 50, 18)
+
+[sub_resource type="Animation" id="Animation_nbmw6"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:texture_hover:region")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Rect2(0, 0, 50, 18)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:texture_normal:region")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Rect2(0, 0, 50, 18)]
+}
+
+[sub_resource type="Animation" id="Animation_oe7rv"]
+resource_name = "hover_in"
+length = 0.52
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:texture_hover:region")
+tracks/0/interp = 0
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.04, 0.08, 0.12, 0.16, 0.2, 0.24, 0.28, 0.32, 0.36, 0.4, 0.44, 0.48, 0.52),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Rect2(0, 0, 50, 18), Rect2(50, 0, 50, 18), Rect2(100, 0, 50, 18), Rect2(150, 0, 50, 18), Rect2(200, 0, 50, 18), Rect2(250, 0, 50, 18), Rect2(300, 0, 50, 18), Rect2(350, 0, 50, 18), Rect2(400, 0, 50, 18), Rect2(450, 0, 50, 18), Rect2(500, 0, 50, 18), Rect2(550, 0, 50, 18), Rect2(600, 0, 50, 18), Rect2(650, 0, 50, 18)]
+}
+
+[sub_resource type="Animation" id="Animation_ee2qx"]
+resource_name = "hover_out"
+length = 0.52
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:texture_normal:region")
+tracks/0/interp = 0
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.04, 0.08, 0.12, 0.16, 0.2, 0.24, 0.28, 0.32, 0.36, 0.4, 0.44, 0.48, 0.52),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Rect2(650, 0, 50, 18), Rect2(600, 0, 50, 18), Rect2(550, 0, 50, 18), Rect2(500, 0, 50, 18), Rect2(450, 0, 50, 18), Rect2(400, 0, 50, 18), Rect2(350, 0, 50, 18), Rect2(300, 0, 50, 18), Rect2(250, 0, 50, 18), Rect2(200, 0, 50, 18), Rect2(150, 0, 50, 18), Rect2(100, 0, 50, 18), Rect2(50, 0, 50, 18), Rect2(0, 0, 50, 18)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_rhd0x"]
+resource_local_to_scene = true
+_data = {
+&"RESET": SubResource("Animation_nbmw6"),
+&"hover_in": SubResource("Animation_oe7rv"),
+&"hover_out": SubResource("Animation_ee2qx")
+}
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nbmw6"]
+atlas = ExtResource("1_s5o28")
+region = Rect2(991, 79, 18, 18)
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_t8iw3"]
 load_path = "res://.godot/imported/logo.png-e2220799298e3631eb0e245316e0501a.ctex"
@@ -22,6 +189,362 @@ fill = 1
 fill_from = Vector2(0.5, 0.5)
 fill_to = Vector2(0.832298, 0.145963)
 
+[sub_resource type="Animation" id="Animation_cohpv"]
+resource_name = "hit_play_button"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Logo:modulate")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AdGroup1:position")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(-150, 150)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("AdGroup1:scale")
+tracks/2/interp = 2
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(1.5, 1.5)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Logo:scale")
+tracks/3/interp = 2
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(2.5, 2.5), Vector2(10, 10)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("AdGroup2:position")
+tracks/4/interp = 2
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, 0)]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("AdGroup2:scale")
+tracks/5/interp = 2
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(1.5, 1.5)]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("AdGroup3:position")
+tracks/6/interp = 2
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(-200, -200)]
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("AdGroup3:scale")
+tracks/7/interp = 2
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(1.5, 1.5)]
+}
+tracks/8/type = "value"
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/path = NodePath("AdGroup4:position")
+tracks/8/interp = 2
+tracks/8/loop_wrap = true
+tracks/8/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(100, -150)]
+}
+tracks/9/type = "value"
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/path = NodePath("AdGroup4:scale")
+tracks/9/interp = 2
+tracks/9/loop_wrap = true
+tracks/9/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(1.5, 1.5)]
+}
+tracks/10/type = "value"
+tracks/10/imported = false
+tracks/10/enabled = true
+tracks/10/path = NodePath("Quit:position")
+tracks/10/interp = 2
+tracks/10/loop_wrap = true
+tracks/10/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(357, 304), Vector2(357, 404)]
+}
+tracks/11/type = "value"
+tracks/11/imported = false
+tracks/11/enabled = true
+tracks/11/path = NodePath("Start:position")
+tracks/11/interp = 2
+tracks/11/loop_wrap = true
+tracks/11/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(183, 304), Vector2(183, 404)]
+}
+tracks/12/type = "value"
+tracks/12/imported = false
+tracks/12/enabled = true
+tracks/12/path = NodePath("Settings:position")
+tracks/12/interp = 2
+tracks/12/loop_wrap = true
+tracks/12/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(311, 313), Vector2(311, 413)]
+}
+tracks/13/type = "value"
+tracks/13/imported = false
+tracks/13/enabled = true
+tracks/13/path = NodePath("NetworkMenu/MainMenuUI/PanelContainer:scale")
+tracks/13/interp = 2
+tracks/13/loop_wrap = true
+tracks/13/keys = {
+"times": PackedFloat32Array(0.4, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(1e-05, 1e-05), Vector2(1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_rhd0x"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Logo:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AdGroup1:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("AdGroup1:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Logo:scale")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(2.5, 2.5)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("AdGroup2:position")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("AdGroup2:scale")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("AdGroup3:position")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("AdGroup3:scale")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+tracks/8/type = "value"
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/path = NodePath("AdGroup4:position")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+tracks/9/type = "value"
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/path = NodePath("AdGroup4:scale")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+tracks/10/type = "value"
+tracks/10/imported = false
+tracks/10/enabled = true
+tracks/10/path = NodePath("Quit:position")
+tracks/10/interp = 1
+tracks/10/loop_wrap = true
+tracks/10/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(357, 304)]
+}
+tracks/11/type = "value"
+tracks/11/imported = false
+tracks/11/enabled = true
+tracks/11/path = NodePath("Start:position")
+tracks/11/interp = 1
+tracks/11/loop_wrap = true
+tracks/11/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(183, 304)]
+}
+tracks/12/type = "value"
+tracks/12/imported = false
+tracks/12/enabled = true
+tracks/12/path = NodePath("Settings:position")
+tracks/12/interp = 1
+tracks/12/loop_wrap = true
+tracks/12/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(311, 313)]
+}
+tracks/13/type = "value"
+tracks/13/imported = false
+tracks/13/enabled = true
+tracks/13/path = NodePath("NetworkMenu/MainMenuUI/PanelContainer:scale")
+tracks/13/interp = 1
+tracks/13/loop_wrap = true
+tracks/13/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1e-05, 1e-05)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ae4xg"]
+_data = {
+&"RESET": SubResource("Animation_rhd0x"),
+&"hit_play_button": SubResource("Animation_cohpv")
+}
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ee2qx"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_utgyn"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_5gn0v"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_cohpv"]
+
 [node name="StartupMenu" type="Node"]
 script = ExtResource("1_ebq67")
 
@@ -32,7 +555,55 @@ z_index = 2
 offset_top = -2.0
 offset_right = 640.0
 offset_bottom = 360.0
+mouse_filter = 2
 texture = SubResource("GradientTexture2D_y836p")
+
+[node name="Start" type="TextureButton" parent="."]
+offset_left = 183.0
+offset_top = 304.0
+offset_right = 233.0
+offset_bottom = 322.0
+scale = Vector2(2, 2)
+focus_mode = 0
+mouse_default_cursor_shape = 2
+action_mode = 0
+texture_normal = SubResource("AtlasTexture_8k8b7")
+texture_pressed = SubResource("AtlasTexture_y836p")
+texture_hover = SubResource("AtlasTexture_y3ntw")
+script = ExtResource("3_8k8b7")
+
+[node name="AnimationPlayerStart" type="AnimationPlayer" parent="Start"]
+libraries = {
+&"": SubResource("AnimationLibrary_cohpv")
+}
+
+[node name="Quit" type="TextureButton" parent="."]
+offset_left = 357.0
+offset_top = 304.0
+offset_right = 407.0
+offset_bottom = 322.0
+scale = Vector2(2, 2)
+focus_mode = 0
+mouse_default_cursor_shape = 2
+action_mode = 0
+texture_normal = SubResource("AtlasTexture_oe7rv")
+texture_pressed = SubResource("AtlasTexture_ee2qx")
+texture_hover = SubResource("AtlasTexture_utgyn")
+script = ExtResource("5_nbmw6")
+
+[node name="AnimationPlayerQuit" type="AnimationPlayer" parent="Quit"]
+libraries = {
+&"": SubResource("AnimationLibrary_rhd0x")
+}
+
+[node name="Settings" type="TextureButton" parent="."]
+offset_left = 311.0
+offset_top = 313.0
+offset_right = 329.0
+offset_bottom = 331.0
+scale = Vector2(2, 2)
+pivot_offset = Vector2(9, 9)
+texture_normal = SubResource("AtlasTexture_nbmw6")
 
 [node name="Logo" type="Sprite2D" parent="."]
 z_index = 1
@@ -41,30 +612,6 @@ scale = Vector2(2.5, 2.5)
 texture = SubResource("CompressedTexture2D_t8iw3")
 region_enabled = true
 region_rect = Rect2(256, 0, 256, 144)
-
-[node name="Start" type="Sprite2D" parent="."]
-z_index = 1
-position = Vector2(222, 320)
-scale = Vector2(2.5, 2.5)
-texture = SubResource("CompressedTexture2D_t8iw3")
-region_enabled = true
-region_rect = Rect2(859, 134, 50, 18)
-
-[node name="Quit" type="Sprite2D" parent="."]
-z_index = 1
-position = Vector2(422, 320)
-scale = Vector2(2.5, 2.5)
-texture = SubResource("CompressedTexture2D_t8iw3")
-region_enabled = true
-region_rect = Rect2(911, 134, 50, 18)
-
-[node name="Settings" type="Sprite2D" parent="."]
-z_index = 1
-position = Vector2(320, 320)
-scale = Vector2(2.5, 2.5)
-texture = SubResource("CompressedTexture2D_t8iw3")
-region_enabled = true
-region_rect = Rect2(991, 79, 18, 18)
 
 [node name="AdGroup1" type="Node2D" parent="."]
 script = ExtResource("2_jtugw")
@@ -209,6 +756,7 @@ z_index = -1
 offset_top = -2.0
 offset_right = 640.0
 offset_bottom = 360.0
+mouse_filter = 2
 texture = SubResource("GradientTexture2D_y836p")
 
 [node name="InteractableTiles" parent="." instance=ExtResource("3_t8iw3")]
@@ -227,3 +775,93 @@ texture = SubResource("GradientTexture2D_8k8b7")
 position = Vector2(320, 318)
 scale = Vector2(11.418, 2.62471)
 texture = SubResource("GradientTexture2D_8k8b7")
+
+[node name="BigBoyAnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_ae4xg")
+}
+
+[node name="NetworkMenu" type="Node2D" parent="."]
+script = ExtResource("9_oe7rv")
+
+[node name="MainMenuUI" type="CanvasLayer" parent="NetworkMenu"]
+
+[node name="PanelContainer" type="PanelContainer" parent="NetworkMenu/MainMenuUI"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 88.0
+offset_top = 64.0
+offset_right = -88.0
+offset_bottom = -64.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(1e-05, 1e-05)
+pivot_offset = Vector2(232, 136)
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="MarginContainer" type="MarginContainer" parent="NetworkMenu/MainMenuUI/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 15
+theme_override_constants/margin_top = 15
+theme_override_constants/margin_right = 15
+theme_override_constants/margin_bottom = 15
+
+[node name="VBoxContainer" type="VBoxContainer" parent="NetworkMenu/MainMenuUI/PanelContainer/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 15
+
+[node name="Title" type="Label" parent="NetworkMenu/MainMenuUI/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "The Control Group (scuffed main menu edition)"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="NetworkMenu/MainMenuUI/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 30
+alignment = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="NetworkMenu/MainMenuUI/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="HostButton" type="Button" parent="NetworkMenu/MainMenuUI/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_styles/focus = SubResource("StyleBoxEmpty_ee2qx")
+text = "Host Lobby"
+
+[node name="LobbyVisibility" type="ItemList" parent="NetworkMenu/MainMenuUI/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/focus = SubResource("StyleBoxEmpty_utgyn")
+item_count = 4
+item_0/text = "Public"
+item_1/text = "Friends-Only"
+item_2/text = "Private"
+item_3/text = "Invisible"
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="NetworkMenu/MainMenuUI/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="JoinButton" type="Button" parent="NetworkMenu/MainMenuUI/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer2"]
+layout_mode = 2
+theme_override_styles/focus = SubResource("StyleBoxEmpty_5gn0v")
+text = "Join Lobby"
+
+[node name="LobbyID" type="LineEdit" parent="NetworkMenu/MainMenuUI/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer2"]
+layout_mode = 2
+theme_override_styles/focus = SubResource("StyleBoxEmpty_cohpv")
+placeholder_text = "Input Lobby ID here..."
+
+[connection signal="mouse_entered" from="Start" to="Start" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="Start" to="Start" method="_on_mouse_exited"]
+[connection signal="pressed" from="Start" to="Start" method="_on_pressed"]
+[connection signal="mouse_entered" from="Quit" to="Quit" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="Quit" to="Quit" method="_on_mouse_exited"]
+[connection signal="pressed" from="Quit" to="Quit" method="_on_pressed"]
+[connection signal="pressed" from="NetworkMenu/MainMenuUI/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/HostButton" to="NetworkMenu" method="_on_host_button_pressed"]
+[connection signal="pressed" from="NetworkMenu/MainMenuUI/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer2/JoinButton" to="NetworkMenu" method="_on_join_button_pressed"]

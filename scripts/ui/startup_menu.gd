@@ -1,4 +1,4 @@
-extends Node
+extends Node;
 
 @onready var tiles: TileMapLayer = $InteractableTiles;
 @onready var white_flash: TextureRect = $WhiteFlash;
