@@ -792,9 +792,9 @@ anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 70.0
-offset_top = 67.0
+offset_top = 55.0
 offset_right = -70.0
-offset_bottom = -43.0
+offset_bottom = -55.0
 grow_horizontal = 2
 grow_vertical = 2
 scale = Vector2(1e-05, 1e-05)
@@ -802,6 +802,86 @@ pivot_offset = Vector2(250, 125)
 size_flags_horizontal = 4
 size_flags_vertical = 4
 texture = ExtResource("10_ee2qx")
+
+[node name="SubAdGroup1" type="Node2D" parent="NetworkMenu/MainMenuUI/PanelContainer"]
+z_index = -1
+position = Vector2(428, -215)
+script = ExtResource("2_jtugw")
+
+[node name="Ad" type="Sprite2D" parent="NetworkMenu/MainMenuUI/PanelContainer/SubAdGroup1"]
+position = Vector2(4, 213)
+scale = Vector2(2, 2)
+texture = SubResource("CompressedTexture2D_t8iw3")
+region_enabled = true
+region_rect = Rect2(879, 15, 18, 18)
+
+[node name="Ad4" type="Sprite2D" parent="NetworkMenu/MainMenuUI/PanelContainer/SubAdGroup1"]
+position = Vector2(61, 232)
+scale = Vector2(2, 2)
+texture = SubResource("CompressedTexture2D_t8iw3")
+region_enabled = true
+region_rect = Rect2(991, 15, 18, 50)
+
+[node name="Ad6" type="Sprite2D" parent="NetworkMenu/MainMenuUI/PanelContainer/SubAdGroup1"]
+position = Vector2(89, 285)
+scale = Vector2(2, 2)
+texture = SubResource("CompressedTexture2D_t8iw3")
+region_enabled = true
+region_rect = Rect2(943, 47, 34, 18)
+
+[node name="Ad7" type="Sprite2D" parent="NetworkMenu/MainMenuUI/PanelContainer/SubAdGroup1"]
+position = Vector2(32, 208)
+scale = Vector2(2, 2)
+texture = SubResource("CompressedTexture2D_t8iw3")
+region_enabled = true
+region_rect = Rect2(770, 60, 18, 34)
+
+[node name="Ad8" type="Sprite2D" parent="NetworkMenu/MainMenuUI/PanelContainer/SubAdGroup1"]
+position = Vector2(74, 315)
+scale = Vector2(2, 2)
+texture = SubResource("CompressedTexture2D_t8iw3")
+region_enabled = true
+region_rect = Rect2(895, 63, 18, 18)
+
+[node name="SubAdGroup2" type="Node2D" parent="NetworkMenu/MainMenuUI/PanelContainer"]
+z_index = -1
+position = Vector2(-47, 150)
+script = ExtResource("2_jtugw")
+
+[node name="Ad9" type="Sprite2D" parent="NetworkMenu/MainMenuUI/PanelContainer/SubAdGroup2"]
+position = Vector2(39, 3)
+scale = Vector2(2, 2)
+texture = SubResource("CompressedTexture2D_t8iw3")
+region_enabled = true
+region_rect = Rect2(959, 79, 18, 18)
+
+[node name="Ad10" type="Sprite2D" parent="NetworkMenu/MainMenuUI/PanelContainer/SubAdGroup2"]
+position = Vector2(33, 64)
+scale = Vector2(2, 2)
+texture = SubResource("CompressedTexture2D_t8iw3")
+region_enabled = true
+region_rect = Rect2(927, 79, 18, 50)
+
+[node name="Ad11" type="Sprite2D" parent="NetworkMenu/MainMenuUI/PanelContainer/SubAdGroup2"]
+position = Vector2(76, 108)
+scale = Vector2(2, 2)
+texture = SubResource("CompressedTexture2D_t8iw3")
+region_enabled = true
+region_rect = Rect2(879, 95, 34, 34)
+
+[node name="Ad13" type="Sprite2D" parent="NetworkMenu/MainMenuUI/PanelContainer/SubAdGroup2"]
+position = Vector2(135, 107)
+scale = Vector2(2, 2)
+texture = SubResource("CompressedTexture2D_t8iw3")
+region_enabled = true
+region_rect = Rect2(789, 92, 34, 18)
+
+[node name="Ad14" type="Sprite2D" parent="NetworkMenu/MainMenuUI/PanelContainer/SubAdGroup2"]
+position = Vector2(59, 108)
+scale = Vector2(2, 2)
+texture = SubResource("CompressedTexture2D_t8iw3")
+region_enabled = true
+region_rect = Rect2(774, 111, 50, 18)
 
 [node name="MarginContainer" type="MarginContainer" parent="NetworkMenu/MainMenuUI/PanelContainer"]
 layout_mode = 2
@@ -819,7 +899,7 @@ theme_override_constants/separation = 15
 [node name="HBoxContainer" type="HBoxContainer" parent="NetworkMenu/MainMenuUI/PanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
-theme_override_constants/separation = 30
+theme_override_constants/separation = 15
 alignment = 1
 
 [node name="VBoxContainer" type="VBoxContainer" parent="NetworkMenu/MainMenuUI/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer"]
