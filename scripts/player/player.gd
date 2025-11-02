@@ -7,16 +7,20 @@ extends CharacterBody2D;
 ## The actual VelocityComponent for the player found through [member velocity_component_path].
 @onready var velocity_component: VelocityComponent = get_node(velocity_component_path);
 ## The sprite for the player.
-@onready var sprite: Sprite2D = $Sprite2D;
+@onready var sprite: AnimatedSprite2D = $AnimatedSprite2D;
 
 ## Determines if the player is currently being controlled by the client. Some functions may be restricted to a local or remote player.
 var is_local: bool = false;
 ## The player's Steam ID.
 var steam_id: int = 0;
 ## Determines whether or not the player is allowed to move.
-var can_move = true;
+var can_move: bool = true;
 ## The player's color index. -1 means no color index.
-var player_color_index = -1;
+var player_color_index: int = -1;
+## The current animation state of the player.
+var animation_state: int = 0;
+## super cool crouch super cool crouch super cool crouch super cool crouch super cool crouch super cool crouch
+var super_cool_crouching: bool = false; 
 
 
 func _ready() -> void:
@@ -34,25 +38,97 @@ func _physics_process(delta: float) -> void:
 		# Handle input
 		var horizontal_input = Input.get_axis("move_left", "move_right");
 		var vertical_input = Input.is_action_pressed("jump");
+		var toggle_super_cool_crouch = Input.is_action_just_pressed("toggle_super_cool_crouch");
 		
-		if horizontal_input:
+		if toggle_super_cool_crouch: super_cool_crouching = not super_cool_crouching;
+		
+		if horizontal_input and not super_cool_crouching:
 			velocity_component.accelerate_towards_x(horizontal_input, delta);
 		else:
 			velocity_component.decelerate_x(delta);
 		
-		if vertical_input and is_on_floor():
+		if vertical_input and is_on_floor() and not super_cool_crouching:
 			velocity_component.jump();
 		
 		# Apply velocity changes
 		velocity_component.move(self);
+		
 	else: velocity_component.move(self);
 	
-	if is_local: _send_position_p2p();
+	if is_local: 
+		_send_position_p2p();
+		set_sprite_direction(velocity.x);
+		
+		if not super_cool_crouching:
+			if snapped(velocity.x, 100) == 0 and velocity.y == 0:
+				animation_state = 0;
+			elif not is_on_floor():
+				animation_state = 1;
+			elif snapped(velocity.x, 100) != 0 and velocity.y == 0:
+				animation_state = 2;
+		else:
+			animation_state = 3;
+		
+	match animation_state:
+		0:
+			match player_color_index:
+				-1:
+					pass;
+				0:
+					sprite.play("still_character_yellow");
+				1:
+					sprite.play("still_character_green");
+				2:
+					sprite.play("still_character_purple");
+				3:
+					sprite.play("still_character_orange");
+		1:
+			match player_color_index:
+				-1:
+					pass;
+				0:
+					sprite.play("jump_character_yellow");
+				1:
+					sprite.play("jump_character_green");
+				2:
+					sprite.play("jump_character_purple");
+				3:
+					sprite.play("jump_character_orange");
+		2:
+			match player_color_index:
+				-1:
+					pass;
+				0:
+					sprite.play("walking_character_yellow");
+				1:
+					sprite.play("walking_character_green");
+				2:
+					sprite.play("walking_character_purple");
+				3:
+					sprite.play("walking_character_orange");
+		3:
+			match player_color_index:
+				-1:
+					pass;
+				0:
+					sprite.play("super_cool_crouch_character_yellow");
+				1:
+					sprite.play("super_cool_crouch_character_green");
+				2:
+					sprite.play("super_cool_crouch_character_purple");
+				3:
+					sprite.play("super_cool_crouch_character_orange");
 
 
 ## Local-only: Sends a P2P packet containing the position of the player.
 func _send_position_p2p() -> void:
-	var packet: Dictionary = {"message": "player_position", "steam_id": steam_id, "position": global_position, "velocity": velocity};
+	var packet: Dictionary = {
+		"message": "player_position",
+		"steam_id": steam_id, 
+		"position": global_position, 
+		"velocity": velocity,
+		"super_cool_crouching": super_cool_crouching
+	};
 	Network.send_p2p_packet(0, packet);
 
 
@@ -108,9 +184,8 @@ func _set_sprite_color() -> void:
 			break;
 	player_index = player_index % 4;
 	player_color_index = player_index;
-	
-	var atlas_texture = AtlasTexture.new();
-	atlas_texture.atlas = sprite.texture.atlas if sprite.texture is AtlasTexture else sprite.texture;
-	atlas_texture.region = Rect2(player_index * 16, 0, 16, 16);
-	
-	sprite.texture = atlas_texture;
+
+
+func set_sprite_direction(vel_x: float):
+	if snapped(vel_x, 50) != 0:
+		sprite.flip_h = sign(vel_x) <= 0;

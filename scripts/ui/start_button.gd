@@ -18,3 +18,8 @@ func _on_mouse_exited() -> void:
 func _on_pressed() -> void:
 	if !anim_player.is_playing():
 		anim_player.play("hit_play_button");
+
+
+func _on_back_pressed() -> void:
+	if !anim_player.is_playing():
+		anim_player.play_backwards("hit_play_button");

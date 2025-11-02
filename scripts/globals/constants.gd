@@ -9,7 +9,7 @@ var APP_ID: String = "480";
 ## The packet read limit. This is how many packets of data a server can read at a time.
 var PACKET_READ_LIMIT: int = 32;
 
-## THe colors for our game.
+## The colors for our game.
 var GAME_COLORS: Dictionary = {
 	"control": Color((25.0 / 256.0), (163.0 / 256.0), (255.0 / 256.0), 1.0),
 	"experimental": Color((255.0 / 256.0), (213.0 / 256.0), (25.0 / 256.0), 1.0),

@@ -4,6 +4,10 @@ extends Node;
 @onready var lobby_visibility: ItemList = $MainMenuUI/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/LobbyVisibility;
 ## The LobbyID LineEdit.
 @onready var lobby_id = $MainMenuUI/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer2/LobbyID;
+## The animation player for the host button.
+@onready var anim_player_host = $MainMenuUI/PanelContainer/Host/AnimationPlayerHost;
+## The animation player for the join button.
+@onready var anim_player_join = $MainMenuUI/PanelContainer/Join/AnimationPlayerJoin;
 
 
 func _ready() -> void:
@@ -50,3 +54,23 @@ func _on_local_networking_enabled() -> void:
 func _on_local_networking_disabled() -> void:
 	lobby_visibility.visible = true;
 	lobby_id.visible = true;
+
+
+func _on_host_button_hover() -> void:
+	if !anim_player_host.is_playing():
+		anim_player_host.play("hover_in", -1, 1.5);
+
+
+func _on_host_button_hover_out() -> void:
+	if !anim_player_host.is_playing():
+		anim_player_host.play("hover_out", -1, 1.5);
+
+
+func _on_join_button_hover() -> void:
+	if !anim_player_join.is_playing():
+		anim_player_join.play("hover_in", -1, 1.5);
+
+
+func _on_join_button_hover_out() -> void:
+	if !anim_player_join.is_playing():
+		anim_player_join.play("hover_out", -1, 1.5);

@@ -44,6 +44,16 @@ var minigame_modifiers: Dictionary = {
 	},
 };
 
+## The spawn positions for each available minigame. UPDATE THIS WHENEVER A MINIGAME IS ADDED.
+var spawn_positions: Dictionary = {
+	"fishing": {
+		"experimental": Vector2(-100, 0),
+		"control": [
+			Vector2(0, 0), Vector2(0, 0), Vector2(0, 0)
+		]
+	}
+};
+
 
 ## Handles updates in game state.
 func handle_game_state_update(new_game_state: Enums.GameState) -> void:
@@ -170,18 +180,23 @@ func handle_game_state_update(new_game_state: Enums.GameState) -> void:
 			
 			var chosen_minigame_instance_path: String = "res://scenes/minigames/" + current_minigame + ".tscn";
 			current_minigame_instance = load(chosen_minigame_instance_path).instantiate();
+			print(current_minigame_instance.get_player_spawn_positions());
 			
 			if ready_for_minigame.has(Main.player_steam_id):
+				var control_group_spawn_pos_incrementer = 0;
 				for player in get_tree().current_scene.get_node("Players").get_children():
-					match player.player_color_index:
-						0:
-							player.global_position = Vector2(1000 + current_minigame_instance.yellow_player_spawn_position.x, 1000 + current_minigame_instance.yellow_player_spawn_position.y);
-						1:
-							player.global_position = Vector2(1000 + current_minigame_instance.green_player_spawn_position.x, 1000 + current_minigame_instance.green_player_spawn_position.y);
-						2:
-							player.global_position = Vector2(1000 + current_minigame_instance.purple_player_spawn_position.x, 1000 + current_minigame_instance.purple_player_spawn_position.y);
-						3:
-							player.global_position = Vector2(1000 + current_minigame_instance.orange_player_spawn_position.x, 1000 + current_minigame_instance.orange_player_spawn_position.y);
+					if current_experimental_group == player.steam_id:
+						player.global_position = Vector2(1000 + current_minigame_instance.get_player_spawn_positions()["experimental"].x, 1000 + current_minigame_instance.get_player_spawn_positions()["experimental"].y);
+					else:
+						match control_group_spawn_pos_incrementer:
+							0:
+								player.global_position = Vector2(1000 + current_minigame_instance.get_player_spawn_positions()["control_1"].x, 1000 + current_minigame_instance.get_player_spawn_positions()["control_1"].y);
+							1:
+								player.global_position = Vector2(1000 + current_minigame_instance.get_player_spawn_positions()["control_2"].x, 1000 + current_minigame_instance.get_player_spawn_positions()["control_2"].y);
+							2:
+								player.global_position = Vector2(1000 + current_minigame_instance.get_player_spawn_positions()["control_3"].x, 1000 + current_minigame_instance.get_player_spawn_positions()["control_3"].y);
+						control_group_spawn_pos_incrementer += 1;
+					
 					player.can_move = true;
 					get_tree().current_scene.get_node("Camera2D").enabled = false;
 				get_tree().current_scene.get_node("Selection").get_node("ModifierSelection").visible = false;

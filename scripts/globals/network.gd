@@ -280,6 +280,7 @@ func _update_remote_player_position(data: Dictionary) -> void:
 	var remote_steam_id: int = data["steam_id"];
 	var pos: Vector2 = data["position"];
 	var vel: Vector2 = data["velocity"];
+	var super_cool_crouching: bool = data["super_cool_crouching"];
 	
 	var game = get_tree().current_scene;
 	if not game: return;
@@ -288,6 +289,18 @@ func _update_remote_player_position(data: Dictionary) -> void:
 		if player.get_steam_id() == remote_steam_id and not player.get_is_local():
 			player.global_position = pos;
 			player.velocity = vel;
+			
+			player.set_sprite_direction(vel.x);
+			
+			if not super_cool_crouching:
+				if snapped(vel.x, 100) == 0 and vel.y == 0:
+					player.animation_state = 0;
+				elif not player.is_on_floor():
+					player.animation_state = 1;
+				elif snapped(vel.x, 100) != 0 and vel.y == 0:
+					player.animation_state = 2;
+			else:
+				player.animation_state = 3;
 
 
 ## Called whenever a peer connects for local networking.

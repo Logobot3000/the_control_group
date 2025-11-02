@@ -1,4 +1,4 @@
-[gd_scene load_steps=38 format=4 uid="uid://bscdj2wh22vxs"]
+[gd_scene load_steps=57 format=4 uid="uid://bscdj2wh22vxs"]
 
 [ext_resource type="Script" uid="uid://c31vxh33c7ku5" path="res://scripts/ui/startup_menu.gd" id="1_ebq67"]
 [ext_resource type="Texture2D" uid="uid://bm2pgqollqbca" path="res://assets/logo.png" id="1_s5o28"]
@@ -10,6 +10,9 @@
 [ext_resource type="Script" uid="uid://1hvrauxm37s7" path="res://scripts/ui/quit_button.gd" id="5_nbmw6"]
 [ext_resource type="Script" uid="uid://rfv4g2k8qu4w" path="res://scripts/ui/main_menu.gd" id="9_oe7rv"]
 [ext_resource type="Texture2D" uid="uid://dolvvd6ctrqfo" path="res://assets/sprites/network_menu.png" id="10_ee2qx"]
+[ext_resource type="Texture2D" uid="uid://jn3o3o4cl7b" path="res://assets/sprites/back_button.png" id="11_cohpv"]
+[ext_resource type="Texture2D" uid="uid://msg7jcj17ea1" path="res://assets/sprites/host_button.png" id="11_utgyn"]
+[ext_resource type="Texture2D" uid="uid://dgvpsu6wi06lf" path="res://assets/sprites/join_button.png" id="12_5gn0v"]
 
 [sub_resource type="Gradient" id="Gradient_8k8b7"]
 colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 1)
@@ -538,13 +541,180 @@ _data = {
 &"hit_play_button": SubResource("Animation_cohpv")
 }
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_op02l"]
+atlas = ExtResource("11_cohpv")
+region = Rect2(0, 0, 18, 18)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_g470g"]
+atlas = ExtResource("11_cohpv")
+region = Rect2(36, 0, 18, 18)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_t25jn"]
+atlas = ExtResource("11_cohpv")
+region = Rect2(18, 0, 18, 18)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_cohpv"]
+load_path = "res://.godot/imported/host_button.png-f0c3eab2ed0b7deeb60afcd6b9015697.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5gn0v"]
+atlas = SubResource("CompressedTexture2D_cohpv")
+region = Rect2(0, 0, 50, 18)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cohpv"]
+atlas = ExtResource("11_utgyn")
+region = Rect2(400, 0, 50, 18)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rhd0x"]
+atlas = ExtResource("11_utgyn")
+region = Rect2(0, 0, 50, 18)
+
+[sub_resource type="Animation" id="Animation_ae4xg"]
+resource_name = "hover_in"
+length = 0.56
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:texture_hover:region")
+tracks/0/interp = 0
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.08, 0.16, 0.24, 0.32, 0.4, 0.48, 0.56),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Rect2(0, 0, 50, 18), Rect2(50, 0, 50, 18), Rect2(100, 0, 50, 18), Rect2(150, 0, 50, 18), Rect2(200, 0, 50, 18), Rect2(250, 0, 50, 18), Rect2(300, 0, 50, 18), Rect2(350, 0, 50, 18)]
+}
+
+[sub_resource type="Animation" id="Animation_57fdt"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:texture_hover:region")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Rect2(0, 0, 50, 18)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:texture_normal:region")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Rect2(0, 0, 50, 18)]
+}
+
+[sub_resource type="Animation" id="Animation_87t6d"]
+resource_name = "hover_out"
+length = 0.56
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:texture_normal:region")
+tracks/0/interp = 0
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.08, 0.16, 0.24, 0.32, 0.4, 0.48, 0.56),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Rect2(350, 0, 50, 18), Rect2(300, 0, 50, 18), Rect2(250, 0, 50, 18), Rect2(200, 0, 50, 18), Rect2(150, 0, 50, 18), Rect2(100, 0, 50, 18), Rect2(50, 0, 50, 18), Rect2(0, 0, 50, 18)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_op02l"]
+_data = {
+&"RESET": SubResource("Animation_57fdt"),
+&"hover_in": SubResource("Animation_ae4xg"),
+&"hover_out": SubResource("Animation_87t6d")
+}
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ae4xg"]
+atlas = ExtResource("12_5gn0v")
+region = Rect2(0, 0, 50, 18)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_57fdt"]
+atlas = ExtResource("12_5gn0v")
+region = Rect2(400, 0, 50, 18)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_87t6d"]
+atlas = ExtResource("12_5gn0v")
+region = Rect2(0, 0, 50, 18)
+
+[sub_resource type="Animation" id="Animation_op02l"]
+resource_name = "hover_in"
+length = 0.56
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:texture_hover:region")
+tracks/0/interp = 0
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.08, 0.16, 0.24, 0.32, 0.4, 0.48, 0.56),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Rect2(0, 0, 50, 18), Rect2(50, 0, 50, 18), Rect2(100, 0, 50, 18), Rect2(150, 0, 50, 18), Rect2(200, 0, 50, 18), Rect2(250, 0, 50, 18), Rect2(300, 0, 50, 18), Rect2(350, 0, 50, 18)]
+}
+
+[sub_resource type="Animation" id="Animation_g470g"]
+resource_name = "hover_out"
+length = 0.56
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:texture_normal:region")
+tracks/0/interp = 0
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.08, 0.16, 0.24, 0.32, 0.4, 0.48, 0.56),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Rect2(350, 0, 50, 18), Rect2(300, 0, 50, 18), Rect2(250, 0, 50, 18), Rect2(200, 0, 50, 18), Rect2(150, 0, 50, 18), Rect2(100, 0, 50, 18), Rect2(50, 0, 50, 18), Rect2(0, 0, 50, 18)]
+}
+
+[sub_resource type="Animation" id="Animation_t25jn"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:texture_hover:region")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Rect2(0, 0, 50, 18)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:texture_normal:region")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Rect2(0, 0, 50, 18)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_jky6q"]
+_data = {
+&"RESET": SubResource("Animation_t25jn"),
+&"hover_in": SubResource("Animation_op02l"),
+&"hover_out": SubResource("Animation_g470g")
+}
+
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_utgyn"]
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ee2qx"]
-
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_cohpv"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_5gn0v"]
 
 [node name="StartupMenu" type="Node"]
 script = ExtResource("1_ebq67")
@@ -801,6 +971,7 @@ scale = Vector2(1e-05, 1e-05)
 pivot_offset = Vector2(250, 125)
 size_flags_horizontal = 4
 size_flags_vertical = 4
+mouse_filter = 2
 texture = ExtResource("10_ee2qx")
 
 [node name="SubAdGroup1" type="Node2D" parent="NetworkMenu/MainMenuUI/PanelContainer"]
@@ -883,10 +1054,62 @@ texture = SubResource("CompressedTexture2D_t8iw3")
 region_enabled = true
 region_rect = Rect2(774, 111, 50, 18)
 
+[node name="Back" type="TextureButton" parent="NetworkMenu/MainMenuUI/PanelContainer"]
+layout_mode = 0
+offset_left = -46.0
+offset_top = 8.0
+offset_right = -28.0
+offset_bottom = 26.0
+scale = Vector2(2, 2)
+focus_mode = 0
+mouse_default_cursor_shape = 2
+texture_normal = SubResource("AtlasTexture_op02l")
+texture_pressed = SubResource("AtlasTexture_g470g")
+texture_hover = SubResource("AtlasTexture_t25jn")
+
+[node name="Host" type="TextureButton" parent="NetworkMenu/MainMenuUI/PanelContainer"]
+z_index = 1
+layout_mode = 2
+offset_left = 20.0
+offset_top = 194.0
+offset_right = 70.0
+offset_bottom = 212.0
+scale = Vector2(2, 2)
+focus_mode = 0
+mouse_default_cursor_shape = 2
+texture_normal = SubResource("AtlasTexture_5gn0v")
+texture_pressed = SubResource("AtlasTexture_cohpv")
+texture_hover = SubResource("AtlasTexture_rhd0x")
+
+[node name="AnimationPlayerHost" type="AnimationPlayer" parent="NetworkMenu/MainMenuUI/PanelContainer/Host"]
+libraries = {
+&"": SubResource("AnimationLibrary_op02l")
+}
+
+[node name="Join" type="TextureButton" parent="NetworkMenu/MainMenuUI/PanelContainer"]
+z_index = 1
+layout_mode = 2
+offset_left = 380.0
+offset_top = 194.0
+offset_right = 430.0
+offset_bottom = 212.0
+scale = Vector2(2, 2)
+focus_mode = 0
+mouse_default_cursor_shape = 2
+texture_normal = SubResource("AtlasTexture_ae4xg")
+texture_pressed = SubResource("AtlasTexture_57fdt")
+texture_hover = SubResource("AtlasTexture_87t6d")
+
+[node name="AnimationPlayerJoin" type="AnimationPlayer" parent="NetworkMenu/MainMenuUI/PanelContainer/Join"]
+libraries = {
+&"": SubResource("AnimationLibrary_jky6q")
+}
+
 [node name="MarginContainer" type="MarginContainer" parent="NetworkMenu/MainMenuUI/PanelContainer"]
 layout_mode = 2
 offset_right = 500.0
 offset_bottom = 250.0
+mouse_filter = 2
 theme_override_constants/margin_left = 15
 theme_override_constants/margin_top = 45
 theme_override_constants/margin_right = 15
@@ -894,21 +1117,24 @@ theme_override_constants/margin_bottom = 15
 
 [node name="VBoxContainer" type="VBoxContainer" parent="NetworkMenu/MainMenuUI/PanelContainer/MarginContainer"]
 layout_mode = 2
+mouse_filter = 2
 theme_override_constants/separation = 15
 
 [node name="HBoxContainer" type="HBoxContainer" parent="NetworkMenu/MainMenuUI/PanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
+mouse_filter = 2
 theme_override_constants/separation = 15
 alignment = 1
 
 [node name="VBoxContainer" type="VBoxContainer" parent="NetworkMenu/MainMenuUI/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
+mouse_filter = 2
 
 [node name="LobbyVisibility" type="ItemList" parent="NetworkMenu/MainMenuUI/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 65)
 layout_mode = 2
-size_flags_vertical = 3
 theme_override_styles/focus = SubResource("StyleBoxEmpty_utgyn")
 item_count = 4
 item_0/text = "Public"
@@ -916,24 +1142,15 @@ item_1/text = "Friends-Only"
 item_2/text = "Private"
 item_3/text = "Invisible"
 
-[node name="HostButton" type="Button" parent="NetworkMenu/MainMenuUI/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer"]
-layout_mode = 2
-theme_override_styles/focus = SubResource("StyleBoxEmpty_ee2qx")
-text = "Host Lobby"
-
 [node name="VBoxContainer2" type="VBoxContainer" parent="NetworkMenu/MainMenuUI/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
+mouse_filter = 2
 
 [node name="LobbyID" type="LineEdit" parent="NetworkMenu/MainMenuUI/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer2"]
 layout_mode = 2
 theme_override_styles/focus = SubResource("StyleBoxEmpty_cohpv")
 placeholder_text = "Input Lobby ID here..."
-
-[node name="JoinButton" type="Button" parent="NetworkMenu/MainMenuUI/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer2"]
-layout_mode = 2
-theme_override_styles/focus = SubResource("StyleBoxEmpty_5gn0v")
-text = "Join Lobby"
 
 [connection signal="mouse_entered" from="Start" to="Start" method="_on_mouse_entered"]
 [connection signal="mouse_exited" from="Start" to="Start" method="_on_mouse_exited"]
@@ -941,5 +1158,10 @@ text = "Join Lobby"
 [connection signal="mouse_entered" from="Quit" to="Quit" method="_on_mouse_entered"]
 [connection signal="mouse_exited" from="Quit" to="Quit" method="_on_mouse_exited"]
 [connection signal="pressed" from="Quit" to="Quit" method="_on_pressed"]
-[connection signal="pressed" from="NetworkMenu/MainMenuUI/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/HostButton" to="NetworkMenu" method="_on_host_button_pressed"]
-[connection signal="pressed" from="NetworkMenu/MainMenuUI/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer2/JoinButton" to="NetworkMenu" method="_on_join_button_pressed"]
+[connection signal="pressed" from="NetworkMenu/MainMenuUI/PanelContainer/Back" to="Start" method="_on_back_pressed"]
+[connection signal="mouse_entered" from="NetworkMenu/MainMenuUI/PanelContainer/Host" to="NetworkMenu" method="_on_host_button_hover"]
+[connection signal="mouse_exited" from="NetworkMenu/MainMenuUI/PanelContainer/Host" to="NetworkMenu" method="_on_host_button_hover_out"]
+[connection signal="pressed" from="NetworkMenu/MainMenuUI/PanelContainer/Host" to="NetworkMenu" method="_on_host_button_pressed"]
+[connection signal="mouse_entered" from="NetworkMenu/MainMenuUI/PanelContainer/Join" to="NetworkMenu" method="_on_join_button_hover"]
+[connection signal="mouse_exited" from="NetworkMenu/MainMenuUI/PanelContainer/Join" to="NetworkMenu" method="_on_join_button_hover_out"]
+[connection signal="pressed" from="NetworkMenu/MainMenuUI/PanelContainer/Join" to="NetworkMenu" method="_on_join_button_pressed"]

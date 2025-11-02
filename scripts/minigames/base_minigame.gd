@@ -11,14 +11,14 @@ signal minigame_ended;
 
 
 @export_group("Player Spawn Positions")
-## The position for the yellow player to be spawned in for each minigame.
-@export var yellow_player_spawn_position: Vector2 = Vector2.ZERO;
-## The position for the green player to be spawned in for each minigame.
-@export var green_player_spawn_position: Vector2 = Vector2.ZERO;
-## The position for the purple player to be spawned in for each minigame.
-@export var purple_player_spawn_position: Vector2 = Vector2.ZERO;
-## The position for the orange player to be spawned in for each minigame.
-@export var orange_player_spawn_position: Vector2 = Vector2.ZERO;
+## The position for the experimental group player to be spawned in for each minigame.
+@export var experimental_spawn_position: Vector2;
+## The position for the first control group player to be spawned in for each minigame.
+@export var control_spawn_position_1: Vector2;
+## The position for the second control group player to be spawned in for each minigame.
+@export var control_spawn_position_2: Vector2;
+## The position for the third control group player to be spawned in for each minigame.
+@export var control_spawn_position_3: Vector2;
 
 @export_group("Timer Settings")
 ## How long the minigame timer lasts in seconds.
@@ -86,3 +86,13 @@ func countdown_timer(time: float) -> void:
 		
 		await get_tree().create_timer(0.1).timeout;
 		if time > 0: countdown_timer(time - 0.1);
+
+
+## Gets the player spawn positions.
+func get_player_spawn_positions() -> Dictionary:
+	return {
+		"experimental": experimental_spawn_position,
+		"control_1": control_spawn_position_1,
+		"control_2": control_spawn_position_2,
+		"control_3": control_spawn_position_3
+	};

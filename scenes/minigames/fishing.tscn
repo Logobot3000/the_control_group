@@ -5,7 +5,7 @@
 [ext_resource type="Shader" uid="uid://dxt4juw56bwkf" path="res://assets/shaders/water.gdshader" id="3_0ro6e"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_0ro6e"]
-size = Vector2(640, 72)
+size = Vector2(640, 168)
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_hdy0r"]
 frequency = 0.026
@@ -50,20 +50,20 @@ script = ExtResource("1_udlc8")
 
 [node name="BaseMinigame" parent="." instance=ExtResource("2_47d8f")]
 position = Vector2(1000, 1000)
-yellow_player_spawn_position = Vector2(-192, 96)
-green_player_spawn_position = Vector2(-64, 96)
-purple_player_spawn_position = Vector2(64, 96)
-orange_player_spawn_position = Vector2(192, 96)
+experimental_spawn_position = Vector2(50, 0)
+control_spawn_position_1 = Vector2(-50, 0)
+control_spawn_position_2 = Vector2(-50, 0)
+control_spawn_position_3 = Vector2(-50, 0)
 
 [node name="Water" type="StaticBody2D" parent="."]
 position = Vector2(1000, 1000)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Water"]
-position = Vector2(0, 156)
+position = Vector2(0, 108)
 shape = SubResource("RectangleShape2D_0ro6e")
 
 [node name="Texture" type="Sprite2D" parent="Water"]
 material = SubResource("ShaderMaterial_gtnks")
-position = Vector2(0, 156)
-scale = Vector2(10, 1.125)
+position = Vector2(0, 108)
+scale = Vector2(10, 2.625)
 texture = SubResource("GradientTexture2D_rouq6")
