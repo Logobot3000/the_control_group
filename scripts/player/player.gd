@@ -53,7 +53,12 @@ func _physics_process(delta: float) -> void:
 		# Apply velocity changes
 		velocity_component.move(self);
 		
-	else: velocity_component.move(self);
+	else: 
+		velocity_component.apply_gravity(self, delta);
+		if is_on_floor():
+			velocity_component.halt_y();
+		velocity_component.decelerate_x(delta);
+		velocity_component.move(self);
 	
 	if is_local: 
 		_send_position_p2p();

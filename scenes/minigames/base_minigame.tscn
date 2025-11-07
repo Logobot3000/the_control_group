@@ -7,7 +7,6 @@
 
 [node name="BaseMinigame" type="Node2D"]
 script = ExtResource("1_7ri30")
-experimental_spawn_position = Vector2(100, 0)
 
 [node name="Tiles" type="Node" parent="."]
 
@@ -17,7 +16,7 @@ tile_map_data = PackedByteArray("AADr//T/AQADAAAAAADr//X/AQACAAAAAADr//b/AQAEAAA
 
 [node name="NonInteractableTilesFG" parent="Tiles" instance=ExtResource("2_7ri30")]
 position = Vector2(1000, 1000)
-tile_map_data = PackedByteArray("AAD+//f/AgAGAAAAAAD///f/AgAGAAAAAAAAAPf/AgAGAAAAAAABAPf/AgAGAAAAAAD+//j/AgAIAAAAAAD///j/AgAIAAAAAAAAAPj/AgAIAAAAAAABAPj/AgAIAAAAAAD9//f/AgABAAAAAAD9//j/AgAFAAAAAAD9//n/AgAAAAAAAAD+//n/AgAEAAAAAAD///n/AgAEAAAAAAAAAPn/AgAEAAAAAAABAPn/AgAEAAAAAAACAPn/AgADAAAAAAACAPj/AgAHAAAAAAACAPf/AgACAAAAAAA=")
+tile_map_data = PackedByteArray("AAD+//f/AgAGAAAAAAD///f/AgAGAAAAAAAAAPf/AgAGAAAAAAABAPf/AgAGAAAAAAD+//j/AgAIAAAAAAD///j/AgAIAAAAAAAAAPj/AgAIAAAAAAABAPj/AgAIAAAAAAD9//f/AgABAAAAAAD9//j/AgAFAAAAAAD9//n/AgAAAAAAAAD+//n/AgAEAAAAAAD///n/AgAEAAAAAAAAAPn/AgAEAAAAAAABAPn/AgAEAAAAAAACAPn/AgADAAAAAAACAPj/AgAHAAAAAAACAPf/AgACAAAAAAAEAPf/AgABAAAAAAAEAPn/AgAAAAAAAAD5//f/AgABAAAAAAD5//n/AgAAAAAAAAD7//f/AgACAAAAAAAGAPf/AgACAAAAAAD7//n/AgADAAAAAAAGAPn/AgADAAAAAAD6//n/AgAEAAAAAAD5//j/AgAFAAAAAAAEAPj/AgAFAAAAAAD6//f/AgAGAAAAAAAFAPf/AgAGAAAAAAD7//j/AgAHAAAAAAAGAPj/AgAHAAAAAAAFAPj/AgAIAAAAAAD6//j/AgAIAAAAAAAFAPn/AgAEAAAAAAA=")
 
 [node name="NonInteractableTilesBG" parent="Tiles" instance=ExtResource("3_pd04c")]
 position = Vector2(1000, 1000)
@@ -32,6 +31,24 @@ offset_left = 952.0
 offset_top = 856.0
 offset_right = 1048.0
 offset_bottom = 904.0
-text = "whoops my code sucks"
+text = "bad code :("
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ExperimentalPoints" type="Label" parent="TV"]
+offset_left = 1064.0
+offset_top = 856.0
+offset_right = 1112.0
+offset_bottom = 904.0
+text = "0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ControlPoints" type="Label" parent="TV"]
+offset_left = 888.0
+offset_top = 856.0
+offset_right = 936.0
+offset_bottom = 904.0
+text = "0"
 horizontal_alignment = 1
 vertical_alignment = 1

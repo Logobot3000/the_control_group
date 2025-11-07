@@ -33,7 +33,7 @@ var minigame_modifiers: Dictionary = {
 	"fishing": {
 		"experimental": [
 			{"id": 1, "name": "Net Harpoon", "description": "Catches multiple fish, but has a slow reel speed"},
-			{"id": 2, "name": "FishTracker6000", "description": "Highlights the fish underwater."},
+			{"id": 2, "name": "Antivenom Hook", "description": "Allows the reeling in of jellyfish."},
 			{"id": 3, "name": "Sabotage", "description": "Turn some of the Control Group's fish into jellyfish."}
 		],
 		"control": [
@@ -47,9 +47,9 @@ var minigame_modifiers: Dictionary = {
 ## The spawn positions for each available minigame. UPDATE THIS WHENEVER A MINIGAME IS ADDED.
 var spawn_positions: Dictionary = {
 	"fishing": {
-		"experimental": Vector2(-100, 0),
+		"experimental": Vector2(150, 0),
 		"control": [
-			Vector2(0, 0), Vector2(0, 0), Vector2(0, 0)
+			Vector2(-150, 0), Vector2(-100, 0), Vector2(-50, 0)
 		]
 	}
 };
@@ -180,31 +180,35 @@ func handle_game_state_update(new_game_state: Enums.GameState) -> void:
 			
 			var chosen_minigame_instance_path: String = "res://scenes/minigames/" + current_minigame + ".tscn";
 			current_minigame_instance = load(chosen_minigame_instance_path).instantiate();
-			print(current_minigame_instance.get_player_spawn_positions());
-			
-			if ready_for_minigame.has(Main.player_steam_id):
-				var control_group_spawn_pos_incrementer = 0;
-				for player in get_tree().current_scene.get_node("Players").get_children():
-					if current_experimental_group == player.steam_id:
-						player.global_position = Vector2(1000 + current_minigame_instance.get_player_spawn_positions()["experimental"].x, 1000 + current_minigame_instance.get_player_spawn_positions()["experimental"].y);
-					else:
-						match control_group_spawn_pos_incrementer:
-							0:
-								player.global_position = Vector2(1000 + current_minigame_instance.get_player_spawn_positions()["control_1"].x, 1000 + current_minigame_instance.get_player_spawn_positions()["control_1"].y);
-							1:
-								player.global_position = Vector2(1000 + current_minigame_instance.get_player_spawn_positions()["control_2"].x, 1000 + current_minigame_instance.get_player_spawn_positions()["control_2"].y);
-							2:
-								player.global_position = Vector2(1000 + current_minigame_instance.get_player_spawn_positions()["control_3"].x, 1000 + current_minigame_instance.get_player_spawn_positions()["control_3"].y);
-						control_group_spawn_pos_incrementer += 1;
-					
-					player.can_move = true;
-					get_tree().current_scene.get_node("Camera2D").enabled = false;
-				get_tree().current_scene.get_node("Selection").get_node("ModifierSelection").visible = false;
-				get_tree().current_scene.get_node("Selection").get_node("GroupAssignment").visible = false;
-				
 			get_tree().current_scene.add_child(current_minigame_instance);
 			
-			
+			if ready_for_minigame.has(Main.player_steam_id):
+				get_tree().current_scene.get_node("Selection").get_node("ModifierSelection").visible = false;
+				get_tree().current_scene.get_node("Selection").get_node("GroupAssignment").visible = false;
+				get_tree().current_scene.get_node("Camera2D").enabled = false;
+			if Network.is_host:
+				var control_group_spawn_pos_incrementer = 0;
+				var spawn_pos_update_dict: Dictionary = {
+					"message": "spawn_pos_update",
+					"experimental": [0, Vector2.ZERO],
+					"control": {
+						0: [0, Vector2.ZERO],
+						1: [0, Vector2.ZERO],
+						2: [0, Vector2.ZERO]
+					}
+				};
+				for player in get_tree().current_scene.get_node("Players").get_children():
+					if current_experimental_group == player.steam_id:
+						player.global_position = Vector2(1000 + spawn_positions[current_minigame]["experimental"].x, 1000 + spawn_positions[current_minigame]["experimental"].y);
+						spawn_pos_update_dict["experimental"][0] = player.steam_id;
+						spawn_pos_update_dict["experimental"][1] = player.global_position;
+					elif ready_for_minigame.has(player.steam_id):
+						player.global_position = Vector2(1000 + spawn_positions[current_minigame]["control"][control_group_spawn_pos_incrementer].x, 1000 + spawn_positions[current_minigame]["control"][control_group_spawn_pos_incrementer].y);
+						spawn_pos_update_dict["control"][control_group_spawn_pos_incrementer][0] = player.steam_id;
+						spawn_pos_update_dict["control"][control_group_spawn_pos_incrementer][1] = player.global_position;
+						control_group_spawn_pos_incrementer += 1;
+				Network.send_p2p_packet(0, spawn_pos_update_dict);
+				
 
 ## Sets the current minigame.
 func set_current_minigame(readable_data: Dictionary) -> void:
@@ -336,6 +340,19 @@ func set_experimental_group_modifier(readable_data: Dictionary) -> void:
 	
 	if Network.is_host:
 		Main.update_game_state(Enums.GameState.MINIGAME_START);
+
+
+## Sets all the players to their correct spawn positions before the minigame
+func spawn_pos_update(readable_data: Dictionary) -> void:
+	for player in get_tree().current_scene.get_node("Players").get_children():
+		if player.steam_id == readable_data["experimental"][0]:
+			player.global_position = readable_data["experimental"][1];
+		elif player.steam_id == readable_data["control"][0][0] and ready_for_minigame.has(player.steam_id):
+			player.global_position = readable_data["control"][0][1];
+		elif player.steam_id == readable_data["control"][1][0] and ready_for_minigame.has(player.steam_id):
+			player.global_position = readable_data["control"][1][1];
+		elif player.steam_id == readable_data["control"][2][0] and ready_for_minigame.has(player.steam_id):
+			player.global_position = readable_data["control"][2][1];
 
 
 ## Updates the current score.
