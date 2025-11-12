@@ -1,4 +1,4 @@
-[gd_scene load_steps=62 format=4 uid="uid://cx34ikrccmadk"]
+[gd_scene load_steps=61 format=3 uid="uid://cx34ikrccmadk"]
 
 [ext_resource type="Script" uid="uid://bt2iq1mgiysc2" path="res://scripts/minigames/fishing.gd" id="1_udlc8"]
 [ext_resource type="PackedScene" uid="uid://7101ew6iodi4" path="res://scenes/minigames/base_minigame.tscn" id="2_47d8f"]
@@ -6,7 +6,6 @@
 [ext_resource type="Texture2D" uid="uid://bx5mst2ay1uee" path="res://assets/sprites/minigames/fishing/Fish Door.png" id="3_k2k66"]
 [ext_resource type="Texture2D" uid="uid://bxlvl66nxe1ps" path="res://assets/sprites/minigames/fishing/fishing Door line.png" id="4_semut"]
 [ext_resource type="Texture2D" uid="uid://c0n855shsjrnq" path="res://assets/sprites/minigames/fishing/Fish Door 2.png" id="5_gtnks"]
-[ext_resource type="PackedScene" uid="uid://cdokncf28uuvf" path="res://scenes/tiles/non_interactable_tiles_bg.tscn" id="7_semut"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_3ku6o"]
 atlas = ExtResource("3_k2k66")
@@ -405,9 +404,7 @@ scale = Vector2(2, 2)
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="FishDoor"]
 sprite_frames = SubResource("SpriteFrames_n8nfq")
-animation = &"transition"
-frame = 14
-frame_progress = 0.727272
+animation = &"closed"
 
 [node name="Sprite2D" type="Sprite2D" parent="FishDoor"]
 z_index = -2
@@ -446,7 +443,7 @@ scale = Vector2(2, 2)
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="FishDoor2"]
 position = Vector2(82, 0)
 sprite_frames = SubResource("SpriteFrames_rocaf")
-animation = &"transition"
+animation = &"open"
 
 [node name="Sprite2D5" type="Sprite2D" parent="FishDoor2"]
 z_index = -2
@@ -491,10 +488,3 @@ material = SubResource("ShaderMaterial_gtnks")
 position = Vector2(0, 108)
 scale = Vector2(10, 2.625)
 texture = SubResource("GradientTexture2D_rouq6")
-
-[node name="NonInteractableTilesBG" parent="." instance=ExtResource("7_semut")]
-position = Vector2(918, -63)
-rotation = 0.174533
-scale = Vector2(0.58, 1)
-skew = -0.174533
-tile_map_data = PackedByteArray("AAArADQAAAAHAAAAAAArADUAAAAGAAAAAAArADYAAAAHAAAAAAArADcAAAAGAAAAAAArADgAAAAJAAAAAAArADkAAAAIAAAAAAArADoAAAAIAAAAAAArADsAAAAIAAAAAAArADwAAAAHAAAAAAArAD0AAAAFAAAAAAArAD4AAAAJAAAAAAArAD8AAAAGAAAAAAArAEAAAAAFAAAAAAArAEEAAAAGAAAAAAArAEIAAAAFAAAAAAArAEMAAAAGAAAAAAArAEQAAAAIAAAAAAArAEUAAAAIAAAAAAArAEYAAAAFAAAAAAArAEcAAAAHAAAAAAArAEgAAAAJAAAAAAArAEkAAAAHAAAAAAArAEoAAAAGAAAAAAArAEsAAAAFAAAAAAArAEwAAAAFAAAAAAA=")

@@ -21,6 +21,7 @@ func _ready() -> void:
 	minigame_ended.connect(on_minigame_ended);
 	
 	minigame_setup();
+	load_modifiers();
 	minigame_started.emit();
 	for player in get_tree().current_scene.get_node("Players").get_children():
 		player.can_move = true;
@@ -29,6 +30,11 @@ func _ready() -> void:
 
 ## A virtual function that is called whenever the minigame is instantiated.
 func minigame_setup() -> void:
+	pass;
+
+
+## A virtual function that is called to load the modifiers.
+func load_modifiers() -> void:
 	pass;
 
 
