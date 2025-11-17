@@ -1,0 +1,99 @@
+[gd_scene load_steps=15 format=3 uid="uid://diygkfkegupu7"]
+
+[ext_resource type="Script" uid="uid://bqm63lxfy23w3" path="res://scripts/components/minigames/fishing/hook_component.gd" id="1_rng3r"]
+[ext_resource type="Texture2D" uid="uid://brthrheqkqdek" path="res://assets/sprites/minigames/fishing/lure_hook.png" id="2_pdckt"]
+[ext_resource type="Texture2D" uid="uid://di0rrxxinit3c" path="res://assets/sprites/minigames/fishing/hook.png" id="3_rg8wf"]
+[ext_resource type="Texture2D" uid="uid://c7rabrdxx8xbt" path="res://assets/sprites/minigames/fishing/double_hook.png" id="4_q0kyh"]
+[ext_resource type="PackedScene" uid="uid://ca2wxt2wjjmqs" path="res://scenes/components/velocity_component.tscn" id="5_mt8lf"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_y3to6"]
+atlas = ExtResource("3_rg8wf")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_r8bsj"]
+atlas = ExtResource("2_pdckt")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ob3vs"]
+atlas = ExtResource("2_pdckt")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7dc46"]
+atlas = ExtResource("3_rg8wf")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_iarkn"]
+atlas = ExtResource("4_q0kyh")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_w56av"]
+atlas = ExtResource("2_pdckt")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_uw08e"]
+atlas = ExtResource("2_pdckt")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_gmuaf"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_r8bsj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ob3vs")
+}],
+"loop": true,
+"name": &"antivenom",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7dc46")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_iarkn")
+}],
+"loop": true,
+"name": &"double",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_w56av")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_uw08e")
+}],
+"loop": true,
+"name": &"lure",
+"speed": 2.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_rng3r"]
+size = Vector2(7, 6)
+
+[node name="HookComponent" type="CharacterBody2D"]
+script = ExtResource("1_rng3r")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(0, -8)
+scale = Vector2(1, 0)
+texture = SubResource("AtlasTexture_y3to6")
+
+[node name="HookBase" type="Node" parent="."]
+
+[node name="VelocityComponent" parent="HookBase" instance=ExtResource("5_mt8lf")]
+movement_mode = 0
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="HookBase"]
+sprite_frames = SubResource("SpriteFrames_gmuaf")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-1.5, 0)
+shape = SubResource("RectangleShape2D_rng3r")

@@ -33,3 +33,15 @@ enum GameState {
 	## This state is when a minigame just ended.
 	MINIGAME_END
 };
+
+## An enum for the possible types of hooks in the fishing minigame.
+enum HookType {
+	## This is the default hook.
+	DEFAULT,
+	## This is the "upgraded hook" modifier hook, or a double hook.
+	DOUBLE,
+	## This is the "upgraded lure" modifier hook.
+	LURE,
+	## This is the "antivenom hook" modifier hook.
+	ANTIVENOM
+};

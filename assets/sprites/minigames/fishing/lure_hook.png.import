@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bxlvl66nxe1ps"
-path="res://.godot/imported/fishing Door line.png-ae8ea9842e0dae417c15517a32b5cf20.ctex"
+uid="uid://brthrheqkqdek"
+path="res://.godot/imported/lure_hook.png-ea2a259c64622974e9e07b88a8c0edde.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/minigames/fishing/fishing Door line.png"
-dest_files=["res://.godot/imported/fishing Door line.png-ae8ea9842e0dae417c15517a32b5cf20.ctex"]
+source_file="res://assets/sprites/minigames/fishing/lure_hook.png"
+dest_files=["res://.godot/imported/lure_hook.png-ea2a259c64622974e9e07b88a8c0edde.ctex"]
 
 [params]
 

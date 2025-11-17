@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bx5mst2ay1uee"
-path="res://.godot/imported/Fish Door.png-89165ef89ea2dc5392682c2b748c467a.ctex"
+uid="uid://c0n855shsjrnq"
+path="res://.godot/imported/fish_door_2.png-023a99faeacd9a28c09ac0667ba8cc33.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/minigames/fishing/Fish Door.png"
-dest_files=["res://.godot/imported/Fish Door.png-89165ef89ea2dc5392682c2b748c467a.ctex"]
+source_file="res://assets/sprites/minigames/fishing/fish_door_2.png"
+dest_files=["res://.godot/imported/fish_door_2.png-023a99faeacd9a28c09ac0667ba8cc33.ctex"]
 
 [params]
 
