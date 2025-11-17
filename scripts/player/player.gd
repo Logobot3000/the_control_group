@@ -13,8 +13,10 @@ extends CharacterBody2D;
 var is_local: bool = false;
 ## The player's Steam ID.
 var steam_id: int = 0;
-## Determines whether or not the player is allowed to move.
+## Determines whether or not the player is allowed to move. Affects jumping as well.
 var can_move: bool = true;
+## Determines whether or not the player is allowed to jump.
+var can_jump: bool = true;
 ## The player's color index. -1 means no color index.
 var player_color_index: int = -1;
 ## The current animation state of the player.
@@ -47,7 +49,7 @@ func _physics_process(delta: float) -> void:
 		else:
 			velocity_component.decelerate_x(delta);
 		
-		if vertical_input and is_on_floor() and not super_cool_crouching:
+		if vertical_input and is_on_floor() and not super_cool_crouching and can_jump:
 			velocity_component.jump();
 		
 		# Apply velocity changes

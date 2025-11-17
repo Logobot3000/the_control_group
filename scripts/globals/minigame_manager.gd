@@ -368,6 +368,6 @@ func update_minigame_timer(readable_data: Dictionary) -> void:
 	if time <= 0: 
 		minigame_timer.text = "";
 		is_timer_running = false;
-		readable_data["minigame_instance"].minigame_ended.emit(); # Fix this for later
+		get_tree().current_scene.get_node(minigame_name).minigame_ended.emit();
 	else:
 		minigame_timer.text = str(time);

@@ -9,7 +9,7 @@ signal minigame_started;
 ## Emits when the minigame ends.
 signal minigame_ended;
 
-## How long the minigame timer lasts in seconds.
+## How long the minigame timer lasts in seconds. If it needs to be changed from 90 this must be changed on the extended instance too.
 @export var minigame_timer_length: int = 90;
 
 ## Whether or not the timer at the top of the screen is running.
@@ -74,11 +74,10 @@ func countdown_timer(time: float) -> void:
 		time = snapped(time, 0.1);
 		var timer_update: Dictionary = {
 			"message": "minigame_timer_updated",
-			"time": time,
-			"minigame_instance": self
+			"time": time
 		};
 		Network.send_p2p_packet(0, timer_update);
-		MinigameManager.update_minigame_timer({"time": time, "minigame_instance": self});
+		MinigameManager.update_minigame_timer({"time": time});
 		
 		await get_tree().create_timer(0.1).timeout;
 		if time > 0: countdown_timer(time - 0.1);

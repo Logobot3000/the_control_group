@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=4 uid="uid://cx34ikrccmadk"]
+[gd_scene load_steps=25 format=4 uid="uid://cx34ikrccmadk"]
 
 [ext_resource type="Script" uid="uid://bt2iq1mgiysc2" path="res://scripts/minigames/fishing.gd" id="1_udlc8"]
 [ext_resource type="PackedScene" uid="uid://7101ew6iodi4" path="res://scenes/minigames/base_minigame.tscn" id="2_47d8f"]
@@ -10,7 +10,13 @@
 [ext_resource type="PackedScene" uid="uid://cuggu4te88tce" path="res://scenes/tiles/non_interactable_tiles_fg.tscn" id="8_gtnks"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_0ro6e"]
-size = Vector2(608, 168)
+size = Vector2(608, 165)
+
+[sub_resource type="Gradient" id="Gradient_frxc8"]
+colors = PackedColorArray(0, 0, 0, 0, 0.0208, 0.07722, 0.13, 0.662745)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_xqph7"]
+gradient = SubResource("Gradient_frxc8")
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_hdy0r"]
 frequency = 0.026
@@ -26,16 +32,16 @@ fractal_octaves = 2
 [sub_resource type="NoiseTexture2D" id="NoiseTexture2D_semut"]
 noise = SubResource("FastNoiseLite_k2k66")
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_gtnks"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_3ku6o"]
 shader = ExtResource("3_0ro6e")
 shader_parameter/offSet = -1000.0
 shader_parameter/YDistortion = 1.0
 shader_parameter/waterNoise = SubResource("NoiseTexture2D_semut")
 shader_parameter/waterDistortionNoise = SubResource("NoiseTexture2D_hcoyk")
-shader_parameter/waterColor = Color(0.117, 0.27, 0.58, 1)
-shader_parameter/colorCorection = 0.35
+shader_parameter/waterColor = Color(0.0983836, 0.350449, 0.492045, 1)
+shader_parameter/colorCorection = 0.18
 shader_parameter/distortionForce = 0.01
-shader_parameter/WDBrightness = 1.5
+shader_parameter/WDBrightness = 0.0
 shader_parameter/WDFreq = 0.6
 shader_parameter/WDSize = 0.9
 shader_parameter/WDSpeed = 4.0
@@ -100,11 +106,17 @@ region_rect = Rect2(23, 4, 9, 44)
 position = Vector2(1000, 1000)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Water"]
-position = Vector2(0, 108)
+position = Vector2(0, 109.5)
 shape = SubResource("RectangleShape2D_0ro6e")
 
-[node name="Texture" type="Sprite2D" parent="Water"]
-material = SubResource("ShaderMaterial_gtnks")
+[node name="Sprite2D" type="Sprite2D" parent="Water"]
+position = Vector2(-0.805176, 128.213)
+rotation = 1.57079
+scale = Vector2(0.560834, 625.648)
+texture = SubResource("GradientTexture1D_xqph7")
+
+[node name="Texture2" type="Sprite2D" parent="Water"]
+material = SubResource("ShaderMaterial_3ku6o")
 position = Vector2(-2.47955e-05, 108)
 scale = Vector2(9.5, 2.625)
 texture = SubResource("GradientTexture2D_rouq6")
@@ -225,3 +237,9 @@ position = Vector2(1224.75, 840)
 scale = Vector2(2, 1)
 energy = 0.25
 texture = SubResource("GradientTexture2D_3hvpm")
+
+[node name="TestingOnlyDarkLight" type="DirectionalLight2D" parent="."]
+visible = false
+position = Vector2(0, 8)
+energy = 0.5
+blend_mode = 1
