@@ -9,7 +9,7 @@ signal minigame_started;
 ## Emits when the minigame ends.
 signal minigame_ended;
 
-## How long the minigame timer lasts in seconds. If it needs to be changed from 90 this must be changed on the extended instance too.
+## How long the minigame timer lasts in seconds.
 @export var minigame_timer_length: int = 90;
 
 ## Whether or not the timer at the top of the screen is running.
@@ -17,6 +17,8 @@ var is_timer_running: bool = false;
 
 
 func _ready() -> void:
+	if get_parent() is BaseMinigame:
+		return;
 	minigame_started.connect(on_minigame_started);
 	minigame_ended.connect(on_minigame_ended);
 	
