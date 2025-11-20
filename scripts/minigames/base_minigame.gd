@@ -20,13 +20,15 @@ func _ready() -> void:
 	if get_parent() is BaseMinigame:
 		return;
 	minigame_started.connect(on_minigame_started);
-	minigame_ended.connect(on_minigame_ended);
+	minigame_ended.connect(pre_on_minigame_ended);
 	
 	minigame_setup();
 	load_modifiers();
 	minigame_started.emit();
 	for player in get_tree().current_scene.get_node("Players").get_children():
 		player.can_move = true;
+		if player.steam_id == MinigameManager.current_experimental_group:
+			player.is_experimental = true;
 	countdown_timer(minigame_timer_length);
 
 
@@ -54,10 +56,16 @@ func score_point() -> void:
 	
 	Network.send_p2p_packet(0, score_update);
 
-
 ## A virtual function that is called whenever the minigame has started.
 func on_minigame_started() -> void:
 	pass;
+
+
+## A function called when the minigame ends.
+func pre_on_minigame_ended() -> void:
+	for player in get_tree().current_scene.get_node("Players").get_children():
+		player.is_experimental = false;
+	on_minigame_ended();
 
 
 ## A virtual function that is called whenever the minigame has ended.

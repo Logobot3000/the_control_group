@@ -8,6 +8,10 @@ extends CharacterBody2D;
 @onready var velocity_component: VelocityComponent = get_node(velocity_component_path);
 ## The sprite for the player.
 @onready var sprite: AnimatedSprite2D = $AnimatedSprite2D;
+## The default CollisionShape2D for the player.
+@onready var collision_shape: CollisionShape2D = $CollisionShape2D;
+## The experimental boat for fishing minigame CollisionShape2D for the player.
+@onready var collision_shape_boat: CollisionShape2D = $CollisionShape2DBoat;
 
 ## Determines if the player is currently being controlled by the client. Some functions may be restricted to a local or remote player.
 var is_local: bool = false;
@@ -21,6 +25,10 @@ var can_jump: bool = true;
 var player_color_index: int = -1;
 ## The current animation state of the player.
 var animation_state: int = 0;
+## Whether or not the fishing minigame is active.
+var fishing_active: bool = false;
+## Whether or not the plaeyer is in the experimental group.
+var is_experimental: bool = false;
 ## super cool crouch super cool crouch super cool crouch super cool crouch super cool crouch super cool crouch
 var super_cool_crouching: bool = false; 
 
@@ -43,6 +51,14 @@ func _physics_process(delta: float) -> void:
 		var toggle_super_cool_crouch = Input.is_action_just_pressed("toggle_super_cool_crouch");
 		
 		if toggle_super_cool_crouch: super_cool_crouching = not super_cool_crouching;
+		if fishing_active: 
+			if is_experimental:
+				collision_shape_boat.disabled = false;
+				collision_shape.disabled = true;
+			else:
+				collision_shape_boat.disabled = true;
+				collision_shape.disabled = false;
+			super_cool_crouching = false;
 		
 		if horizontal_input and not super_cool_crouching:
 			velocity_component.accelerate_towards_x(horizontal_input, delta);
@@ -68,11 +84,17 @@ func _physics_process(delta: float) -> void:
 		
 		if not super_cool_crouching:
 			if snapped(velocity.x, 100) == 0 and velocity.y == 0:
-				animation_state = 0;
-			elif not is_on_floor():
+				if fishing_active: 
+					if is_experimental: animation_state = 6;
+					else: animation_state = 4;
+				else: animation_state = 0;
+			elif not is_on_floor() and !fishing_active:
 				animation_state = 1;
 			elif snapped(velocity.x, 100) != 0 and velocity.y == 0:
-				animation_state = 2;
+				if fishing_active: 
+					if is_experimental: animation_state = 7;
+					else: animation_state = 5;
+				else: animation_state = 2;
 		else:
 			animation_state = 3;
 		
@@ -125,6 +147,54 @@ func _physics_process(delta: float) -> void:
 					sprite.play("super_cool_crouch_character_purple");
 				3:
 					sprite.play("super_cool_crouch_character_orange");
+		4:
+			match player_color_index:
+				-1:
+					pass;
+				0:
+					sprite.play("still_control_boat_yellow");
+				1:
+					sprite.play("still_control_boat_green");
+				2:
+					sprite.play("still_control_boat_purple");
+				3:
+					sprite.play("still_control_boat_orange");
+		5:
+			match player_color_index:
+				-1:
+					pass;
+				0:
+					sprite.play("moving_control_boat_yellow");
+				1:
+					sprite.play("moving_control_boat_green");
+				2:
+					sprite.play("moving_control_boat_purple");
+				3:
+					sprite.play("moving_control_boat_orange");
+		6:
+			match player_color_index:
+				-1:
+					pass;
+				0:
+					sprite.play("still_experimental_boat_yellow");
+				1:
+					sprite.play("still_experimental_boat_green");
+				2:
+					sprite.play("still_experimental_boat_purple");
+				3:
+					sprite.play("still_experimental_boat_orange");
+		7:
+			match player_color_index:
+				-1:
+					pass;
+				0:
+					sprite.play("moving_experimental_boat_yellow");
+				1:
+					sprite.play("moving_experimental_boat_green");
+				2:
+					sprite.play("moving_experimental_boat_purple");
+				3:
+					sprite.play("moving_experimental_boat_orange");
 
 
 ## Local-only: Sends a P2P packet containing the position of the player.

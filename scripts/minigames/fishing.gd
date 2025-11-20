@@ -6,6 +6,7 @@ extends BaseMinigame;
 
 func minigame_setup() -> void:
 	for player in get_tree().current_scene.get_node("Players").get_children():
+		player.fishing_active = true;
 		player.can_jump = false;
 		player.add_child(hook_component_path.instantiate());
 
@@ -13,6 +14,7 @@ func minigame_setup() -> void:
 func on_minigame_ended() -> void:
 	for player in get_tree().current_scene.get_node("Players").get_children():
 		player.can_jump = true;
+		player.fishing_active = false;
 
 
 func _process(delta: float) -> void:

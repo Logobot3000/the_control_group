@@ -47,7 +47,7 @@ var minigame_modifiers: Dictionary = {
 ## The spawn positions for each available minigame. UPDATE THIS WHENEVER A MINIGAME IS ADDED.
 var spawn_positions: Dictionary = {
 	"fishing": {
-		"experimental": Vector2(150, 0),
+		"experimental": Vector2(150, 10),
 		"control": [
 			Vector2(-150, 0), Vector2(-100, 0), Vector2(-50, 0)
 		]
