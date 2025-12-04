@@ -1374,7 +1374,7 @@ velocity_component_path = NodePath("VelocityComponent")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_iqsei")
-animation = &"still_control_boat_purple"
+animation = &"moving_experimental_boat_green"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, 0.5)

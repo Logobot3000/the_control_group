@@ -51,14 +51,6 @@ func _physics_process(delta: float) -> void:
 		var toggle_super_cool_crouch = Input.is_action_just_pressed("toggle_super_cool_crouch");
 		
 		if toggle_super_cool_crouch: super_cool_crouching = not super_cool_crouching;
-		if fishing_active: 
-			if is_experimental:
-				collision_shape_boat.disabled = false;
-				collision_shape.disabled = true;
-			else:
-				collision_shape_boat.disabled = true;
-				collision_shape.disabled = false;
-			super_cool_crouching = false;
 		
 		if horizontal_input and not super_cool_crouching:
 			velocity_component.accelerate_towards_x(horizontal_input, delta);
@@ -80,24 +72,37 @@ func _physics_process(delta: float) -> void:
 	
 	if is_local: 
 		_send_position_p2p();
-		set_sprite_direction(velocity.x);
-		
-		if not super_cool_crouching:
-			if snapped(velocity.x, 100) == 0 and velocity.y == 0:
-				if fishing_active: 
-					if is_experimental: animation_state = 6;
-					else: animation_state = 4;
-				else: animation_state = 0;
-			elif not is_on_floor() and !fishing_active:
-				animation_state = 1;
-			elif snapped(velocity.x, 100) != 0 and velocity.y == 0:
-				if fishing_active: 
-					if is_experimental: animation_state = 7;
-					else: animation_state = 5;
-				else: animation_state = 2;
-		else:
-			animation_state = 3;
-		
+		if fishing_active and is_experimental: set_sprite_direction(-velocity.x);
+		else: set_sprite_direction(velocity.x);
+	
+	if fishing_active: 
+			if is_experimental:
+				collision_shape.shape.size.x = 27;
+				collision_shape.shape.size.y = 19;
+				collision_shape.position.x = -0.5;
+				collision_shape.position.y = 2.5;
+			else:
+				collision_shape.shape.size.x = 10;
+				collision_shape.shape.size.y = 15;
+				collision_shape.position.x = 0;
+				collision_shape.position.y = 0.5;
+			super_cool_crouching = false;
+	if not super_cool_crouching:
+		if snapped(velocity.x, 100) == 0 and velocity.y == 0:
+			if fishing_active: 
+				if is_experimental: animation_state = 6;
+				else: animation_state = 4;
+			else: animation_state = 0;
+		elif not is_on_floor() and !fishing_active:
+			animation_state = 1;
+		elif snapped(velocity.x, 100) != 0 and velocity.y == 0:
+			if fishing_active: 
+				if is_experimental: animation_state = 7;
+				else: animation_state = 5;
+			else: animation_state = 2;
+	else:
+		animation_state = 3;
+	
 	match animation_state:
 		0:
 			match player_color_index:
