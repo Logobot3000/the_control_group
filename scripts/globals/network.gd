@@ -283,6 +283,7 @@ func _update_remote_player_position(data: Dictionary) -> void:
 	var pos: Vector2 = data["position"];
 	var vel: Vector2 = data["velocity"];
 	var super_cool_crouching: bool = data["super_cool_crouching"];
+	var is_on_floor: bool = data["is_on_floor"];
 	
 	var game = get_tree().current_scene;
 	if not game: return;
@@ -291,16 +292,25 @@ func _update_remote_player_position(data: Dictionary) -> void:
 		if player.get_steam_id() == remote_steam_id and not player.get_is_local():
 			player.global_position = pos;
 			player.velocity = vel;
+			player.super_cool_crouching = super_cool_crouching;
 			
-			player.set_sprite_direction(vel.x);
-			
-			if not super_cool_crouching:
-				if snapped(vel.x, 100) == 0 and vel.y == 0:
-					player.animation_state = 0;
-				elif not player.is_on_floor():
+			if player.fishing_active and player.is_experimental: player.set_sprite_direction(-player.velocity.x);
+			else: player.set_sprite_direction(player.velocity.x);
+
+			if not player.super_cool_crouching:
+				if snapped(player.velocity.x, 100) == 0 and player.velocity.y == 0:
+					if player.fishing_active: 
+						if player.is_experimental: player.animation_state = 6;
+						else: player.animation_state = 4;
+					else: player.animation_state = 0;
+				elif !is_on_floor and !player.fishing_active:
 					player.animation_state = 1;
-				elif snapped(vel.x, 100) != 0 and vel.y == 0:
-					player.animation_state = 2;
+				elif snapped(player.velocity.x, 100) != 0 and player.velocity.y == 0:
+					if player.fishing_active: 
+						if player.is_experimental: player.animation_state = 7;
+						else: player.animation_state = 5;
+					else:
+						player.animation_state = 2;
 			else:
 				player.animation_state = 3;
 

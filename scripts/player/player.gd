@@ -62,23 +62,11 @@ func _physics_process(delta: float) -> void:
 		
 		# Apply velocity changes
 		velocity_component.move(self);
-		
-	else: 
-		velocity_component.apply_gravity(self, delta);
-		if is_on_floor():
-			velocity_component.halt_y();
-		velocity_component.decelerate_x(delta);
-		velocity_component.move(self);
-	
-	if is_local: 
-		_send_position_p2p();
-		if fishing_active and is_experimental: set_sprite_direction(-velocity.x);
-		else: set_sprite_direction(velocity.x);
 	
 	if fishing_active: 
-			if is_experimental:
+			if is_experimental and is_local:
 				collision_shape.shape.size.x = 27;
-				collision_shape.shape.size.y = 19;
+				collision_shape.shape.size.y = 23;
 				collision_shape.position.x = -0.5;
 				collision_shape.position.y = 2.5;
 			else:
@@ -87,21 +75,27 @@ func _physics_process(delta: float) -> void:
 				collision_shape.position.x = 0;
 				collision_shape.position.y = 0.5;
 			super_cool_crouching = false;
-	if not super_cool_crouching:
-		if snapped(velocity.x, 100) == 0 and velocity.y == 0:
-			if fishing_active: 
-				if is_experimental: animation_state = 6;
-				else: animation_state = 4;
-			else: animation_state = 0;
-		elif not is_on_floor() and !fishing_active:
-			animation_state = 1;
-		elif snapped(velocity.x, 100) != 0 and velocity.y == 0:
-			if fishing_active: 
-				if is_experimental: animation_state = 7;
-				else: animation_state = 5;
-			else: animation_state = 2;
-	else:
-		animation_state = 3;
+	
+	if fishing_active and is_experimental: set_sprite_direction(-velocity.x);
+	else: set_sprite_direction(velocity.x);
+	
+	if is_local: 
+		if not super_cool_crouching:
+			if snapped(velocity.x, 100) == 0 and velocity.y == 0:
+				if fishing_active: 
+					if is_experimental: animation_state = 6;
+					else: animation_state = 4;
+				else: animation_state = 0;
+			elif not is_on_floor() and !fishing_active:
+				animation_state = 1;
+			elif snapped(velocity.x, 100) != 0 and velocity.y == 0:
+				if fishing_active: 
+					if is_experimental: animation_state = 7;
+					else: animation_state = 5;
+				else: animation_state = 2;
+		else:
+			animation_state = 3;
+		_send_position_p2p();
 	
 	match animation_state:
 		0:
@@ -209,7 +203,8 @@ func _send_position_p2p() -> void:
 		"steam_id": steam_id, 
 		"position": global_position, 
 		"velocity": velocity,
-		"super_cool_crouching": super_cool_crouching
+		"super_cool_crouching": super_cool_crouching,
+		"is_on_floor": is_on_floor()
 	};
 	Network.send_p2p_packet(0, packet);
 

@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://diygkfkegupu7"]
+[gd_scene load_steps=16 format=3 uid="uid://diygkfkegupu7"]
 
 [ext_resource type="Script" uid="uid://bqm63lxfy23w3" path="res://scripts/components/minigames/fishing/hook_component.gd" id="1_rng3r"]
 [ext_resource type="Texture2D" uid="uid://brthrheqkqdek" path="res://assets/sprites/minigames/fishing/lure_hook.png" id="2_pdckt"]
@@ -74,6 +74,15 @@ animations = [{
 "speed": 2.0
 }]
 
+[sub_resource type="Gradient" id="Gradient_23isf"]
+offsets = PackedFloat32Array(0, 0.423423)
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_rng3r"]
+gradient = SubResource("Gradient_23isf")
+fill = 1
+fill_from = Vector2(0.503145, 0.5)
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_rng3r"]
 size = Vector2(7, 6)
 
@@ -90,6 +99,11 @@ texture = SubResource("AtlasTexture_y3to6")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_gmuaf")
+
+[node name="PointLight2D" type="PointLight2D" parent="AnimatedSprite2D"]
+position = Vector2(9.53674e-07, 9.53674e-07)
+color = Color(1, 0.938333, 0.63, 1)
+texture = SubResource("GradientTexture2D_rng3r")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(-1.5, 0)
