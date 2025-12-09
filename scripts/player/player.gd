@@ -68,7 +68,7 @@ func _physics_process(delta: float) -> void:
 				collision_shape.shape.size.x = 27;
 				collision_shape.shape.size.y = 23;
 				collision_shape.position.x = -0.5;
-				collision_shape.position.y = 2.5;
+				collision_shape.position.y = 4.5;
 			else:
 				collision_shape.shape.size.x = 10;
 				collision_shape.shape.size.y = 15;

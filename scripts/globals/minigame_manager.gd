@@ -371,3 +371,18 @@ func update_minigame_timer(readable_data: Dictionary) -> void:
 		get_tree().current_scene.get_node(minigame_name).minigame_ended.emit();
 	else:
 		minigame_timer.text = str(time);
+
+
+## Update the hook components in the fishing minigame.
+func hook_update(readable_data: Dictionary) -> void:
+	print('a')
+	if not readable_data["steam_id"] == Main.player_steam_id:
+		for player in get_tree().current_scene.get_node("Players").get_children():
+			if player.steam_id == readable_data["steam_id"]:
+				if readable_data["direction"] == 0:
+					print('b')
+					player.get_node("HookComponent").lower_hook(false);
+				else:
+					print('c')
+					player.get_node("HookComponent").raise_hook(false);
+				break;

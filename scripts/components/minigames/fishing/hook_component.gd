@@ -31,20 +31,37 @@ var hook_depth: int = 0;
 
 
 ## Lowers the hook.
-func lower_hook() -> void:
+func lower_hook(local: bool) -> void:
 	temp_pos += 8;
 	temp_pos_2 += 4;
 	temp_scale += 0.5;
 	light_energy += 0.2;
 	light_energy = clampf(light_energy, 0.0, 0.6);
 	hook_depth += 1;
+	if local: update_hook_p2p(0);
 	
 	if hook_depth > 20:
-		temp_pos = 0;
-		temp_pos_2 = -8;
-		temp_scale = 0;
-		light_energy = 0;
-		hook_depth = 0;
+		raise_hook(local);
+
+
+## Raises the hook.
+func raise_hook(local: bool) -> void:
+	temp_pos = 0;
+	temp_pos_2 = -8;
+	temp_scale = 0;
+	light_energy = 0;
+	hook_depth = 0;
+	if local: update_hook_p2p(1);
+
+
+## Send hook update through P2P system.
+func update_hook_p2p(direction: int) -> void:
+	var update_hook: Dictionary = {
+		"message": "hook_update",
+		"steam_id": get_parent().steam_id,
+		"direction": direction
+	};
+	Network.send_p2p_packet(0, update_hook);
 
 
 func _ready() -> void:

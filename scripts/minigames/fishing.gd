@@ -22,5 +22,5 @@ func _process(delta: float) -> void:
 	if Input.is_action_just_pressed("click"):
 		for player in get_tree().current_scene.get_node("Players").get_children():
 			if player.steam_id == Main.player_steam_id:
-				player.get_node("HookComponent").lower_hook();
+				player.get_node("HookComponent").lower_hook(true);
 				break;
