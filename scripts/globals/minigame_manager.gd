@@ -32,9 +32,9 @@ var available_minigame_names: Dictionary = {
 var minigame_modifiers: Dictionary = {
 	"fishing": {
 		"experimental": [
-			{"id": 1, "name": "Net Harpoon", "description": "Catches multiple fish, but has a slow reel speed"},
-			{"id": 2, "name": "Antivenom Hook", "description": "Allows the reeling in of jellyfish."},
-			{"id": 3, "name": "Sabotage", "description": "Turn some of the Control Group's fish into jellyfish."}
+			{"id": 1, "name": "Net Harpoon", "description": "Catches multiple fish, but has a slow reel speed. Ignores jellyfish."},
+			{"id": 2, "name": "Antivenom Hook", "description": "Allows reeling in jellyfish, also adds more jellyfish."},
+			{"id": 3, "name": "EMP", "description": "Stuns ships surrounding you, 20 second cooldown, also makes you slower."}
 		],
 		"control": [
 			{"id": 1, "name": "Upgraded Rod", "description": "Reels in fish faster."},
@@ -375,14 +375,11 @@ func update_minigame_timer(readable_data: Dictionary) -> void:
 
 ## Update the hook components in the fishing minigame.
 func hook_update(readable_data: Dictionary) -> void:
-	print('a')
 	if not readable_data["steam_id"] == Main.player_steam_id:
 		for player in get_tree().current_scene.get_node("Players").get_children():
 			if player.steam_id == readable_data["steam_id"]:
 				if readable_data["direction"] == 0:
-					print('b')
 					player.get_node("HookComponent").lower_hook(false);
 				else:
-					print('c')
 					player.get_node("HookComponent").raise_hook(false);
 				break;
