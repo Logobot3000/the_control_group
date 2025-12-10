@@ -43,5 +43,7 @@ enum HookType {
 	## This is the "upgraded lure" modifier hook.
 	LURE,
 	## This is the "antivenom hook" modifier hook.
-	ANTIVENOM
+	ANTIVENOM,
+	## This is the "net harpoon" modifier hook.
+	NET
 };

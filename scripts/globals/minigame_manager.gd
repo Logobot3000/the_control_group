@@ -34,11 +34,11 @@ var minigame_modifiers: Dictionary = {
 		"experimental": [
 			{"id": 1, "name": "Net Harpoon", "description": "Catches multiple fish, but has a slow reel speed. Ignores jellyfish."},
 			{"id": 2, "name": "Antivenom Hook", "description": "Allows reeling in jellyfish, also adds more jellyfish."},
-			{"id": 3, "name": "EMP", "description": "Stuns ships surrounding you, 20 second cooldown, also makes you slower."}
+			{"id": 3, "name": "EMP", "description": "Stuns ships surrounding you, 20 second cooldown, makes you slower."}
 		],
 		"control": [
 			{"id": 1, "name": "Upgraded Rod", "description": "Reels in fish faster."},
-			{"id": 2, "name": "Upgraded Lure", "description": "Fish are more attracted to your rod."},
+			{"id": 2, "name": "Upgraded Lure", "description": "Fish become attracted to your rod."},
 			{"id": 3, "name": "Upgraded Hook", "description": "Catches two fish instead of one."}
 		]
 	},
@@ -326,7 +326,6 @@ func set_experimental_group_modifier(readable_data: Dictionary) -> void:
 						node.get_parent().get_parent().add_theme_constant_override("separation", 4);
 		else:
 			var modifier_ui_container: VBoxContainer = modifier_selection_ui.get_node("Control").get_node("VBoxContainer");
-			print(current_modifiers)
 			var modifier = current_modifiers["control"][Main.player_steam_id];
 			modifier_ui_container.get_node("Modifier").text = modifier["name"];
 			modifier_ui_container.get_node("Modifier").add_theme_font_size_override("font_size", 20);

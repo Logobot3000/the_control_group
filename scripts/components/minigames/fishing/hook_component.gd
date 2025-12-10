@@ -18,6 +18,12 @@ signal fish_caught;
 
 ## The weight for how fast the hook is lowered.
 var lower_weight: float = 0.05
+## The weight for how fast the hook is raised.
+var raise_weight: float = 0.025
+## The current weight used.
+var current_weight: float;
+## Determines whether the player can lower the hook.
+var can_lower: bool = true;
 ## The position the hook needs to move to when it is being lowered.
 var temp_pos: float = 0.0;
 ## The position the hook string needs to move to when it is being lowered.
@@ -32,20 +38,30 @@ var hook_depth: int = 0;
 
 ## Lowers the hook.
 func lower_hook(local: bool) -> void:
-	temp_pos += 8;
-	temp_pos_2 += 4;
-	temp_scale += 0.5;
-	light_energy += 0.2;
-	light_energy = clampf(light_energy, 0.0, 0.6);
-	hook_depth += 1;
-	if local: update_hook_p2p(0);
-	
-	if hook_depth > 20:
-		raise_hook(local);
+	if can_lower:
+		current_weight = lower_weight;
+		temp_pos += 8;
+		temp_pos_2 += 4;
+		temp_scale += 0.5;
+		hook_depth += 1;
+		if local: 
+			update_hook_p2p(0);
+			hook_base.get_node("PointLight2D").color = "#ffefa1";
+			light_energy += 0.2;
+			light_energy = clampf(light_energy, 0.0, 0.6);
+		else:
+			hook_base.get_node("PointLight2D").color = "#ff2112";
+			light_energy += 0.1;
+			light_energy = clampf(light_energy, 0.0, 0.3);
+		
+		if hook_depth > 20:
+			raise_hook(local);
 
 
 ## Raises the hook.
 func raise_hook(local: bool) -> void:
+	current_weight = raise_weight;
+	can_lower = false;
 	temp_pos = 0;
 	temp_pos_2 = -8;
 	temp_scale = 0;
@@ -64,6 +80,17 @@ func update_hook_p2p(direction: int) -> void:
 	Network.send_p2p_packet(0, update_hook);
 
 
+## Changes the hook type.
+func change_type(type: Enums.HookType) -> void:
+	match type:
+		Enums.HookType.DEFAULT:
+			hook_base.play("default");
+		Enums.HookType.DOUBLE:
+			hook_base.play("double");
+		Enums.HookType.LURE:
+			hook_base.play("lure");
+
+
 func _ready() -> void:
 	hook_string.position.y = temp_pos_2;
 	hook_string.scale.y = temp_scale;
@@ -74,8 +101,10 @@ func _ready() -> void:
 
 
 func _process(delta: float) -> void:
-	hook_string.position.y = lerp(hook_string.position.y, temp_pos_2 + 4, lower_weight);
-	hook_string.scale.y = lerp(hook_string.scale.y, temp_scale + 0.5, lower_weight);
-	hook_base.position.y = lerp(hook_base.position.y, temp_pos + 8, lower_weight);
-	collision_shape.position.y = lerp(collision_shape.position.y, temp_pos + 8, lower_weight);
-	hook_base.get_node("PointLight2D").energy = lerp(hook_base.get_node("PointLight2D").energy, light_energy, lower_weight);
+	hook_string.position.y = lerp(hook_string.position.y, temp_pos_2 + 4, current_weight);
+	hook_string.scale.y = lerp(hook_string.scale.y, temp_scale + 0.5, current_weight);
+	hook_base.position.y = lerp(hook_base.position.y, temp_pos + 8, current_weight);
+	collision_shape.position.y = lerp(collision_shape.position.y, temp_pos + 8, current_weight);
+	hook_base.get_node("PointLight2D").energy = lerp(hook_base.get_node("PointLight2D").energy, light_energy, current_weight);
+	if snapped(hook_string.position.y, 2) == 2:
+		can_lower = true;

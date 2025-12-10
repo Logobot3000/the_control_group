@@ -28,4 +28,4 @@ func apply_damage(damage: float) -> void:
 
 # Update with actual logic later
 func _on_area_entered(area: Area2D) -> void:
-	print("owie")
+	pass;
