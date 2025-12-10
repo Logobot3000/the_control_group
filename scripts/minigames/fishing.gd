@@ -2,6 +2,20 @@ extends BaseMinigame;
 
 ## The path to the HookComponent scene to be added to every player.
 @export var hook_component_path: PackedScene;
+## The path to the FishComponent scene to be added in the minigame.
+@export var fish_component_path: PackedScene;
+
+## The left fish door.
+@onready var fish_door_left: Sprite2D = $FishDoor;
+## The right fish door.
+@onready var fish_door_right: Sprite2D = $FishDoor2;
+
+## The probability for a jellyfish to spawn (out of 10).
+var jellyfish_spawn_chance: int = 2;
+## The time for the next fish to spawn.
+var fish_spawn_time: float = 2.0;
+## The side the next fish will spawn at.
+var next_fish_spawn_left: bool = true;
 
 
 func minigame_setup() -> void:
@@ -36,10 +50,41 @@ func load_modifiers() -> void:
 						player.get_node("HookComponent").change_type(Enums.HookType.DOUBLE);
 
 
+func on_minigame_started() -> void:
+	spawn_fish_timer();
+
+
 func on_minigame_ended() -> void:
 	for player in get_tree().current_scene.get_node("Players").get_children():
 		player.can_jump = true;
 		player.fishing_active = false;
+
+
+func spawn_fish(spawn_left: bool) -> void:
+	if Network.is_host:
+		var fish: FishComponent = fish_component_path.instantiate();
+		
+		var jellyfish_rand = randi_range(1, 10);
+		if jellyfish_rand <= jellyfish_spawn_chance:
+			fish.is_jellyfish = true;
+		else:
+			fish.color = randi_range(0, 5);
+		
+		if spawn_left:
+			fish.spawn_from_right = false;
+			get_tree().current_scene.add_child(fish);
+			fish.position = fish_door_left.position;
+		else:
+			get_tree().current_scene.add_child(fish);
+			fish.position = fish_door_right.position;
+
+
+func spawn_fish_timer() -> void:
+	fish_spawn_time = fish_spawn_time - 0.005;
+	next_fish_spawn_left = not next_fish_spawn_left;
+	spawn_fish(next_fish_spawn_left);
+	await get_tree().create_timer(fish_spawn_time).timeout;
+	spawn_fish_timer();
 
 
 func _process(delta: float) -> void:

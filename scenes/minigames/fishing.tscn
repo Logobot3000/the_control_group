@@ -1,17 +1,18 @@
-[gd_scene load_steps=26 format=4 uid="uid://cx34ikrccmadk"]
+[gd_scene load_steps=27 format=4 uid="uid://cx34ikrccmadk"]
 
 [ext_resource type="Script" uid="uid://bt2iq1mgiysc2" path="res://scripts/minigames/fishing.gd" id="1_udlc8"]
 [ext_resource type="PackedScene" uid="uid://diygkfkegupu7" path="res://scenes/components/minigames/fishing/hook_component.tscn" id="2_3ku6o"]
 [ext_resource type="PackedScene" uid="uid://7101ew6iodi4" path="res://scenes/minigames/base_minigame.tscn" id="2_47d8f"]
 [ext_resource type="Shader" uid="uid://dxt4juw56bwkf" path="res://assets/shaders/water.gdshader" id="3_0ro6e"]
 [ext_resource type="Texture2D" uid="uid://bx5mst2ay1uee" path="res://assets/sprites/minigames/fishing/fish_door_1.png" id="3_k2k66"]
+[ext_resource type="PackedScene" uid="uid://bfl1nvh63ce8w" path="res://scenes/components/minigames/fishing/fish_component.tscn" id="3_rouq6"]
 [ext_resource type="Texture2D" uid="uid://c0n855shsjrnq" path="res://assets/sprites/minigames/fishing/fish_door_2.png" id="5_gtnks"]
 [ext_resource type="PackedScene" uid="uid://bqt3wowp50fb2" path="res://scenes/tiles/interactable_tiles.tscn" id="7_gtnks"]
 [ext_resource type="PackedScene" uid="uid://cdokncf28uuvf" path="res://scenes/tiles/non_interactable_tiles_bg.tscn" id="8_3ku6o"]
 [ext_resource type="PackedScene" uid="uid://cuggu4te88tce" path="res://scenes/tiles/non_interactable_tiles_fg.tscn" id="8_gtnks"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_0ro6e"]
-size = Vector2(608, 165)
+size = Vector2(608, 5)
 
 [sub_resource type="Gradient" id="Gradient_frxc8"]
 colors = PackedColorArray(0, 0, 0, 0, 0.0208, 0.07722, 0.13, 0.662745)
@@ -86,6 +87,7 @@ fill_from = Vector2(0.5, 0.5)
 [node name="Fishing" type="Node2D"]
 script = ExtResource("1_udlc8")
 hook_component_path = ExtResource("2_3ku6o")
+fish_component_path = ExtResource("3_rouq6")
 
 [node name="BaseMinigame" parent="." instance=ExtResource("2_47d8f")]
 position = Vector2(1000, 1000)
@@ -108,7 +110,7 @@ region_rect = Rect2(23, 4, 9, 44)
 position = Vector2(1000, 1000)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Water"]
-position = Vector2(0, 109.5)
+position = Vector2(0, 29.5)
 shape = SubResource("RectangleShape2D_0ro6e")
 
 [node name="Sprite2D" type="Sprite2D" parent="Water"]

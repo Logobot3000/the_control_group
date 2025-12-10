@@ -3,9 +3,6 @@ extends Node;
 ## A component for the hook in the fishing minigame.
 class_name HookComponent;
 
-## Emits whenever a fish is caught on the hook.
-signal fish_caught;
-
 ## The hook's base.
 @onready var hook_base: AnimatedSprite2D = $AnimatedSprite2D;
 ## The hook's string.
@@ -34,6 +31,10 @@ var temp_scale: float = 0.0;
 var light_energy: float = 0.0;
 ## The depth of the hook.
 var hook_depth: int = 0;
+## How many fish this hook can catch at once.
+var hook_catch_limit: int = 1;
+## How many fish is already attached to this hook.
+var fish_currently_caught: int = 0;
 
 
 ## Lowers the hook.

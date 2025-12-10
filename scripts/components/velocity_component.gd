@@ -62,7 +62,7 @@ func reset_velocity_override() -> void:
 ## Freeflying-specific: accelerate towards [member direction].
 func accelerate_towards(direction: Vector2, delta: float) -> void:
 	if movement_mode == Enums.MovementMode.FREEFLYING:
-		velocity.lerp(direction * max_speed * speed_multiplier, acceleration * acceleration_multiplier * delta);
+		velocity = lerp(velocity, direction * max_speed * speed_multiplier, acceleration * acceleration_multiplier * delta);
 
 ## Platformer-specific: accelerate only velocity.x towards [member axis].
 func accelerate_towards_x(axis: float, delta: float) -> void:
