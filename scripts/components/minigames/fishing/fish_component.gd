@@ -51,15 +51,13 @@ func _physics_process(delta: float) -> void:
 		time_alive += 0.1;
 		var direction: Vector2 = Vector2(velocity_h, sin(time_alive));
 		velocity_component.accelerate_towards(direction, delta);
-		print(velocity_component.velocity);
 		velocity_component.move(self);
 	else:
 		global_position = attached_hook.global_position;
 
 
-func _on_hitbox_area_entered(area: Node2D) -> void:
-	var hook_component: HookComponent = area.get_parent();
-	if hook_component.fish_catch_limit > hook_component.fish_currently_caught:
+func _on_hitbox_area_entered(hook_component) -> void:
+	if hook_component.hook_catch_limit > hook_component.fish_currently_caught:
 		attached_hook = hook_component;
 		hooked = true;
 		hook_component.fish_currently_caught += 1;

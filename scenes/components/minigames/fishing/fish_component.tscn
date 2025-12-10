@@ -439,10 +439,13 @@ fill = 1
 fill_from = Vector2(0.509434, 0.481132)
 
 [node name="FishComponent" type="CharacterBody2D"]
+collision_layer = 8
+collision_mask = 0
 script = ExtResource("1_y5w03")
 
 [node name="VelocityComponent" parent="." instance=ExtResource("1_kgd08")]
 movement_mode = 0
+max_speed = 50.0
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_3i1tc")
