@@ -15,7 +15,7 @@
 size = Vector2(608, 5)
 
 [sub_resource type="Gradient" id="Gradient_frxc8"]
-colors = PackedColorArray(0, 0, 0, 0, 0.0208, 0.07722, 0.13, 0.662745)
+colors = PackedColorArray(0, 0, 0, 0, 0.0208, 0.07722, 0.13, 0.921569)
 
 [sub_resource type="GradientTexture1D" id="GradientTexture1D_xqph7"]
 gradient = SubResource("Gradient_frxc8")
@@ -114,9 +114,15 @@ position = Vector2(0, 29.5)
 shape = SubResource("RectangleShape2D_0ro6e")
 
 [node name="Sprite2D" type="Sprite2D" parent="Water"]
-position = Vector2(-0.805176, 128.213)
+position = Vector2(0.206286, 133.234)
 rotation = 1.57079
-scale = Vector2(0.560834, 625.648)
+scale = Vector2(0.606686, 607.837)
+texture = SubResource("GradientTexture1D_xqph7")
+
+[node name="Sprite2D2" type="Sprite2D" parent="Water"]
+position = Vector2(0.206648, 179.033)
+rotation = 1.57079
+scale = Vector2(0.248881, 607.837)
 texture = SubResource("GradientTexture1D_xqph7")
 
 [node name="Texture2" type="Sprite2D" parent="Water"]
@@ -247,3 +253,5 @@ visible = false
 position = Vector2(0, 8)
 energy = 0.5
 blend_mode = 1
+
+[editable path="BaseMinigame"]

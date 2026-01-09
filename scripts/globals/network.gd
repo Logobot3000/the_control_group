@@ -196,6 +196,8 @@ func _handle_recieved_packet(sender_id: int, readable_data: Dictionary) -> void:
 				MinigameManager.update_minigame_timer(readable_data);
 			"hook_update":
 				MinigameManager.hook_update(readable_data);
+			"fish_spawn":
+				MinigameManager.fish_spawn(readable_data);
 
 
 ## Reads up to [member Constants.PACKET_READ_LIMIT] packets.

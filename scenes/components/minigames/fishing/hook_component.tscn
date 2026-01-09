@@ -1,21 +1,19 @@
-[gd_scene load_steps=16 format=3 uid="uid://diygkfkegupu7"]
+[gd_scene load_steps=19 format=3 uid="uid://diygkfkegupu7"]
 
 [ext_resource type="Script" uid="uid://bqm63lxfy23w3" path="res://scripts/components/minigames/fishing/hook_component.gd" id="1_rng3r"]
 [ext_resource type="Texture2D" uid="uid://brthrheqkqdek" path="res://assets/sprites/minigames/fishing/lure_hook.png" id="2_pdckt"]
+[ext_resource type="Texture2D" uid="uid://c7b1rw57ydibo" path="res://assets/sprites/minigames/fishing/antivenom_hook.png" id="3_pdckt"]
 [ext_resource type="Texture2D" uid="uid://di0rrxxinit3c" path="res://assets/sprites/minigames/fishing/hook.png" id="3_rg8wf"]
 [ext_resource type="Texture2D" uid="uid://c7rabrdxx8xbt" path="res://assets/sprites/minigames/fishing/double_hook.png" id="4_q0kyh"]
+[ext_resource type="Texture2D" uid="uid://dxujv4726jrgj" path="res://assets/sprites/minigames/fishing/net_hook.png" id="6_rg8wf"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_y3to6"]
 atlas = ExtResource("3_rg8wf")
 region = Rect2(16, 0, 16, 16)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_r8bsj"]
-atlas = ExtResource("2_pdckt")
+[sub_resource type="AtlasTexture" id="AtlasTexture_q0kyh"]
+atlas = ExtResource("3_pdckt")
 region = Rect2(0, 0, 16, 16)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_ob3vs"]
-atlas = ExtResource("2_pdckt")
-region = Rect2(16, 0, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_7dc46"]
 atlas = ExtResource("3_rg8wf")
@@ -33,14 +31,19 @@ region = Rect2(0, 0, 16, 16)
 atlas = ExtResource("2_pdckt")
 region = Rect2(16, 0, 16, 16)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_mt8lf"]
+atlas = ExtResource("6_rg8wf")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_r8bsj"]
+atlas = ExtResource("6_rg8wf")
+region = Rect2(16, 0, 16, 16)
+
 [sub_resource type="SpriteFrames" id="SpriteFrames_gmuaf"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_r8bsj")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_ob3vs")
+"texture": SubResource("AtlasTexture_q0kyh")
 }],
 "loop": true,
 "name": &"antivenom",
@@ -72,6 +75,22 @@ animations = [{
 "loop": true,
 "name": &"lure",
 "speed": 2.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mt8lf")
+}],
+"loop": true,
+"name": &"net_lower",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_r8bsj")
+}],
+"loop": true,
+"name": &"net_raise",
+"speed": 5.0
 }]
 
 [sub_resource type="Gradient" id="Gradient_23isf"]
@@ -99,6 +118,7 @@ texture = SubResource("AtlasTexture_y3to6")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_gmuaf")
+animation = &"net_lower"
 
 [node name="PointLight2D" type="PointLight2D" parent="AnimatedSprite2D"]
 position = Vector2(9.53674e-07, 9.53674e-07)

@@ -12,6 +12,15 @@ signal minigame_ended;
 ## How long the minigame timer lasts in seconds.
 @export var minigame_timer_length: int = 90;
 
+## The experimental group's points container.
+@onready var experimental_points_container: Label = $TV/ExperimentalPoints;
+## The control group's points container.
+@onready var control_points_container: Label = $TV/ControlPoints;
+
+## The experimental group's points.
+var experimental_points: int = 0;
+## The control group's points.
+var control_points: int = 0;
 ## Whether or not the timer at the top of the screen is running.
 var is_timer_running: bool = false;
 
@@ -43,11 +52,11 @@ func load_modifiers() -> void:
 
 
 ## Adds a one point for the current player in the MinigameManager [member current_score].
-func score_point() -> void:
-	if not MinigameManager.current_scores[Main.player_steam_id]:
-		MinigameManager.current_scores[Main.player_steam_id] = 1;
+func score_point(amount: int) -> void:
+	if not MinigameManager.current_scores.get(Main.player_steam_id):
+		MinigameManager.current_scores[Main.player_steam_id] = amount;
 	else:
-		MinigameManager.current_scores[Main.player_steam_id] += 1;
+		MinigameManager.current_scores[Main.player_steam_id] += amount;
 	
 	var score_update: Dictionary = {
 		"message": "score_update",
@@ -55,6 +64,21 @@ func score_point() -> void:
 	};
 	
 	Network.send_p2p_packet(0, score_update);
+
+
+## Updates scores per group instead of per player.
+func update_group_scores() -> void:
+	experimental_points = 0;
+	control_points = 0;
+	for scored_player in MinigameManager.current_scores:
+		if scored_player ==  MinigameManager.current_experimental_group:
+			experimental_points += MinigameManager.current_scores[scored_player];
+		else:
+			control_points += MinigameManager.current_scores[scored_player];
+	
+	experimental_points_container.text = str(experimental_points);
+	control_points_container.text = str(control_points);
+
 
 ## A virtual function that is called whenever the minigame has started.
 func on_minigame_started() -> void:

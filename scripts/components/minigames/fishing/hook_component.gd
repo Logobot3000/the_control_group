@@ -35,16 +35,24 @@ var hook_depth: int = 0;
 var hook_catch_limit: int = 1;
 ## How many fish is already attached to this hook.
 var fish_currently_caught: int = 0;
+## If the hook is currently being raised
+var raising: bool = false;
 
 
 ## Lowers the hook.
 func lower_hook(local: bool) -> void:
 	if can_lower:
 		current_weight = lower_weight;
-		temp_pos += 8;
-		temp_pos_2 += 4;
-		temp_scale += 0.5;
-		hook_depth += 1;
+		if hook_type == Enums.HookType.NET:
+			temp_pos += (8 * 20);
+			temp_pos_2 += (4 * 20);
+			temp_scale += (0.5 * 20);
+			hook_depth += (1 * 20);
+		else:
+			temp_pos += 8;
+			temp_pos_2 += 4;
+			temp_scale += 0.5;
+			hook_depth += 1;
 		if local: 
 			update_hook_p2p(0);
 			hook_base.get_node("PointLight2D").color = "#ffefa1";
@@ -69,6 +77,7 @@ func raise_hook(local: bool) -> void:
 	light_energy = 0;
 	hook_depth = 0;
 	if local: update_hook_p2p(1);
+	raising = true;
 
 
 ## Send hook update through P2P system.
@@ -90,6 +99,12 @@ func change_type(type: Enums.HookType) -> void:
 			hook_base.play("double");
 		Enums.HookType.LURE:
 			hook_base.play("lure");
+		Enums.HookType.ANTIVENOM:
+			hook_base.play("antivenom");
+		Enums.HookType.NET:
+			if raising: hook_base.play("net_raise")
+			else: hook_base.play("net_lower");
+	hook_type = type;
 
 
 func _ready() -> void:
@@ -102,10 +117,14 @@ func _ready() -> void:
 
 
 func _process(delta: float) -> void:
+	change_type(hook_type);
 	hook_string.position.y = lerp(hook_string.position.y, temp_pos_2 + 4, current_weight);
 	hook_string.scale.y = lerp(hook_string.scale.y, temp_scale + 0.5, current_weight);
 	hook_base.position.y = lerp(hook_base.position.y, temp_pos + 8, current_weight);
 	collision_shape.position.y = lerp(collision_shape.position.y, temp_pos + 8, current_weight);
 	hook_base.get_node("PointLight2D").energy = lerp(hook_base.get_node("PointLight2D").energy, light_energy, current_weight);
 	if snapped(hook_string.position.y, 2) == 2:
+		raising = false;
 		can_lower = true;
+	if fish_currently_caught == hook_catch_limit:
+		raise_hook(true);

@@ -17,6 +17,10 @@ var time_alive: float = 0.0;
 var hooked: bool = false;
 ## The HookComponent the fish is currently attached to (if it is attached to anything)
 var attached_hook: HookComponent = null;
+## The HookComponent that the fish is currently attracted to (if it is attracted to anything)
+var lured_hook: HookComponent = null;
+## The time scaling for the sine wave
+var time_scale: float = 0.1;
 
 
 func _ready() -> void:
@@ -44,20 +48,63 @@ func _ready() -> void:
 func _physics_process(delta: float) -> void:
 	var velocity_component: VelocityComponent = $VelocityComponent;
 	if not hooked:
+		if lured_hook:
+			if lured_hook.fish_currently_caught > 0:
+				lured_hook = null;
+				velocity_component.halt_x();
+				velocity_component.halt_y();
+				velocity_component.set_speed_multiplier(1);
+		
 		var velocity_h: int = 0;
 		if spawn_from_right: velocity_h = -1;
 		else: velocity_h = 1;
 		
-		time_alive += 0.1;
-		var direction: Vector2 = Vector2(velocity_h, sin(time_alive));
+		time_alive += time_scale;
+		var direction: Vector2;
+		if lured_hook:
+			direction = lured_hook.hook_base.global_position - global_position;
+			direction = direction.normalized();
+			velocity_component.set_speed_multiplier(4);
+		else:
+			direction = Vector2(velocity_h, sin(time_alive));
 		velocity_component.accelerate_towards(direction, delta);
 		velocity_component.move(self);
 	else:
-		global_position = attached_hook.global_position;
+		global_position = attached_hook.hook_base.global_position;
+		if global_position.y <= 1050:
+			attached_hook.fish_currently_caught -= 1;
+			if attached_hook.get_parent().is_local:
+				if is_jellyfish:
+					if attached_hook.hook_type == Enums.HookType.ANTIVENOM:
+						get_tree().current_scene.get_node("Fishing").score_point(1);
+					elif attached_hook.hook_type == Enums.HookType.NET:
+						print(":3");
+					else:
+						get_tree().current_scene.get_node("Fishing").score_point(-1);
+				else:
+					get_tree().current_scene.get_node("Fishing").score_point(1);
+			queue_free();
 
 
 func _on_hitbox_area_entered(hook_component) -> void:
+	if hooked: return;
 	if hook_component.hook_catch_limit > hook_component.fish_currently_caught:
-		attached_hook = hook_component;
-		hooked = true;
-		hook_component.fish_currently_caught += 1;
+		if not hook_component.raising or hook_component.hook_type == Enums.HookType.NET:
+			attached_hook = hook_component;
+			hooked = true;
+			hook_component.fish_currently_caught += 1;
+
+
+func _on_lure_area_body_entered(hook_component) -> void:
+	if hooked: return;
+	if hook_component.hook_type == Enums.HookType.LURE and not is_jellyfish and not hook_component.raising:
+		lured_hook = hook_component;
+
+
+func _on_lure_area_body_exited(hook_component) -> void:
+	if lured_hook and hook_component.hook_type == Enums.HookType.LURE:
+		var velocity_component: VelocityComponent = $VelocityComponent;
+		lured_hook = null;
+		velocity_component.halt_x();
+		velocity_component.halt_y();
+		velocity_component.set_speed_multiplier(1);

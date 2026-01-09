@@ -20,6 +20,8 @@ var is_timer_running: bool = false;
 var has_experimental_chosen: bool = false;
 ## The current minigame instance.
 var current_minigame_instance: BaseMinigame = null;
+## The path for the fish component for the fishing minigame.
+var fish_component_path: PackedScene = preload("res://scenes/components/minigames/fishing/fish_component.tscn");
 ## The array of the names of all available minigames. UPDATE THIS WHENEVER A MINIGAME IS ADDED.
 var available_minigames: Array = [
 	"fishing",
@@ -355,7 +357,7 @@ func spawn_pos_update(readable_data: Dictionary) -> void:
 
 
 ## Updates the current score.
-func update_score(readable_data: Dictionary) -> void:
+func update_scores(readable_data: Dictionary) -> void:
 	current_scores = readable_data["scores"];
 
 
@@ -382,3 +384,19 @@ func hook_update(readable_data: Dictionary) -> void:
 				else:
 					player.get_node("HookComponent").raise_hook(false);
 				break;
+
+
+## Spawn fish for all players in the fishing minigame.
+func fish_spawn(readable_data: Dictionary) -> void:
+	var fish: FishComponent = fish_component_path.instantiate();
+	fish.is_jellyfish = readable_data["is_jellyfish"];
+	fish.color = readable_data["color"];
+	fish.time_scale = readable_data["time_scale"];
+	if readable_data["spawn_from_right"]:
+		fish.spawn_from_right = false;
+		get_tree().current_scene.add_child(fish);
+		fish.position = readable_data["fish_door_left_pos"];
+	else:
+		get_tree().current_scene.add_child(fish);
+		fish.position =  readable_data["fish_door_right_pos"];
+	fish.position.y += readable_data["height_modifier"];

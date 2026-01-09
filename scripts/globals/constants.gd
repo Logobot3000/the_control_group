@@ -17,3 +17,7 @@ var GAME_COLORS: Dictionary = {
 	"gray": Color((139.0 / 256.0), (137.0 / 256.0), (137.0 / 256.0), 1.0),
 	"dark_gray": Color((67.0 / 256.0), (66.0 / 256.0), (65.0 / 256.0), 1.0), ## You suck Manogna how did you get 67 in here
 };
+
+
+## The super secret code
+var SUPER_SECRET_CODE: String = "eXp3r1MEn7";
