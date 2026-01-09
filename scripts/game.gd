@@ -18,6 +18,10 @@ func _ready() -> void:
 		else: player_instance.set_is_local(member["steam_id"] == multiplayer.get_unique_id());
 		players_root.add_child(player_instance);
 	
+	if not Network.use_local_networking:
+		get_tree().current_scene.get_node("LobbyCode").text = "CODE: " + Main.lobby_id_to_base64(Network.lobby_id);
+		DisplayServer.clipboard_set(Main.lobby_id_to_base64(Network.lobby_id));
+	
 	await get_tree().process_frame;
 
 

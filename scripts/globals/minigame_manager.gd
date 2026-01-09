@@ -151,12 +151,21 @@ func handle_game_state_update(new_game_state: Enums.GameState) -> void:
 				ids.shuffle();
 				if current_control_group.size() == 1:
 					control_group_modifier_update["modifiers"] = {
-						current_control_group[0]: minigame_modifiers[current_minigame]["control"][ids[0]]
+						current_control_group[0]: minigame_modifiers[current_minigame]["control"][randi_range(0, 2)]
 					};
 				elif current_control_group.size() == 2:
+					var rand_one: int = randi_range(0, 2);
+					var rand_two: int;
+					if rand_one == 0:
+						rand_two = randi_range(1, 2);
+					elif rand_one == 1:
+						rand_two = randi_range(0, 2);
+						if rand_two == 1: rand_two = 0;
+					else:
+						rand_two = randi_range(0, 1);
 					control_group_modifier_update["modifiers"] = {
-						current_control_group[0]: minigame_modifiers[current_minigame]["control"][ids[0]],
-						current_control_group[1]: minigame_modifiers[current_minigame]["control"][ids[1]]
+						current_control_group[0]: minigame_modifiers[current_minigame]["control"][rand_one],
+						current_control_group[1]: minigame_modifiers[current_minigame]["control"][rand_two]
 					};
 				else:
 					control_group_modifier_update["modifiers"] = {
@@ -378,7 +387,7 @@ func update_minigame_timer(readable_data: Dictionary) -> void:
 func hook_update(readable_data: Dictionary) -> void:
 	if not readable_data["steam_id"] == Main.player_steam_id:
 		for player in get_tree().current_scene.get_node("Players").get_children():
-			if player.steam_id == readable_data["steam_id"]:
+			if player.steam_id == readable_data["steam_id"] and player.get_node("HookComponent"):
 				if readable_data["direction"] == 0:
 					player.get_node("HookComponent").lower_hook(false);
 				else:

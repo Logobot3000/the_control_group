@@ -44,10 +44,11 @@ func load_modifiers() -> void:
 						
 					2:
 						player.get_node("HookComponent").change_type(Enums.HookType.ANTIVENOM);
-						jellyfish_spawn_chance = 3;
+						jellyfish_spawn_chance = 6;
 					3:
 						print("emp")
 			else:
+				print(MinigameManager.current_modifiers["control"])
 				chosen_modifier_id = MinigameManager.current_modifiers["control"][player.steam_id]["id"];
 				match chosen_modifier_id:
 					1:

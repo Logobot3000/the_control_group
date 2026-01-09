@@ -70,7 +70,7 @@ func lower_hook(local: bool) -> void:
 ## Raises the hook.
 func raise_hook(local: bool) -> void:
 	current_weight = raise_weight;
-	can_lower = false;
+	if local: can_lower = false;
 	temp_pos = 0;
 	temp_pos_2 = -8;
 	temp_scale = 0;
