@@ -12,6 +12,10 @@ extends CharacterBody2D;
 @onready var collision_shape: CollisionShape2D = $CollisionShape2D;
 ## The experimental boat for fishing minigame CollisionShape2D for the player.
 @onready var collision_shape_boat: CollisionShape2D = $CollisionShape2DBoat;
+## The EMP stun area for the fishing minigame with the EMP modifier.
+@onready var emp_area: Area2D = $EMPArea;
+## The overlay CanvasLayer.
+@onready var overlay: CanvasLayer = $Overlay;
 
 ## Determines if the player is currently being controlled by the client. Some functions may be restricted to a local or remote player.
 var is_local: bool = false;
@@ -29,6 +33,10 @@ var animation_state: int = 0;
 var fishing_active: bool = false;
 ## Whether or not the plaeyer is in the experimental group.
 var is_experimental: bool = false;
+## Whether or not the player has the emp modifier in the fishing minigame.
+var emp_enabled: bool = false;
+## Whether or not the player is stunned.
+var stunned: bool = false;
 ## super cool crouch super cool crouch super cool crouch super cool crouch super cool crouch super cool crouch
 var super_cool_crouching: bool = false; 
 
@@ -209,6 +217,12 @@ func _send_position_p2p() -> void:
 	Network.send_p2p_packet(0, packet);
 
 
+func _unhandled_input(event: InputEvent) -> void:
+	if Input.is_action_just_pressed("use_ability"):
+		if emp_enabled and fishing_active and is_experimental:
+			use_enp_ability();
+
+
 ## Gets [member steam_id].
 func get_steam_id() -> int:
 	return steam_id;
@@ -263,6 +277,45 @@ func _set_sprite_color() -> void:
 	player_color_index = player_index;
 
 
+## Sets the sprite direciton.
 func set_sprite_direction(vel_x: float):
 	if snapped(vel_x, 50) != 0:
 		sprite.flip_h = sign(vel_x) <= 0;
+
+
+## Sets the saturation level of the grayscale overlay.
+func set_grayscale_overlay(saturation: float):
+	overlay.get_node("GrayscaleOverlay").material.set_shader_parameter("saturation", saturation);
+
+
+## Sets whether or not a player is stunned.
+func stun(time: int):
+	can_move = false;
+	set_grayscale_overlay(0.5);
+	if fishing_active:
+		get_node("HookComponent").raise_hook(false);
+		get_node("HookComponent").can_lower = false;
+	
+	await get_tree().create_timer(time).timeout;
+	
+	unstun();
+
+
+## Undoes a stun
+func unstun():
+	can_move = true;
+	set_grayscale_overlay(1);
+	if fishing_active:
+		get_node("HookComponent").can_lower = true;
+
+
+## Uses the EMP ability in the fishing minigame.
+func use_enp_ability():
+	if emp_enabled and fishing_active:
+		emp_enabled = false;
+		var ships = emp_area.get_overlapping_bodies();
+		for player in ships:
+			Network.send_p2p_packet(player.steam_id, { "message": "stun", "time": 3 });
+		emp_area.get_node("Particles").emitting = true;
+		await get_tree().create_timer(20).timeout;
+		emp_enabled = true;

@@ -409,3 +409,10 @@ func fish_spawn(readable_data: Dictionary) -> void:
 		get_tree().current_scene.add_child(fish);
 		fish.position =  readable_data["fish_door_right_pos"];
 	fish.position.y += readable_data["height_modifier"];
+
+
+## Stuns a player
+func stun(readable_data: Dictionary):
+	for player in get_tree().current_scene.get_node("Players").get_children():
+		if player.steam_id == Main.player_steam_id:
+			player.stun(readable_data["time"]);

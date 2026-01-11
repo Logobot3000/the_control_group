@@ -1,4 +1,4 @@
-[gd_scene load_steps=197 format=3 uid="uid://c16w4qnbtqp14"]
+[gd_scene load_steps=202 format=3 uid="uid://c16w4qnbtqp14"]
 
 [ext_resource type="PackedScene" uid="uid://ca2wxt2wjjmqs" path="res://scenes/components/velocity_component.tscn" id="1_8afob"]
 [ext_resource type="Script" uid="uid://3eabxdixflc4" path="res://scripts/player/player.gd" id="1_dovo2"]
@@ -26,6 +26,7 @@
 [ext_resource type="Texture2D" uid="uid://7tr1sxyo1uj0" path="res://assets/sprites/characters/walking_character_green.png" id="14_uniwh"]
 [ext_resource type="Texture2D" uid="uid://cd3um8g6ujyu" path="res://assets/sprites/characters/walking_character_orange.png" id="15_iqsei"]
 [ext_resource type="Texture2D" uid="uid://baw6gklxnm6m2" path="res://assets/sprites/characters/walking_character_purple.png" id="16_tffgl"]
+[ext_resource type="Material" uid="uid://b8wxjiepu7651" path="res://assets/materials/grayscale.tres" id="27_j4nxn"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_pk8ii"]
 atlas = ExtResource("2_3j4b4")
@@ -1367,6 +1368,22 @@ size = Vector2(27, 19)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_0owmy"]
 size = Vector2(12, 17)
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_28m0y"]
+radius = 150.0
+
+[sub_resource type="Gradient" id="Gradient_uniwh"]
+colors = PackedColorArray(0.665842, 0.601909, 0.64355, 1, 0.82, 0.7626, 0.80565, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_iqsei"]
+gradient = SubResource("Gradient_uniwh")
+fill = 1
+fill_from = Vector2(0.503145, 0.474843)
+fill_to = Vector2(0.610063, 0.399371)
+
+[sub_resource type="Gradient" id="Gradient_tffgl"]
+offsets = PackedFloat32Array(0, 0.203704)
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+
 [node name="Player" type="CharacterBody2D"]
 collision_layer = 2
 script = ExtResource("1_dovo2")
@@ -1395,3 +1412,31 @@ health_component_path = NodePath("../HealthComponent")
 [node name="HurtboxCollisionShape2D" parent="HurtboxComponent" instance=ExtResource("5_75vfm")]
 position = Vector2(0, 0.5)
 shape = SubResource("RectangleShape2D_0owmy")
+
+[node name="EMPArea" type="Area2D" parent="."]
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="EMPArea"]
+shape = SubResource("CircleShape2D_28m0y")
+debug_color = Color(0.662163, 0.589861, 0.673739, 0.42)
+
+[node name="Particles" type="CPUParticles2D" parent="EMPArea"]
+emitting = false
+amount = 250
+texture = SubResource("GradientTexture2D_iqsei")
+lifetime = 1.4
+one_shot = true
+explosiveness = 1.0
+direction = Vector2(1, 1)
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 500.0
+initial_velocity_max = 500.0
+color_ramp = SubResource("Gradient_tffgl")
+
+[node name="Overlay" type="CanvasLayer" parent="."]
+
+[node name="GrayscaleOverlay" type="Panel" parent="Overlay"]
+material = ExtResource("27_j4nxn")
+offset_right = 640.0
+offset_bottom = 360.0

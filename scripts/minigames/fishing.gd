@@ -46,7 +46,7 @@ func load_modifiers() -> void:
 						player.get_node("HookComponent").change_type(Enums.HookType.ANTIVENOM);
 						jellyfish_spawn_chance = 6;
 					3:
-						print("emp")
+						player.emp_enabled = true;
 			else:
 				print(MinigameManager.current_modifiers["control"])
 				chosen_modifier_id = MinigameManager.current_modifiers["control"][player.steam_id]["id"];
