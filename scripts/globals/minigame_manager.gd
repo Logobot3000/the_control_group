@@ -104,16 +104,17 @@ func handle_game_state_update(new_game_state: Enums.GameState) -> void:
 			var group_assignment_ui = get_tree().current_scene.get_node("Selection").get_node("GroupAssignment");
 			
 			if ready_for_minigame.has(Main.player_steam_id): group_assignment_ui.get_node("AnimationPlayer").play("fade_in");
+			var control_group_label: Sprite2D = group_assignment_ui.get_node("Panel").get_node("VBoxContainer").get_node("ControlGroup");
+			var experimental_group_label: Sprite2D = group_assignment_ui.get_node("Panel").get_node("VBoxContainer").get_node("ExperimentalGroup");
+			control_group_label.visible = false;
+			experimental_group_label.visible = false;
 			
 			await get_tree().create_timer(3).timeout;
 			
-			var group_label: Label = group_assignment_ui.get_node("Panel").get_node("VBoxContainer").get_node("Group");
 			if Main.player_steam_id == current_experimental_group:
-				group_label.add_theme_color_override("font_color", Constants.GAME_COLORS["experimental"]);
-				group_label.text = "Experimental Group";
+				experimental_group_label.visible = true;
 			else:
-				group_label.add_theme_color_override("font_color", Constants.GAME_COLORS["control"]);
-				group_label.text = "Control Group";
+				control_group_label.visible = true;
 			
 			await get_tree().create_timer(3).timeout;
 			

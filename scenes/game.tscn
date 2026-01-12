@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=4 uid="uid://cf2rpf337i6m6"]
+[gd_scene load_steps=22 format=4 uid="uid://cf2rpf337i6m6"]
 
 [ext_resource type="Script" uid="uid://bmkai2wd67610" path="res://scripts/game.gd" id="1_lbhrr"]
 [ext_resource type="PackedScene" uid="uid://bqt3wowp50fb2" path="res://scenes/tiles/interactable_tiles.tscn" id="2_lbhrr"]
@@ -6,6 +6,8 @@
 [ext_resource type="PackedScene" uid="uid://cdokncf28uuvf" path="res://scenes/tiles/non_interactable_tiles_bg.tscn" id="4_p57ef"]
 [ext_resource type="PackedScene" uid="uid://bc61n15v87vuw" path="res://scenes/misc/cctv_camera.tscn" id="5_iywne"]
 [ext_resource type="PackedScene" uid="uid://bmytey1nliqb" path="res://scenes/misc/minigame_door.tscn" id="6_p57ef"]
+[ext_resource type="Texture2D" uid="uid://bw735ktsl87a2" path="res://assets/sprites/group_assignment_1.png" id="7_gee14"]
+[ext_resource type="Texture2D" uid="uid://d3gk5w0g1a31m" path="res://assets/sprites/group_assignment_2.png" id="8_0tnpc"]
 
 [sub_resource type="Gradient" id="Gradient_p57ef"]
 offsets = PackedFloat32Array(0, 0.559387, 1)
@@ -65,6 +67,22 @@ _data = {
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_p57ef"]
 bg_color = Color(0, 0, 0, 1)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vtaks"]
+atlas = ExtResource("7_gee14")
+region = Rect2(0, 0, 85, 7)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kvpfn"]
+atlas = ExtResource("7_gee14")
+region = Rect2(100, 9, 44, 9)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dinhu"]
+atlas = ExtResource("7_gee14")
+region = Rect2(100, 0, 62, 9)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kvuet"]
+atlas = ExtResource("8_0tnpc")
+region = Rect2(0, 0, 107, 9)
 
 [node name="Game" type="Node"]
 script = ExtResource("1_lbhrr")
@@ -175,6 +193,7 @@ follow_viewport_enabled = true
 
 [node name="GroupAssignment" type="Control" parent="Selection"]
 modulate = Color(1, 1, 1, 0)
+self_modulate = Color(1, 1, 1, 0)
 layout_mode = 3
 anchors_preset = 0
 offset_left = -160.0
@@ -209,18 +228,27 @@ grow_horizontal = 2
 grow_vertical = 2
 alignment = 1
 
-[node name="YouAre" type="Label" parent="Selection/GroupAssignment/Panel/VBoxContainer"]
-layout_mode = 2
-text = "You are part of the:"
-horizontal_alignment = 1
-vertical_alignment = 1
+[node name="YouAre" type="Sprite2D" parent="Selection/GroupAssignment/Panel/VBoxContainer"]
+position = Vector2(112, 36)
+scale = Vector2(2, 2)
+texture = SubResource("AtlasTexture_vtaks")
 
-[node name="Group" type="Label" parent="Selection/GroupAssignment/Panel/VBoxContainer"]
-layout_mode = 2
-size_flags_vertical = 1
-theme_override_font_sizes/font_size = 26
-horizontal_alignment = 1
-vertical_alignment = 1
+[node name="Group" type="Sprite2D" parent="Selection/GroupAssignment/Panel/VBoxContainer"]
+position = Vector2(112, 93)
+scale = Vector2(2, 2)
+texture = SubResource("AtlasTexture_kvpfn")
+
+[node name="ControlGroup" type="Sprite2D" parent="Selection/GroupAssignment/Panel/VBoxContainer"]
+visible = false
+position = Vector2(112, 64)
+scale = Vector2(3, 3)
+texture = SubResource("AtlasTexture_dinhu")
+
+[node name="ExperimentalGroup" type="Sprite2D" parent="Selection/GroupAssignment/Panel/VBoxContainer"]
+visible = false
+position = Vector2(112, 64)
+scale = Vector2(2.5, 2.5)
+texture = SubResource("AtlasTexture_kvuet")
 
 [node name="ModifierSelection" type="Control" parent="Selection"]
 modulate = Color(1, 1, 1, 0)
