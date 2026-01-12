@@ -99,11 +99,12 @@ func spawn_fish(spawn_left: bool) -> void:
 
 
 func spawn_fish_timer() -> void:
-	fish_spawn_time = fish_spawn_time - 0.01;
-	next_fish_spawn_left = not next_fish_spawn_left;
-	spawn_fish(next_fish_spawn_left);
-	await get_tree().create_timer(fish_spawn_time).timeout;
-	spawn_fish_timer();
+	if minigame_active:
+		fish_spawn_time = fish_spawn_time - 0.01;
+		next_fish_spawn_left = not next_fish_spawn_left;
+		spawn_fish(next_fish_spawn_left);
+		await get_tree().create_timer(fish_spawn_time).timeout;
+		spawn_fish_timer();
 
 
 func _process(delta: float) -> void:

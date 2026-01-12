@@ -314,8 +314,32 @@ func use_enp_ability():
 	if emp_enabled and fishing_active:
 		emp_enabled = false;
 		var ships = emp_area.get_overlapping_bodies();
+		var ship_count: int = 0;
 		for player in ships:
-			Network.send_p2p_packet(player.steam_id, { "message": "stun", "time": 3 });
-		emp_area.get_node("Particles").emitting = true;
+			ship_count += 1;
+			Network.send_p2p_packet(player.steam_id, { "message": "stun", "time": 6 });
+		do_emp_particles();
+		emp_rod_upgrade(ship_count);
 		await get_tree().create_timer(20).timeout;
 		emp_enabled = true;
+
+
+## The temporary rod upgrade for the player using the EMP ability.
+func emp_rod_upgrade(ships: int):
+	if get_node("HookComponent"):
+		get_node("HookComponent").lower_weight += 0.025 * ships;
+		get_node("HookComponent").raise_weight += 0.025 * ships;
+	await get_tree().create_timer(6).timeout;
+	if get_node("HookComponent"):
+		get_node("HookComponent").lower_weight -= 0.025 * ships;
+		get_node("HookComponent").raise_weight -= 0.025 * ships;
+
+
+## Does the EMP particle effect for the fishing minigame.
+func do_emp_particles():
+	var emp_particle_msg: Dictionary = {
+		"message": "emp_particles",
+		"steam_id": Main.player_steam_id
+	};
+	Network.send_p2p_packet(0, emp_particle_msg);
+	emp_area.get_node("Particles").emitting = true;

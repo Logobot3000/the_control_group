@@ -200,6 +200,8 @@ func _handle_recieved_packet(sender_id: int, readable_data: Dictionary) -> void:
 				MinigameManager.fish_spawn(readable_data);
 			"stun":
 				MinigameManager.stun(readable_data);
+			"emp_particles":
+				MinigameManager.emp_particles(readable_data);
 
 
 ## Reads up to [member Constants.PACKET_READ_LIMIT] packets.

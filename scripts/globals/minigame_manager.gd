@@ -36,7 +36,7 @@ var minigame_modifiers: Dictionary = {
 		"experimental": [
 			{"id": 1, "name": "Net Harpoon", "description": "Catches multiple fish, but has a slow reel speed. Ignores jellyfish."},
 			{"id": 2, "name": "Antivenom Hook", "description": "Allows reeling in jellyfish, also adds more jellyfish."},
-			{"id": 3, "name": "EMP", "description": "Stuns ships surrounding you, 20 second cooldown, makes you slower."}
+			{"id": 3, "name": "EMP", "description": "Stun ships around you (20s cooldown), temp rod upgrade/player stun."}
 		],
 		"control": [
 			{"id": 1, "name": "Upgraded Rod", "description": "Reels in fish faster."},
@@ -416,3 +416,10 @@ func stun(readable_data: Dictionary):
 	for player in get_tree().current_scene.get_node("Players").get_children():
 		if player.steam_id == Main.player_steam_id:
 			player.stun(readable_data["time"]);
+
+
+## Does the EMP particles for a player
+func emp_particles(readable_data: Dictionary):
+	for player in get_tree().current_scene.get_node("Players").get_children():
+		if player.steam_id == readable_data["steam_id"]:
+			player.emp_area.get_node("Particles").emitting = true;

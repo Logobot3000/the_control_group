@@ -23,6 +23,8 @@ var experimental_points: int = 0;
 var control_points: int = 0;
 ## Whether or not the timer at the top of the screen is running.
 var is_timer_running: bool = false;
+## Whether or not the current minigame is active.
+var minigame_active: bool = false;
 
 
 func _ready() -> void:
@@ -33,6 +35,7 @@ func _ready() -> void:
 	
 	minigame_setup();
 	load_modifiers();
+	minigame_active = true;
 	minigame_started.emit();
 	for player in get_tree().current_scene.get_node("Players").get_children():
 		player.can_move = true;
@@ -89,6 +92,7 @@ func on_minigame_started() -> void:
 func pre_on_minigame_ended() -> void:
 	for player in get_tree().current_scene.get_node("Players").get_children():
 		player.is_experimental = false;
+	minigame_active = false;
 	on_minigame_ended();
 
 
