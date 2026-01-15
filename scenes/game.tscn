@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=4 uid="uid://cf2rpf337i6m6"]
+[gd_scene load_steps=52 format=4 uid="uid://cf2rpf337i6m6"]
 
 [ext_resource type="Script" uid="uid://bmkai2wd67610" path="res://scripts/game.gd" id="1_lbhrr"]
 [ext_resource type="PackedScene" uid="uid://bqt3wowp50fb2" path="res://scenes/tiles/interactable_tiles.tscn" id="2_lbhrr"]
@@ -8,6 +8,9 @@
 [ext_resource type="PackedScene" uid="uid://bmytey1nliqb" path="res://scenes/misc/minigame_door.tscn" id="6_p57ef"]
 [ext_resource type="Texture2D" uid="uid://bw735ktsl87a2" path="res://assets/sprites/group_assignment_1.png" id="7_gee14"]
 [ext_resource type="Texture2D" uid="uid://d3gk5w0g1a31m" path="res://assets/sprites/group_assignment_2.png" id="8_0tnpc"]
+[ext_resource type="Texture2D" uid="uid://7160hlvhbpr7" path="res://assets/sprites/pick_buttons.png" id="9_0tnpc"]
+[ext_resource type="Texture2D" uid="uid://dsxyyrb88a2im" path="res://assets/sprites/modifier_selection.png" id="9_vtaks"]
+[ext_resource type="Texture2D" uid="uid://cpgwdlreqsx6t" path="res://assets/sprites/results.png" id="11_kvpfn"]
 
 [sub_resource type="Gradient" id="Gradient_p57ef"]
 offsets = PackedFloat32Array(0, 0.559387, 1)
@@ -83,6 +86,154 @@ region = Rect2(100, 0, 62, 9)
 [sub_resource type="AtlasTexture" id="AtlasTexture_kvuet"]
 atlas = ExtResource("8_0tnpc")
 region = Rect2(0, 0, 107, 9)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5newe"]
+atlas = ExtResource("9_vtaks")
+region = Rect2(82, 0, 65, 7)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_37s47"]
+atlas = ExtResource("9_vtaks")
+region = Rect2(0, 11, 141, 7)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ca42v"]
+atlas = ExtResource("9_vtaks")
+region = Rect2(0, 0, 81, 7)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1kice"]
+atlas = ExtResource("9_vtaks")
+region = Rect2(82, 0, 65, 7)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gee14"]
+atlas = ExtResource("9_0tnpc")
+region = Rect2(0, 0, 50, 18)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_trtic"]
+atlas = ExtResource("9_0tnpc")
+region = Rect2(50, 0, 50, 18)
+
+[sub_resource type="Gradient" id="Gradient_37s47"]
+colors = PackedColorArray(0, 0, 0, 0, 0.6, 0.898039, 0.313726, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_bt5mj"]
+gradient = SubResource("Gradient_37s47")
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ir15t"]
+atlas = ExtResource("9_0tnpc")
+region = Rect2(100, 0, 50, 18)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_ca42v"]
+load_path = "res://.godot/imported/pick_buttons.png-6268691ffb7af218ebbad2dcbf7c46e6.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rysoc"]
+atlas = SubResource("CompressedTexture2D_ca42v")
+region = Rect2(150, 0, 49, 18)
+
+[sub_resource type="Gradient" id="Gradient_e1j6l"]
+colors = PackedColorArray(0, 0, 0, 0, 0.898039, 0.803922, 0.313726, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_pl11u"]
+gradient = SubResource("Gradient_e1j6l")
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ssvqc"]
+atlas = ExtResource("9_0tnpc")
+region = Rect2(200, 0, 50, 18)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_264po"]
+atlas = ExtResource("9_0tnpc")
+region = Rect2(250, 0, 50, 18)
+
+[sub_resource type="Gradient" id="Gradient_bhx41"]
+colors = PackedColorArray(0, 0, 0, 0, 0.898039, 0.313726, 0.313726, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_qnb83"]
+gradient = SubResource("Gradient_bhx41")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kvpfn"]
+bg_color = Color(0, 0, 0, 1)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_e1j6l"]
+atlas = ExtResource("11_kvpfn")
+region = Rect2(2560, 0, 640, 360)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pl11u"]
+atlas = ExtResource("11_kvpfn")
+region = Rect2(1920, 0, 640, 360)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bhx41"]
+atlas = ExtResource("11_kvpfn")
+region = Rect2(1280, 0, 640, 360)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qnb83"]
+atlas = ExtResource("11_kvpfn")
+region = Rect2(640, 0, 640, 360)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bt5mj"]
+atlas = ExtResource("11_kvpfn")
+region = Rect2(0, 0, 640, 360)
+
+[sub_resource type="Animation" id="Animation_sww3w"]
+resource_name = "show"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("BlackScreen:theme_override_styles/panel:bg_color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(0, 0, 0, 1), Color(0, 0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_suyxu"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("BlackScreen:theme_override_styles/panel:bg_color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0, 0, 0, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_sgl2t"]
+resource_name = "hide"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_qouja"]
+_data = {
+&"RESET": SubResource("Animation_suyxu"),
+&"hide": SubResource("Animation_sgl2t"),
+&"show": SubResource("Animation_sww3w")
+}
 
 [node name="Game" type="Node"]
 script = ExtResource("1_lbhrr")
@@ -193,7 +344,6 @@ follow_viewport_enabled = true
 
 [node name="GroupAssignment" type="Control" parent="Selection"]
 modulate = Color(1, 1, 1, 0)
-self_modulate = Color(1, 1, 1, 0)
 layout_mode = 3
 anchors_preset = 0
 offset_left = -160.0
@@ -287,11 +437,11 @@ grow_horizontal = 2
 grow_vertical = 2
 alignment = 1
 
-[node name="YouAre" type="Label" parent="Selection/ModifierSelection/Control/VBoxContainer"]
-layout_mode = 2
-text = "Your modifier is:"
-horizontal_alignment = 1
-vertical_alignment = 1
+[node name="YouAre2" type="Sprite2D" parent="Selection/ModifierSelection/Control/VBoxContainer"]
+modulate = Color(0.0980392, 0.639216, 1, 1)
+position = Vector2(112, 29)
+scale = Vector2(2, 2)
+texture = SubResource("AtlasTexture_5newe")
 
 [node name="Modifier" type="Label" parent="Selection/ModifierSelection/Control/VBoxContainer"]
 layout_mode = 2
@@ -300,11 +450,18 @@ theme_override_font_sizes/font_size = 26
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="WaitingForExperimental" type="Sprite2D" parent="Selection/ModifierSelection/Control/VBoxContainer"]
+position = Vector2(112, 96)
+scale = Vector2(2, 2)
+texture = SubResource("AtlasTexture_37s47")
+
 [node name="ModifierDescription" type="Label" parent="Selection/ModifierSelection/Control/VBoxContainer"]
+self_modulate = Color(1, 1, 1, 0)
 layout_mode = 2
 text = "Waiting for experimental group..."
 horizontal_alignment = 1
 vertical_alignment = 1
+autowrap_mode = 2
 
 [node name="Experimental" type="Panel" parent="Selection/ModifierSelection"]
 visible = false
@@ -321,20 +478,32 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 48.0
-offset_top = 32.0
-offset_right = -48.0
-offset_bottom = -32.0
+offset_left = 16.0
+offset_top = 23.0
+offset_right = -14.0
+offset_bottom = -22.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/separation = 10
 alignment = 1
 
-[node name="PleaseSelect" type="Label" parent="Selection/ModifierSelection/Experimental/VBoxContainer"]
+[node name="PleaseSelectMargin" type="Panel" parent="Selection/ModifierSelection/Experimental/VBoxContainer"]
+self_modulate = Color(1, 1, 1, 0)
 layout_mode = 2
-text = "Please select your modifier:"
-horizontal_alignment = 1
-vertical_alignment = 1
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.25
+
+[node name="PleaseSelect" type="Sprite2D" parent="Selection/ModifierSelection/Experimental/VBoxContainer"]
+position = Vector2(144, 14)
+scale = Vector2(2, 2)
+texture = SubResource("AtlasTexture_ca42v")
+
+[node name="YouAre" type="Sprite2D" parent="Selection/ModifierSelection/Experimental/VBoxContainer"]
+visible = false
+modulate = Color(1, 0.835294, 0.0980392, 1)
+position = Vector2(144, 41)
+scale = Vector2(2, 2)
+texture = SubResource("AtlasTexture_1kice")
 
 [node name="Modifier" type="HBoxContainer" parent="Selection/ModifierSelection/Experimental/VBoxContainer"]
 layout_mode = 2
@@ -348,23 +517,33 @@ size_flags_horizontal = 3
 alignment = 2
 
 [node name="Title" type="Label" parent="Selection/ModifierSelection/Experimental/VBoxContainer/Modifier/Modifier1"]
+z_index = 1
 layout_mode = 2
 theme_override_font_sizes/font_size = 8
 text = "aaaaaaaaaaaaa"
 horizontal_alignment = 1
 
 [node name="Description" type="Label" parent="Selection/ModifierSelection/Experimental/VBoxContainer/Modifier/Modifier1"]
+z_index = 1
 layout_mode = 2
+size_flags_vertical = 3
 theme_override_font_sizes/font_size = 8
 text = "hfdshdfkjhskdjfhskdjfhksjdhfkjsdhf"
 horizontal_alignment = 1
 autowrap_mode = 2
-max_lines_visible = 4
 
-[node name="Choose" type="Button" parent="Selection/ModifierSelection/Experimental/VBoxContainer/Modifier/Modifier1"]
+[node name="Pick" type="TextureButton" parent="Selection/ModifierSelection/Experimental/VBoxContainer/Modifier/Modifier1"]
+z_index = 1
 layout_mode = 2
-theme_override_font_sizes/font_size = 10
-text = "Choose"
+size_flags_horizontal = 4
+texture_normal = SubResource("AtlasTexture_gee14")
+texture_pressed = SubResource("AtlasTexture_trtic")
+
+[node name="Gradient" type="Sprite2D" parent="Selection/ModifierSelection/Experimental/VBoxContainer/Modifier/Modifier1"]
+position = Vector2(43.9923, 36.0958)
+rotation = 1.57079
+scale = Vector2(0.750749, 39.6685)
+texture = SubResource("GradientTexture1D_bt5mj")
 
 [node name="Modifier2" type="VBoxContainer" parent="Selection/ModifierSelection/Experimental/VBoxContainer/Modifier"]
 layout_mode = 2
@@ -372,23 +551,33 @@ size_flags_horizontal = 3
 alignment = 2
 
 [node name="Title" type="Label" parent="Selection/ModifierSelection/Experimental/VBoxContainer/Modifier/Modifier2"]
+z_index = 1
 layout_mode = 2
 theme_override_font_sizes/font_size = 8
 text = "aaaaaaaaaaaaaa"
 horizontal_alignment = 1
 
 [node name="Description" type="Label" parent="Selection/ModifierSelection/Experimental/VBoxContainer/Modifier/Modifier2"]
+z_index = 1
 layout_mode = 2
+size_flags_vertical = 3
 theme_override_font_sizes/font_size = 8
 text = "hfdshdfkjhskdjfhskdjfhksjdhfkjsdhf"
 horizontal_alignment = 1
 autowrap_mode = 2
-max_lines_visible = 4
 
-[node name="Choose" type="Button" parent="Selection/ModifierSelection/Experimental/VBoxContainer/Modifier/Modifier2"]
+[node name="Pick" type="TextureButton" parent="Selection/ModifierSelection/Experimental/VBoxContainer/Modifier/Modifier2"]
+z_index = 1
 layout_mode = 2
-theme_override_font_sizes/font_size = 10
-text = "Choose"
+size_flags_horizontal = 4
+texture_normal = SubResource("AtlasTexture_ir15t")
+texture_pressed = SubResource("AtlasTexture_rysoc")
+
+[node name="Gradient" type="Sprite2D" parent="Selection/ModifierSelection/Experimental/VBoxContainer/Modifier/Modifier2"]
+position = Vector2(43, 36)
+rotation = 1.57079
+scale = Vector2(0.750749, 39.6685)
+texture = SubResource("GradientTexture1D_pl11u")
 
 [node name="Modifier3" type="VBoxContainer" parent="Selection/ModifierSelection/Experimental/VBoxContainer/Modifier"]
 layout_mode = 2
@@ -396,27 +585,123 @@ size_flags_horizontal = 3
 alignment = 2
 
 [node name="Title" type="Label" parent="Selection/ModifierSelection/Experimental/VBoxContainer/Modifier/Modifier3"]
+z_index = 1
 layout_mode = 2
 theme_override_font_sizes/font_size = 8
 text = "aaaaaaaaa"
 horizontal_alignment = 1
 
 [node name="Description" type="Label" parent="Selection/ModifierSelection/Experimental/VBoxContainer/Modifier/Modifier3"]
+z_index = 1
 layout_mode = 2
+size_flags_vertical = 3
 theme_override_font_sizes/font_size = 8
 text = "hfdshdfkjhskdjfhskdjfhksjdhfkjsdhf"
 horizontal_alignment = 1
 autowrap_mode = 2
-max_lines_visible = 4
 
-[node name="Choose" type="Button" parent="Selection/ModifierSelection/Experimental/VBoxContainer/Modifier/Modifier3"]
+[node name="Pick" type="TextureButton" parent="Selection/ModifierSelection/Experimental/VBoxContainer/Modifier/Modifier3"]
+z_index = 1
 layout_mode = 2
-theme_override_font_sizes/font_size = 10
-text = "Choose"
+size_flags_horizontal = 4
+texture_normal = SubResource("AtlasTexture_ssvqc")
+texture_pressed = SubResource("AtlasTexture_264po")
 
-[node name="Select" type="Button" parent="Selection/ModifierSelection/Experimental/VBoxContainer"]
-layout_mode = 2
-focus_mode = 0
-text = "Select"
+[node name="Gradient" type="Sprite2D" parent="Selection/ModifierSelection/Experimental/VBoxContainer/Modifier/Modifier3"]
+position = Vector2(41.4091, 36.0477)
+rotation = 1.57079
+scale = Vector2(0.751121, 39.6685)
+texture = SubResource("GradientTexture1D_qnb83")
+
+[node name="Results" type="CanvasLayer" parent="."]
+
+[node name="ResultsScreen" type="Control" parent="Results"]
+visible = false
+layout_mode = 3
+anchors_preset = 0
+offset_right = 640.0
+offset_bottom = 360.0
+
+[node name="BlackScreen" type="Panel" parent="Results/ResultsScreen"]
+z_index = 4
+layout_mode = 0
+offset_right = 640.0
+offset_bottom = 360.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_kvpfn")
+
+[node name="ExperimentalPoints" type="Label" parent="Results/ResultsScreen"]
+z_index = 1
+layout_mode = 0
+offset_left = 75.0
+offset_top = 117.0
+offset_right = 143.0
+offset_bottom = 185.0
+theme_override_font_sizes/font_size = 30
+text = "0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ControlPoints" type="Label" parent="Results/ResultsScreen"]
+z_index = 1
+layout_mode = 0
+offset_left = 501.0
+offset_top = 117.0
+offset_right = 569.0
+offset_bottom = 185.0
+theme_override_font_sizes/font_size = 30
+text = "0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MVP" type="Label" parent="Results/ResultsScreen"]
+z_index = 1
+layout_mode = 0
+offset_left = 223.0
+offset_top = 255.0
+offset_right = 438.0
+offset_bottom = 278.0
+vertical_alignment = 1
+
+[node name="LVP" type="Label" parent="Results/ResultsScreen"]
+z_index = 1
+layout_mode = 0
+offset_left = 223.0
+offset_top = 283.0
+offset_right = 438.0
+offset_bottom = 306.0
+vertical_alignment = 1
+
+[node name="ControlWinner" type="Sprite2D" parent="Results/ResultsScreen"]
+visible = false
+z_index = 1
+position = Vector2(320, 180)
+texture = SubResource("AtlasTexture_e1j6l")
+
+[node name="ExperimentalWinner" type="Sprite2D" parent="Results/ResultsScreen"]
+visible = false
+z_index = 1
+position = Vector2(320, 180)
+texture = SubResource("AtlasTexture_pl11u")
+
+[node name="ExperimentalWNotes" type="Sprite2D" parent="Results/ResultsScreen"]
+visible = false
+z_index = 1
+position = Vector2(320, 180)
+texture = SubResource("AtlasTexture_bhx41")
+
+[node name="ControlWNotes" type="Sprite2D" parent="Results/ResultsScreen"]
+visible = false
+z_index = 1
+position = Vector2(320, 180)
+texture = SubResource("AtlasTexture_qnb83")
+
+[node name="ResultsBG" type="Sprite2D" parent="Results/ResultsScreen"]
+position = Vector2(320, 180)
+texture = SubResource("AtlasTexture_bt5mj")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Results/ResultsScreen"]
+libraries = {
+&"": SubResource("AnimationLibrary_qouja")
+}
 
 [connection signal="body_entered" from="ReadyForMinigame" to="." method="_on_ready_for_minigame_entered"]

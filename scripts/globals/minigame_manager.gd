@@ -36,7 +36,7 @@ var minigame_modifiers: Dictionary = {
 		"experimental": [
 			{"id": 1, "name": "Net Harpoon", "description": "Catches multiple fish, but has a slow reel speed. Ignores jellyfish."},
 			{"id": 2, "name": "Antivenom Hook", "description": "Allows reeling in jellyfish, also adds more jellyfish."},
-			{"id": 3, "name": "EMP", "description": "Stun ships around you (20s cooldown), temp rod upgrade/player stun."}
+			{"id": 3, "name": "EMP Pulse", "description": "Stuns ships around you (20s cooldown). Gives a temporary rod upgrade per player stunned."}
 		],
 		"control": [
 			{"id": 1, "name": "Upgraded Rod", "description": "Reels in fish faster."},
@@ -127,8 +127,9 @@ func handle_game_state_update(new_game_state: Enums.GameState) -> void:
 				var modifier_selection_ui: Control = get_tree().current_scene.get_node("Selection").get_node("ModifierSelection");
 				if Main.player_steam_id == current_experimental_group:
 					modifier_selection_ui.get_node("Experimental").visible = true;
-					modifier_selection_ui.get_node("Experimental").get_node("VBoxContainer").get_node("PleaseSelect").add_theme_color_override("font_color", Constants.GAME_COLORS["experimental"]);
-					modifier_selection_ui.get_node("Experimental").get_node("VBoxContainer").get_node("Select").pressed.connect(_update_experimental_group_modifier);
+					modifier_selection_ui.get_node("Experimental").get_node("VBoxContainer").get_node("Modifier").get_node("Modifier1").get_node("Pick").pressed.connect(_update_experimental_group_modifier);
+					modifier_selection_ui.get_node("Experimental").get_node("VBoxContainer").get_node("Modifier").get_node("Modifier2").get_node("Pick").pressed.connect(_update_experimental_group_modifier);
+					modifier_selection_ui.get_node("Experimental").get_node("VBoxContainer").get_node("Modifier").get_node("Modifier3").get_node("Pick").pressed.connect(_update_experimental_group_modifier);
 					for modifier in minigame_modifiers[current_minigame]["experimental"]:
 						var modifier_ui_container: VBoxContainer = modifier_selection_ui.get_node("Experimental").get_node("VBoxContainer").get_node("Modifier").get_node("Modifier" + str(modifier["id"]));
 						modifier_ui_container.get_node("Title").text = modifier["name"];
@@ -136,7 +137,6 @@ func handle_game_state_update(new_game_state: Enums.GameState) -> void:
 						modifier_ui_container.get_node("Description").text = modifier["description"];
 				else:
 					modifier_selection_ui.get_node("Control").visible = true;
-					modifier_selection_ui.get_node("Control").get_node("VBoxContainer").get_node("YouAre").add_theme_color_override("font_color", Constants.GAME_COLORS["control"]);
 				modifier_selection_ui.get_node("AnimationPlayer").play("fade_in");
 				
 			if Network.is_host:
@@ -220,7 +220,66 @@ func handle_game_state_update(new_game_state: Enums.GameState) -> void:
 						spawn_pos_update_dict["control"][control_group_spawn_pos_incrementer][1] = player.global_position;
 						control_group_spawn_pos_incrementer += 1;
 				Network.send_p2p_packet(0, spawn_pos_update_dict);
-				
+			
+		Enums.GameState.MINIGAME_END:
+			for player in get_tree().current_scene.get_node("Players").get_children():
+				player.global_position = Vector2(0, 0);
+			get_tree().current_scene.get_node(available_minigame_names[current_minigame]).queue_free();
+			get_tree().current_scene.get_node("Camera2D").enabled = true;
+			
+			var results_page = get_tree().current_scene.get_node("Results").get_node("ResultsScreen");
+			results_page.get_node("AnimationPlayer").play("RESET");
+			results_page.visible = true;
+			
+			var experimental_points: int = 0;
+			if current_scores[current_experimental_group]:
+				experimental_points = current_scores[current_experimental_group]
+			var total_control_points: int = 0;
+			var control_won: bool = true;
+			var mvp_id = 0;
+			var lvp_id = 0;
+			var mvp_name = "";
+			var lvp_name = "";
+			var mvp_score = 0;
+			var lvp_score = 100000000;
+			for scored_player in current_scores:
+				if scored_player == MinigameManager.current_experimental_group:
+					pass
+				else:
+					total_control_points += current_scores[scored_player];
+					if current_scores[scored_player] > mvp_score:
+						mvp_score = current_scores[scored_player];
+						mvp_id = scored_player;
+					if current_scores[scored_player] < lvp_score:
+						lvp_score = current_scores[scored_player];
+						lvp_id = scored_player;
+			for player in get_tree().current_scene.get_node("Players").get_children():
+				if player.steam_id == mvp_id:
+					mvp_name = player.name;
+				if player.steam_id == lvp_id:
+					lvp_name = player.name;
+			results_page.get_node("ControlPoints").text = str(total_control_points);
+			results_page.get_node("ExperimentalPoints").text = str(experimental_points);
+			if experimental_points > total_control_points:
+				control_won = false;
+			if control_won:
+				results_page.get_node("ControlWinner").visible = true;
+			else:
+				results_page.get_node("ExperimentalWinner").visible = true;
+			print(mvp_name, lvp_name);
+			if control_won and current_control_group.size() >= 2:
+				results_page.get_node("ControlWNotes").visible = true;
+				results_page.get_node("MVP").text = mvp_name;
+				results_page.get_node("LVP").text = lvp_name;
+			else:
+				results_page.get_node("ExperimentalWNotes").visible = true;
+			
+			await get_tree().create_timer(1).timeout;
+			results_page.get_node("AnimationPlayer").play("show");
+			await get_tree().create_timer(5).timeout;
+			results_page.get_node("AnimationPlayer").play("hide");
+			await get_tree().create_timer(1).timeout;
+			results_page.visible = false;
 
 ## Sets the current minigame.
 func set_current_minigame(readable_data: Dictionary) -> void:
@@ -300,7 +359,7 @@ func set_control_group_modifiers(readable_data: Dictionary) -> void:
 
 ## Do the logic for the experimental group modifier.
 func _update_experimental_group_modifier() -> void:
-	var chosen_modifier: Button = get_viewport().gui_get_focus_owner();
+	var chosen_modifier = get_viewport().gui_get_focus_owner();
 	if not chosen_modifier: return;
 	var modifier_container: VBoxContainer = chosen_modifier.get_parent();
 	var modifier: Dictionary;
@@ -330,17 +389,20 @@ func set_experimental_group_modifier(readable_data: Dictionary) -> void:
 						node.visible = false;
 					else:
 						node.alignment = 1;
-						node.get_node("Choose").visible = false;
-						node.get_parent().get_parent().get_node("Select").visible = false;
+						node.get_node("Pick").visible = false;
+						node.get_node("Gradient").visible = false;
 						node.get_node("Title").add_theme_font_size_override("font_size", 20);
-						node.get_parent().get_parent().get_node("PleaseSelect").text = "Your modifier is:";
+						node.get_parent().get_parent().get_node("PleaseSelect").visible = false;
+						node.get_parent().get_parent().get_node("PleaseSelectMargin").size_flags_vertical = Control.SizeFlags.SIZE_SHRINK_BEGIN;
+						node.get_parent().get_parent().get_node("YouAre").visible = true;
 						node.get_parent().size_flags_vertical = 1;
-						node.get_parent().get_parent().add_theme_constant_override("separation", 4);
 		else:
 			var modifier_ui_container: VBoxContainer = modifier_selection_ui.get_node("Control").get_node("VBoxContainer");
 			var modifier = current_modifiers["control"][Main.player_steam_id];
 			modifier_ui_container.get_node("Modifier").text = modifier["name"];
 			modifier_ui_container.get_node("Modifier").add_theme_font_size_override("font_size", 20);
+			modifier_ui_container.get_node("WaitingForExperimental").visible = false;
+			modifier_ui_container.get_node("ModifierDescription").self_modulate.a = 1;
 			modifier_ui_container.get_node("ModifierDescription").add_theme_color_override("font_color", Constants.GAME_COLORS["gray"]);
 			modifier_ui_container.get_node("ModifierDescription").text = modifier["description"];
 			modifier_ui_container.get_node("ModifierDescription").add_theme_font_size_override("font_size", 8);

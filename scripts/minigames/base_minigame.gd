@@ -94,6 +94,8 @@ func pre_on_minigame_ended() -> void:
 		player.is_experimental = false;
 	minigame_active = false;
 	on_minigame_ended();
+	if Network.is_host:
+		Main.update_game_state(Enums.GameState.MINIGAME_END);
 
 
 ## A virtual function that is called whenever the minigame has ended.

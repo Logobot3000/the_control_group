@@ -83,6 +83,11 @@ func _physics_process(delta: float) -> void:
 				collision_shape.position.x = 0;
 				collision_shape.position.y = 0.5;
 			super_cool_crouching = false;
+	else:
+		collision_shape.shape.size.x = 10;
+		collision_shape.shape.size.y = 15;
+		collision_shape.position.x = 0;
+		collision_shape.position.y = 0.5;
 	
 	if fishing_active and is_experimental: set_sprite_direction(-velocity.x);
 	else: set_sprite_direction(velocity.x);
@@ -219,8 +224,8 @@ func _send_position_p2p() -> void:
 
 func _unhandled_input(event: InputEvent) -> void:
 	if Input.is_action_just_pressed("use_ability"):
-		if emp_enabled and fishing_active and is_experimental:
-			use_enp_ability();
+		if emp_enabled and fishing_active and is_experimental and is_local:
+			use_emp_ability();
 
 
 ## Gets [member steam_id].
@@ -310,8 +315,8 @@ func unstun():
 
 
 ## Uses the EMP ability in the fishing minigame.
-func use_enp_ability():
-	if emp_enabled and fishing_active:
+func use_emp_ability():
+	if emp_enabled and fishing_active and is_experimental:
 		emp_enabled = false;
 		var ships = emp_area.get_overlapping_bodies();
 		var ship_count: int = 0;
