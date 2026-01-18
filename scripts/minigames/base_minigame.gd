@@ -28,6 +28,8 @@ var minigame_active: bool = false;
 
 
 func _ready() -> void:
+	if not MinigameManager.ready_for_minigame.has(Main.player_steam_id):
+		return;
 	if get_parent() is BaseMinigame:
 		return;
 	minigame_started.connect(on_minigame_started);
@@ -71,16 +73,17 @@ func score_point(amount: int) -> void:
 
 ## Updates scores per group instead of per player.
 func update_group_scores() -> void:
-	experimental_points = 0;
-	control_points = 0;
-	for scored_player in MinigameManager.current_scores:
-		if scored_player ==  MinigameManager.current_experimental_group:
-			experimental_points += MinigameManager.current_scores[scored_player];
-		else:
-			control_points += MinigameManager.current_scores[scored_player];
-	
-	experimental_points_container.text = str(experimental_points);
-	control_points_container.text = str(control_points);
+	if MinigameManager.ready_for_minigame.has(Main.player_steam_id):
+		experimental_points = 0;
+		control_points = 0;
+		for scored_player in MinigameManager.current_scores:
+			if scored_player ==  MinigameManager.current_experimental_group:
+				experimental_points += MinigameManager.current_scores[scored_player];
+			else:
+				control_points += MinigameManager.current_scores[scored_player];
+		
+		experimental_points_container.text = str(experimental_points);
+		control_points_container.text = str(control_points);
 
 
 ## A virtual function that is called whenever the minigame has started.

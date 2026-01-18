@@ -48,7 +48,6 @@ func load_modifiers() -> void:
 					3:
 						player.emp_enabled = true;
 			else:
-				print(MinigameManager.current_modifiers["control"])
 				chosen_modifier_id = MinigameManager.current_modifiers["control"][player.steam_id]["id"];
 				match chosen_modifier_id:
 					1:
@@ -66,9 +65,11 @@ func on_minigame_started() -> void:
 
 func on_minigame_ended() -> void:
 	for player in get_tree().current_scene.get_node("Players").get_children():
-		player.can_jump = true;
-		player.fishing_active = false;
-		player.get_node("HookComponent").queue_free();
+		if MinigameManager.ready_for_minigame.has(Main.player_steam_id):
+			player.can_jump = true;
+			player.fishing_active = false;
+			if player.get_node("HookComponent"):
+				player.get_node("HookComponent").queue_free();
 
 
 func spawn_fish(spawn_left: bool) -> void:

@@ -68,6 +68,7 @@ func handle_game_state_update(new_game_state: Enums.GameState) -> void:
 			current_scores.clear();
 			ready_for_minigame.clear();
 			has_experimental_chosen = false;
+			current_minigame = "";
 			
 			if Network.is_host:
 				current_minigame = available_minigames[randi() % (available_minigames.size())];
@@ -223,16 +224,18 @@ func handle_game_state_update(new_game_state: Enums.GameState) -> void:
 			
 		Enums.GameState.MINIGAME_END:
 			for player in get_tree().current_scene.get_node("Players").get_children():
-				player.global_position = Vector2(0, 0);
+				if ready_for_minigame.has(player.steam_id):
+					player.global_position = Vector2(0, 0);
 			get_tree().current_scene.get_node(available_minigame_names[current_minigame]).queue_free();
 			get_tree().current_scene.get_node("Camera2D").enabled = true;
 			
 			var results_page = get_tree().current_scene.get_node("Results").get_node("ResultsScreen");
 			results_page.get_node("AnimationPlayer").play("RESET");
-			results_page.visible = true;
+			if ready_for_minigame.has(Main.player_steam_id):
+				results_page.visible = true;
 			
 			var experimental_points: int = 0;
-			if current_scores[current_experimental_group]:
+			if current_scores.has(current_experimental_group):
 				experimental_points = current_scores[current_experimental_group]
 			var total_control_points: int = 0;
 			var control_won: bool = true;
@@ -254,10 +257,11 @@ func handle_game_state_update(new_game_state: Enums.GameState) -> void:
 						lvp_score = current_scores[scored_player];
 						lvp_id = scored_player;
 			for player in get_tree().current_scene.get_node("Players").get_children():
-				if player.steam_id == mvp_id:
-					mvp_name = player.name;
-				if player.steam_id == lvp_id:
-					lvp_name = player.name;
+				if ready_for_minigame.has(player.steam_id):
+					if player.steam_id == mvp_id:
+						mvp_name = player.name;
+					if player.steam_id == lvp_id:
+						lvp_name = player.name;
 			results_page.get_node("ControlPoints").text = str(total_control_points);
 			results_page.get_node("ExperimentalPoints").text = str(experimental_points);
 			if experimental_points > total_control_points:
@@ -275,11 +279,24 @@ func handle_game_state_update(new_game_state: Enums.GameState) -> void:
 				results_page.get_node("ExperimentalWNotes").visible = true;
 			
 			await get_tree().create_timer(1).timeout;
-			results_page.get_node("AnimationPlayer").play("show");
-			await get_tree().create_timer(5).timeout;
-			results_page.get_node("AnimationPlayer").play("hide");
-			await get_tree().create_timer(1).timeout;
-			results_page.visible = false;
+			if ready_for_minigame.has(Main.player_steam_id):
+				results_page.get_node("AnimationPlayer").play("show");
+				await get_tree().create_timer(0.5).timeout;
+				results_page.get_node("Confetti").emitting = true;
+				await get_tree().create_timer(4.5).timeout;
+				results_page.get_node("AnimationPlayer").play("hide");
+				await get_tree().create_timer(1).timeout;
+				results_page.visible = false;
+			
+			var group_assignment_ui = get_tree().current_scene.get_node("Selection").get_node("GroupAssignment");
+			if ready_for_minigame.has(Main.player_steam_id): group_assignment_ui.get_node("AnimationPlayer").play("RESET");
+			var control_group_label: Sprite2D = group_assignment_ui.get_node("Panel").get_node("VBoxContainer").get_node("ControlGroup");
+			var experimental_group_label: Sprite2D = group_assignment_ui.get_node("Panel").get_node("VBoxContainer").get_node("ExperimentalGroup");
+			control_group_label.visible = false;
+			experimental_group_label.visible = false;
+			
+			if Network.is_host:
+				Main.update_game_state(Enums.GameState.LOBBY);
 
 ## Sets the current minigame.
 func set_current_minigame(readable_data: Dictionary) -> void:
