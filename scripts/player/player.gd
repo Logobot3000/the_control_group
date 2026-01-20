@@ -295,6 +295,7 @@ func set_grayscale_overlay(saturation: float):
 
 ## Sets whether or not a player is stunned.
 func stun(time: int):
+	stunned = true;
 	can_move = false;
 	set_grayscale_overlay(0.5);
 	if fishing_active:
@@ -308,6 +309,7 @@ func stun(time: int):
 
 ## Undoes a stun
 func unstun():
+	stunned = false;
 	can_move = true;
 	set_grayscale_overlay(1);
 	if fishing_active:
@@ -322,7 +324,9 @@ func use_emp_ability():
 		var ship_count: int = 0;
 		for player in ships:
 			ship_count += 1;
-			Network.send_p2p_packet(player.steam_id, { "message": "stun", "time": 6 });
+			if player.steam_id != steam_id:
+				Network.send_p2p_packet(player.steam_id, { "message": "stun", "time": 6 });
+				player.get_node("HookComponent").raise_hook(false);
 		do_emp_particles();
 		emp_rod_upgrade(ship_count);
 		await get_tree().create_timer(20).timeout;

@@ -171,21 +171,6 @@ region = Rect2(640, 0, 640, 360)
 atlas = ExtResource("11_kvpfn")
 region = Rect2(0, 0, 640, 360)
 
-[sub_resource type="Animation" id="Animation_sww3w"]
-resource_name = "show"
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("BlackScreen:theme_override_styles/panel:bg_color")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 1),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Color(0, 0, 0, 1), Color(0, 0, 0, 0)]
-}
-
 [sub_resource type="Animation" id="Animation_suyxu"]
 length = 0.001
 tracks/0/type = "value"
@@ -226,6 +211,21 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
 "values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_sww3w"]
+resource_name = "show"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("BlackScreen:theme_override_styles/panel:bg_color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(0, 0, 0, 1), Color(0, 0, 0, 0)]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_qouja"]
@@ -683,7 +683,6 @@ offset_top = 283.0
 offset_right = 438.0
 offset_bottom = 306.0
 theme_override_colors/font_shadow_color = Color(0.309804, 0.407843, 0.231373, 1)
-text = "jgsdijsifjd"
 vertical_alignment = 1
 
 [node name="ControlWinner" type="Sprite2D" parent="Results/ResultsScreen"]

@@ -72,6 +72,7 @@ func _physics_process(delta: float) -> void:
 	else:
 		if not attached_hook:
 			attached_hook = null;
+			return;
 		global_position = attached_hook.hook_base.global_position;
 		if global_position.y <= 1050:
 			attached_hook.fish_currently_caught -= 1;

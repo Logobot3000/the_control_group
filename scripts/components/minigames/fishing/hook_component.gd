@@ -125,6 +125,7 @@ func _process(delta: float) -> void:
 	hook_base.get_node("PointLight2D").energy = lerp(hook_base.get_node("PointLight2D").energy, light_energy, current_weight);
 	if snapped(hook_string.position.y, 2) == 2:
 		raising = false;
-		can_lower = true;
+		if not get_parent().stunned:
+			can_lower = true;
 	if fish_currently_caught == hook_catch_limit:
 		raise_hook(true);

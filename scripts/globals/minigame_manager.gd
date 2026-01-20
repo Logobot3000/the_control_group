@@ -196,8 +196,6 @@ func handle_game_state_update(new_game_state: Enums.GameState) -> void:
 			get_tree().current_scene.add_child(current_minigame_instance);
 			
 			if ready_for_minigame.has(Main.player_steam_id):
-				get_tree().current_scene.get_node("Selection").get_node("ModifierSelection").visible = false;
-				get_tree().current_scene.get_node("Selection").get_node("GroupAssignment").visible = false;
 				get_tree().current_scene.get_node("Camera2D").enabled = false;
 			if Network.is_host:
 				var control_group_spawn_pos_incrementer = 0;
@@ -223,6 +221,35 @@ func handle_game_state_update(new_game_state: Enums.GameState) -> void:
 				Network.send_p2p_packet(0, spawn_pos_update_dict);
 			
 		Enums.GameState.MINIGAME_END:
+			print("STATE UPDATE: MINIGAME_END");
+			
+			var group_assignment_ui = get_tree().current_scene.get_node("Selection").get_node("GroupAssignment");
+			group_assignment_ui.get_node("AnimationPlayer").play("RESET");
+			var control_group_label: Sprite2D = group_assignment_ui.get_node("Panel").get_node("VBoxContainer").get_node("ControlGroup");
+			var experimental_group_label: Sprite2D = group_assignment_ui.get_node("Panel").get_node("VBoxContainer").get_node("ExperimentalGroup");
+			control_group_label.visible = false;
+			experimental_group_label.visible = false;
+			
+			var modifier_selection_ui: Control = get_tree().current_scene.get_node("Selection").get_node("ModifierSelection");
+			modifier_selection_ui.get_node("Experimental").visible = false;
+			modifier_selection_ui.get_node("Control").visible = false;
+			modifier_selection_ui.get_node("AnimationPlayer").play("RESET");
+			for node in modifier_selection_ui.get_node("Experimental").get_node("VBoxContainer").get_node("Modifier").get_children():
+				if node is VBoxContainer:
+					node.visible = true;
+					node.alignment = 1;
+					node.get_node("Pick").visible = true;
+					node.get_node("Gradient").visible = true;
+					node.get_node("Title").add_theme_font_size_override("font_size", 8);
+					node.get_parent().get_parent().get_node("PleaseSelect").visible = true;
+					node.get_parent().get_parent().get_node("PleaseSelectMargin").size_flags_vertical = Control.SizeFlags.SIZE_EXPAND_FILL;
+					node.get_parent().get_parent().get_node("YouAre").visible = false;
+					node.get_parent().size_flags_vertical = 1;
+			var modifier_ui_container: VBoxContainer = modifier_selection_ui.get_node("Control").get_node("VBoxContainer");
+			modifier_ui_container.get_node("Modifier").add_theme_font_size_override("font_size", 26);
+			modifier_ui_container.get_node("WaitingForExperimental").visible = true;
+			modifier_ui_container.get_node("ModifierDescription").self_modulate.a = 0;
+			
 			for player in get_tree().current_scene.get_node("Players").get_children():
 				if ready_for_minigame.has(player.steam_id):
 					player.global_position = Vector2(0, 0);
@@ -270,7 +297,6 @@ func handle_game_state_update(new_game_state: Enums.GameState) -> void:
 				results_page.get_node("ControlWinner").visible = true;
 			else:
 				results_page.get_node("ExperimentalWinner").visible = true;
-			print(mvp_name, lvp_name);
 			if control_won and current_control_group.size() >= 2:
 				results_page.get_node("ControlWNotes").visible = true;
 				results_page.get_node("MVP").text = mvp_name;
@@ -288,12 +314,10 @@ func handle_game_state_update(new_game_state: Enums.GameState) -> void:
 				await get_tree().create_timer(1).timeout;
 				results_page.visible = false;
 			
-			var group_assignment_ui = get_tree().current_scene.get_node("Selection").get_node("GroupAssignment");
-			if ready_for_minigame.has(Main.player_steam_id): group_assignment_ui.get_node("AnimationPlayer").play("RESET");
-			var control_group_label: Sprite2D = group_assignment_ui.get_node("Panel").get_node("VBoxContainer").get_node("ControlGroup");
-			var experimental_group_label: Sprite2D = group_assignment_ui.get_node("Panel").get_node("VBoxContainer").get_node("ExperimentalGroup");
-			control_group_label.visible = false;
-			experimental_group_label.visible = false;
+			results_page.get_node("ControlWinner").visible = false;
+			results_page.get_node("ExperimentalWinner").visible = false;
+			results_page.get_node("ControlWNotes").visible = false;
+			results_page.get_node("ExperimentalWNotes").visible = false;
 			
 			if Network.is_host:
 				Main.update_game_state(Enums.GameState.LOBBY);
@@ -425,8 +449,6 @@ func set_experimental_group_modifier(readable_data: Dictionary) -> void:
 			modifier_ui_container.get_node("ModifierDescription").add_theme_font_size_override("font_size", 8);
 		
 		await get_tree().create_timer(3).timeout;
-		
-		modifier_selection_ui.get_parent().get_node("GroupAssignment").visible = false;
 	
 	if Network.is_host:
 		Main.update_game_state(Enums.GameState.MINIGAME_START);

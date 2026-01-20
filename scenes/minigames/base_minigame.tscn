@@ -36,19 +36,21 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="ExperimentalPoints" type="Label" parent="TV"]
-offset_left = 1064.0
+offset_left = 888.0
 offset_top = 856.0
-offset_right = 1112.0
+offset_right = 936.0
 offset_bottom = 904.0
+theme_override_colors/font_color = Color(1, 0.835294, 0.0980392, 1)
 text = "0"
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="ControlPoints" type="Label" parent="TV"]
-offset_left = 888.0
+offset_left = 1064.0
 offset_top = 856.0
-offset_right = 936.0
+offset_right = 1112.0
 offset_bottom = 904.0
+theme_override_colors/font_color = Color(0.0980392, 0.639216, 1, 1)
 text = "0"
 horizontal_alignment = 1
 vertical_alignment = 1
