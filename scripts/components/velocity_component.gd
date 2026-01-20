@@ -72,7 +72,8 @@ func accelerate_towards_x(axis: float, delta: float) -> void:
 
 ## No restrictions: decelerates velocity to Vector2.ZERO.
 func decelerate(delta: float) -> void:
-	velocity.lerp(Vector2.ZERO, acceleration * acceleration_multiplier * delta);
+	velocity.x = lerpf(velocity.x, 0.0, acceleration * acceleration_multiplier * delta);
+	velocity.y = lerpf(velocity.y, 0.0, acceleration * acceleration_multiplier * delta);
 
 
 ## No restrictions: decelerates velocity.x to 0.0.

@@ -10,8 +10,6 @@ extends CharacterBody2D;
 @onready var sprite: AnimatedSprite2D = $AnimatedSprite2D;
 ## The default CollisionShape2D for the player.
 @onready var collision_shape: CollisionShape2D = $CollisionShape2D;
-## The experimental boat for fishing minigame CollisionShape2D for the player.
-@onready var collision_shape_boat: CollisionShape2D = $CollisionShape2DBoat;
 ## The EMP stun area for the fishing minigame with the EMP modifier.
 @onready var emp_area: Area2D = $EMPArea;
 ## The overlay CanvasLayer.
@@ -39,6 +37,8 @@ var is_experimental: bool = false;
 var emp_enabled: bool = false;
 ## Whether or not the player is stunned.
 var stunned: bool = false;
+## How fast the player rotates in freeflying mode
+var rotate_speed: float = 0.05;
 ## super cool crouch super cool crouch super cool crouch super cool crouch super cool crouch super cool crouch
 var super_cool_crouching: bool = false; 
 
@@ -73,27 +73,38 @@ func _physics_process(delta: float) -> void:
 				velocity_component.jump();
 		else:
 			if vertical_input_freeflying < 0 and not super_cool_crouching:
-				velocity_component.accelerate_towards(Vector2(0, 1), delta);
+				velocity_component.accelerate_towards(Vector2.UP.rotated(rotation), delta);
 			else:
-				velocity_component.decelerate(delta);
+				velocity_component.decelerate(delta * 0.1);
 			if horizontal_input:
-				rotate(horizontal_input);
+				rotate(horizontal_input * rotate_speed);
 		
 		# Apply velocity changes
 		velocity_component.move(self);
 	
 	if fishing_active: 
-			if is_experimental and is_local:
-				collision_shape.shape.size.x = 27;
-				collision_shape.shape.size.y = 23;
-				collision_shape.position.x = -0.5;
-				collision_shape.position.y = 4.5;
-			else:
-				collision_shape.shape.size.x = 10;
-				collision_shape.shape.size.y = 15;
-				collision_shape.position.x = 0;
-				collision_shape.position.y = 0.5;
-			super_cool_crouching = false;
+		if is_experimental and is_local:
+			collision_shape.shape.size.x = 27;
+			collision_shape.shape.size.y = 23;
+			collision_shape.position.x = -0.5;
+			collision_shape.position.y = 4.5;
+		else:
+			collision_shape.shape.size.x = 10;
+			collision_shape.shape.size.y = 15;
+			collision_shape.position.x = 0;
+			collision_shape.position.y = 0.5;
+		super_cool_crouching = false;
+	elif space_active:
+		if is_experimental and is_local:
+			collision_shape.shape.size.x = 42;
+			collision_shape.shape.size.y = 16;
+			collision_shape.position.x = 0;
+			collision_shape.position.y = 0;
+		else:
+			collision_shape.shape.size.x = 12;
+			collision_shape.shape.size.y = 12;
+			collision_shape.position.x = 1;
+			collision_shape.position.y = -2;
 	else:
 		collision_shape.shape.size.x = 10;
 		collision_shape.shape.size.y = 15;
@@ -119,7 +130,16 @@ func _physics_process(delta: float) -> void:
 						else: animation_state = 5;
 					else: animation_state = 2;
 			else:
-				print("wip")
+				if is_experimental:
+					if snapped(velocity.x, 35) == 0 and snapped(velocity.y, 35) == 0:
+						animation_state = 8;
+					else:
+						animation_state = 9;
+				else:
+					if snapped(velocity.x, 35) == 0 and snapped(velocity.y, 35) == 0:
+						animation_state = 10;
+					else:
+						animation_state = 11;
 		else:
 			animation_state = 3;
 		_send_position_p2p();
@@ -221,6 +241,134 @@ func _physics_process(delta: float) -> void:
 					sprite.play("moving_experimental_boat_purple");
 				3:
 					sprite.play("moving_experimental_boat_orange");
+		8:
+			match player_color_index:
+				-1:
+					pass;
+				0:
+					if sprite.animation != "still_experimental_ship_yellow":
+						sprite.play_backwards("transition_experimental_ship_yellow");
+						await sprite.animation_finished;
+						sprite.play("still_experimental_ship_yellow");
+					else:
+						sprite.play("still_experimental_ship_yellow");
+				1:
+					if sprite.animation != "still_experimental_ship_green":
+						sprite.play_backwards("transition_experimental_ship_green");
+						await sprite.animation_finished;
+						sprite.play("still_experimental_ship_green");
+					else:
+						sprite.play("still_experimental_ship_green");
+				2:
+					if sprite.animation != "still_experimental_ship_purple":
+						sprite.play_backwards("transition_experimental_ship_purple");
+						await sprite.animation_finished;
+						sprite.play("still_experimental_ship_purple");
+					else:
+						sprite.play("still_experimental_ship_purple");
+				3:
+					if sprite.animation != "still_experimental_ship_orange":
+						sprite.play_backwards("transition_experimental_ship_orange");
+						await sprite.animation_finished;
+						sprite.play("still_experimental_ship_orange");
+					else:
+						sprite.play("still_experimental_ship_orange");
+		9:
+			match player_color_index:
+				-1:
+					pass;
+				0:
+					if sprite.animation != "moving_experimental_ship_yellow":
+						sprite.play("transition_experimental_ship_yellow");
+						await sprite.animation_finished;
+						sprite.play("moving_experimental_ship_yellow");
+					else:
+						sprite.play("moving_experimental_ship_yellow");
+				1:
+					if sprite.animation != "moving_experimental_ship_green":
+						sprite.play("transition_experimental_ship_green");
+						await sprite.animation_finished;
+						sprite.play("moving_experimental_ship_green");
+					else:
+						sprite.play("moving_experimental_ship_green");
+				2:
+					if sprite.animation != "moving_experimental_ship_purple":
+						sprite.play("transition_experimental_ship_purple");
+						await sprite.animation_finished;
+						sprite.play("moving_experimental_ship_purple");
+					else:
+						sprite.play("moving_experimental_ship_purple");
+				3:
+					if sprite.animation != "moving_experimental_ship_orange":
+						sprite.play("transition_experimental_ship_orange");
+						await sprite.animation_finished;
+						sprite.play("moving_experimental_ship_orange");
+					else:
+						sprite.play("moving_experimental_ship_orange");
+		10:
+			match player_color_index:
+				-1:
+					pass;
+				0:
+					if sprite.animation != "still_control_ship_yellow":
+						sprite.play_backwards("transition_control_ship_yellow");
+						await sprite.animation_finished;
+						sprite.play("still_control_ship_yellow");
+					else:
+						sprite.play("still_control_ship_yellow");
+				1:
+					if sprite.animation != "still_control_ship_green":
+						sprite.play_backwards("transition_control_ship_green");
+						await sprite.animation_finished;
+						sprite.play("still_control_ship_green");
+					else:
+						sprite.play("still_control_ship_green");
+				2:
+					if sprite.animation != "still_control_ship_purple":
+						sprite.play_backwards("transition_control_ship_purple");
+						await sprite.animation_finished;
+						sprite.play("still_control_ship_purple");
+					else:
+						sprite.play("still_control_ship_purple");
+				3:
+					if sprite.animation != "still_control_ship_orange":
+						sprite.play_backwards("transition_control_ship_orange");
+						await sprite.animation_finished;
+						sprite.play("still_control_ship_orange");
+					else:
+						sprite.play("still_control_ship_orange");
+		11:
+			match player_color_index:
+				-1:
+					pass;
+				0:
+					if sprite.animation != "moving_control_ship_yellow":
+						sprite.play("transition_control_ship_yellow");
+						await sprite.animation_finished;
+						sprite.play("moving_control_ship_yellow");
+					else:
+						sprite.play("moving_control_ship_yellow");
+				1:
+					if sprite.animation != "moving_control_ship_green":
+						sprite.play("transition_control_ship_green");
+						await sprite.animation_finished;
+						sprite.play("moving_control_ship_green");
+					else:
+						sprite.play("moving_control_ship_green");
+				2:
+					if sprite.animation != "moving_control_ship_purple":
+						sprite.play("transition_control_ship_purple");
+						await sprite.animation_finished;
+						sprite.play("moving_control_ship_purple");
+					else:
+						sprite.play("moving_control_ship_purple");
+				3:
+					if sprite.animation != "moving_control_ship_orange":
+						sprite.play("transition_control_ship_orange");
+						await sprite.animation_finished;
+						sprite.play("moving_control_ship_orange");
+					else:
+						sprite.play("moving_control_ship_orange");
 
 
 ## Local-only: Sends a P2P packet containing the position of the player.
@@ -230,6 +378,7 @@ func _send_position_p2p() -> void:
 		"steam_id": steam_id, 
 		"position": global_position, 
 		"velocity": velocity,
+		"rotation": rotation,
 		"super_cool_crouching": super_cool_crouching,
 		"is_on_floor": is_on_floor()
 	};
