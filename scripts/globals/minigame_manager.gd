@@ -25,10 +25,12 @@ var fish_component_path: PackedScene = preload("res://scenes/components/minigame
 ## The array of the names of all available minigames. UPDATE THIS WHENEVER A MINIGAME IS ADDED.
 var available_minigames: Array = [
 	"fishing",
+	"space",
 ];
 ## The array of the display names of all available minigames. UPDATE THIS WHENEVER A MINIGAME IS ADDED. This shouldn't be necessary but it is.
 var available_minigame_names: Dictionary = {
 	"fishing": "Fishing",
+	"space": "Space"
 };
 ## The modifier definitions for each available minigame. UPDATE THIS WHENEVER A MINIGAME IS ADDED.
 var minigame_modifiers: Dictionary = {
@@ -44,6 +46,18 @@ var minigame_modifiers: Dictionary = {
 			{"id": 3, "name": "Upgraded Hook", "description": "Catches two fish instead of one."}
 		]
 	},
+	"space": {
+		"experimental": [
+			{"id": 1, "name": "Shield", "description": "Provides a shield that breaks after 3 hits."},
+			{"id": 2, "name": "Charge Laser", "description": "Allows for a change shot that deals more damage."},
+			{"id": 3, "name": "Tracking Lasers", "description": "Lasers track the nearest player."}
+		],
+		"control": [
+			{"id": 1, "name": "Faster Ship", "description": "Moves around faster"},
+			{"id": 2, "name": "Extra Lasers", "description": "Grants 2 extra laser shots before needing to reload."},
+			{"id": 3, "name": "Faster Reload", "description": "Reloads faster."}
+		]
+	},
 };
 
 ## The spawn positions for each available minigame. UPDATE THIS WHENEVER A MINIGAME IS ADDED.
@@ -53,7 +67,13 @@ var spawn_positions: Dictionary = {
 		"control": [
 			Vector2(-150, 0), Vector2(-100, 0), Vector2(-50, 0)
 		]
-	}
+	},
+	"space": {
+		"experimental": Vector2(150, 10),
+		"control": [
+			Vector2(-150, 0), Vector2(-100, 0), Vector2(-50, 0)
+		]
+	},
 };
 
 
@@ -72,6 +92,9 @@ func handle_game_state_update(new_game_state: Enums.GameState) -> void:
 			
 			if Network.is_host:
 				current_minigame = available_minigames[randi() % (available_minigames.size())];
+				
+				#current_minigame = "space" # for if one needs to be selected
+				
 				var minigame_chosen_data: Dictionary = {
 					"message": "minigame_chosen",
 					"minigame": current_minigame

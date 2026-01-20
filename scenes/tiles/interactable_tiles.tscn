@@ -1,7 +1,8 @@
-[gd_scene load_steps=6 format=3 uid="uid://bqt3wowp50fb2"]
+[gd_scene load_steps=8 format=3 uid="uid://bqt3wowp50fb2"]
 
 [ext_resource type="Texture2D" uid="uid://d1l3tqledwex4" path="res://assets/tiles/blue_plascrete.png" id="1_0h41c"]
 [ext_resource type="Texture2D" uid="uid://c432irma8qxnx" path="res://assets/tiles/plascrete.png" id="1_r6dmk"]
+[ext_resource type="Texture2D" uid="uid://cwidc22nfnqa4" path="res://assets/tiles/stars.png" id="3_o2akd"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_o2akd"]
 texture = ExtResource("1_0h41c")
@@ -29,11 +30,17 @@ texture = ExtResource("1_r6dmk")
 4:0/0 = 0
 4:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_5l433"]
+texture = ExtResource("3_o2akd")
+20:0/0 = 0
+20:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+
 [sub_resource type="TileSet" id="TileSet_o2akd"]
 physics_layer_0/collision_layer = 1
 physics_layer_0/collision_mask = 2
 sources/1 = SubResource("TileSetAtlasSource_0h41c")
 sources/0 = SubResource("TileSetAtlasSource_o2akd")
+sources/2 = SubResource("TileSetAtlasSource_5l433")
 
 [node name="InteractableTiles" type="TileMapLayer"]
 z_index = -1
