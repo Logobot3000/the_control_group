@@ -31,6 +31,8 @@ var player_color_index: int = -1;
 var animation_state: int = 0;
 ## Whether or not the fishing minigame is active.
 var fishing_active: bool = false;
+## Whether or not the space minigame is active.
+var space_active: bool = false;
 ## Whether or not the plaeyer is in the experimental group.
 var is_experimental: bool = false;
 ## Whether or not the player has the emp modifier in the fishing minigame.
@@ -47,26 +49,35 @@ func _ready() -> void:
 
 func _physics_process(delta: float) -> void:
 	if is_local and can_move:
-		# Apply gravity
-		velocity_component.apply_gravity(self, delta);
+		if velocity_component.movement_mode == Enums.MovementMode.PLATFORMER:
+			# Apply gravity
+			velocity_component.apply_gravity(self, delta);
 		
 		if is_on_floor():
 			velocity_component.halt_y();
 		
 		# Handle input
 		var horizontal_input = Input.get_axis("move_left", "move_right");
-		var vertical_input = Input.is_action_pressed("jump");
+		var vertical_input_freeflying = Input.get_axis("move_up", "move_down");
+		var jump_input = Input.is_action_pressed("jump");
 		var toggle_super_cool_crouch = Input.is_action_just_pressed("toggle_super_cool_crouch");
 		
 		if toggle_super_cool_crouch: super_cool_crouching = not super_cool_crouching;
 		
-		if horizontal_input and not super_cool_crouching:
-			velocity_component.accelerate_towards_x(horizontal_input, delta);
+		if velocity_component.movement_mode == Enums.MovementMode.PLATFORMER:
+			if horizontal_input and not super_cool_crouching:
+				velocity_component.accelerate_towards_x(horizontal_input, delta);
+			else:
+				velocity_component.decelerate_x(delta)
+			if jump_input and is_on_floor() and not super_cool_crouching and can_jump:
+				velocity_component.jump();
 		else:
-			velocity_component.decelerate_x(delta);
-		
-		if vertical_input and is_on_floor() and not super_cool_crouching and can_jump:
-			velocity_component.jump();
+			if vertical_input_freeflying < 0 and not super_cool_crouching:
+				velocity_component.accelerate_towards(Vector2(0, 1), delta);
+			else:
+				velocity_component.decelerate(delta);
+			if horizontal_input:
+				rotate(horizontal_input);
 		
 		# Apply velocity changes
 		velocity_component.move(self);
@@ -94,18 +105,21 @@ func _physics_process(delta: float) -> void:
 	
 	if is_local: 
 		if not super_cool_crouching:
-			if snapped(velocity.x, 100) == 0 and velocity.y == 0:
-				if fishing_active: 
-					if is_experimental: animation_state = 6;
-					else: animation_state = 4;
-				else: animation_state = 0;
-			elif not is_on_floor() and !fishing_active:
-				animation_state = 1;
-			elif snapped(velocity.x, 100) != 0 and velocity.y == 0:
-				if fishing_active: 
-					if is_experimental: animation_state = 7;
-					else: animation_state = 5;
-				else: animation_state = 2;
+			if not space_active:
+				if snapped(velocity.x, 100) == 0 and velocity.y == 0:
+					if fishing_active: 
+						if is_experimental: animation_state = 6;
+						else: animation_state = 4;
+					else: animation_state = 0;
+				elif not is_on_floor() and !fishing_active:
+					animation_state = 1;
+				elif snapped(velocity.x, 100) != 0 and velocity.y == 0:
+					if fishing_active: 
+						if is_experimental: animation_state = 7;
+						else: animation_state = 5;
+					else: animation_state = 2;
+			else:
+				print("wip")
 		else:
 			animation_state = 3;
 		_send_position_p2p();

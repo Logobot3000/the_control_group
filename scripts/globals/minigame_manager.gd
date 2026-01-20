@@ -38,7 +38,7 @@ var minigame_modifiers: Dictionary = {
 		"experimental": [
 			{"id": 1, "name": "Net Harpoon", "description": "Catches multiple fish, but has a slow reel speed. Ignores jellyfish."},
 			{"id": 2, "name": "Antivenom Hook", "description": "Allows reeling in jellyfish, also adds more jellyfish."},
-			{"id": 3, "name": "EMP Pulse", "description": "Stuns ships around you (20s cooldown). Gives a temporary rod upgrade per player stunned."}
+			{"id": 3, "name": "EMP", "description": "Stuns ships around you (20s cooldown). Gives a temporary rod upgrade per player stunned."}
 		],
 		"control": [
 			{"id": 1, "name": "Upgraded Rod", "description": "Reels in fish faster."},
@@ -93,7 +93,7 @@ func handle_game_state_update(new_game_state: Enums.GameState) -> void:
 			if Network.is_host:
 				current_minigame = available_minigames[randi() % (available_minigames.size())];
 				
-				#current_minigame = "space" # for if one needs to be selected
+				current_minigame = "space" # for if one needs to be selected
 				
 				var minigame_chosen_data: Dictionary = {
 					"message": "minigame_chosen",
