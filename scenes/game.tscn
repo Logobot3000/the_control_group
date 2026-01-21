@@ -284,7 +284,7 @@ blend_mode = 1
 [node name="LobbyLights" type="Node" parent="Lighting"]
 
 [node name="PointLight2D" type="PointLight2D" parent="Lighting/LobbyLights"]
-position = Vector2(-103.75, 8)
+position = Vector2(-104, 8)
 scale = Vector2(1.25, 2.75)
 energy = 0.5
 texture = SubResource("GradientTexture2D_iywne")

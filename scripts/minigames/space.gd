@@ -21,3 +21,4 @@ func on_minigame_ended() -> void:
 			player.space_active = false;
 			player.velocity_component.movement_mode = Enums.MovementMode.PLATFORMER;
 			player.velocity_component.max_speed = 150;
+			player.rotation = 0;

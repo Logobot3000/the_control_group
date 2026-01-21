@@ -95,16 +95,18 @@ func _physics_process(delta: float) -> void:
 			collision_shape.position.y = 0.5;
 		super_cool_crouching = false;
 	elif space_active:
-		if is_experimental and is_local:
-			collision_shape.shape.size.x = 42;
-			collision_shape.shape.size.y = 16;
-			collision_shape.position.x = 0;
-			collision_shape.position.y = 0;
+		if is_experimental:
+			if is_local:
+				collision_shape.shape.size.x = 42;
+				collision_shape.shape.size.y = 16;
+				collision_shape.position.x = 0;
+				collision_shape.position.y = 0;
 		else:
-			collision_shape.shape.size.x = 12;
-			collision_shape.shape.size.y = 12;
-			collision_shape.position.x = 1;
-			collision_shape.position.y = -2;
+			if not is_experimental and is_local:
+				collision_shape.shape.size.x = 8;
+				collision_shape.shape.size.y = 12;
+				collision_shape.position.x = 1;
+				collision_shape.position.y = -2;
 	else:
 		collision_shape.shape.size.x = 10;
 		collision_shape.shape.size.y = 15;
