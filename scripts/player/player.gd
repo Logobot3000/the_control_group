@@ -37,14 +37,23 @@ var is_experimental: bool = false;
 var emp_enabled: bool = false;
 ## Whether or not the player is stunned.
 var stunned: bool = false;
+## Whether or not the player is dead.
+var is_dead: bool = false;
 ## How fast the player rotates in freeflying mode
 var rotate_speed: float = 0.05;
+## Maximum amount of shots the player has in the space minigame.
+var laser_shot_count_max: int = 3;
+## How many shots the player has in the space minigame.
+var laser_shot_count: int = 3;
+## Whether or not the charge shot midifier is active in the space minigame.
+var charge_shot_enabled: bool = false;
 ## super cool crouch super cool crouch super cool crouch super cool crouch super cool crouch super cool crouch
 var super_cool_crouching: bool = false; 
 
 
 func _ready() -> void:
 	call_deferred("_set_sprite_color");
+	get_node("HealthComponent").died.connect(die);
 
 
 func _physics_process(delta: float) -> void:
@@ -145,6 +154,18 @@ func _physics_process(delta: float) -> void:
 		else:
 			animation_state = 3;
 		_send_position_p2p();
+	
+	if space_active and is_local:
+		if Input.is_action_just_pressed("jump"):
+			var laser_data: Dictionary = {
+				"message": "laser_fired",
+				"steam_id": steam_id,
+				"laser_type": 0,
+				"shot_rotation": rotation,
+				"position": global_position
+			};
+			Network.send_p2p_packet(0, laser_data);
+			MinigameManager.laser_fired(laser_data);
 	
 	match animation_state:
 		0:
@@ -479,6 +500,24 @@ func unstun():
 	set_grayscale_overlay(1);
 	if fishing_active:
 		get_node("HookComponent").can_lower = true;
+
+
+## Dies
+func die():
+	if is_local:
+		is_dead = true;
+		can_move = false;
+		visible = false;
+		set_grayscale_overlay(0);
+
+
+## Un-dies
+func revive():
+	if is_local:
+		is_dead = false;
+		can_move = true;
+		visible = true;
+		set_grayscale_overlay(1);
 
 
 ## Uses the EMP ability in the fishing minigame.

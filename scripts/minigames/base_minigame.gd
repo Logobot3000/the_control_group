@@ -95,6 +95,7 @@ func on_minigame_started() -> void:
 func pre_on_minigame_ended() -> void:
 	for player in get_tree().current_scene.get_node("Players").get_children():
 		player.is_experimental = false;
+		player.revive();
 	minigame_active = false;
 	on_minigame_ended();
 	if Network.is_host:

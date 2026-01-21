@@ -22,6 +22,8 @@ var has_experimental_chosen: bool = false;
 var current_minigame_instance: BaseMinigame = null;
 ## The path for the fish component for the fishing minigame.
 var fish_component_path: PackedScene = preload("res://scenes/components/minigames/fishing/fish_component.tscn");
+## The path for the laser component for the space minigame.
+var laser_component_path: PackedScene = preload("res://scenes/components/minigames/space/laser_component.tscn");
 ## The array of the names of all available minigames. UPDATE THIS WHENEVER A MINIGAME IS ADDED.
 var available_minigames: Array = [
 	"fishing",
@@ -548,3 +550,13 @@ func emp_particles(readable_data: Dictionary):
 	for player in get_tree().current_scene.get_node("Players").get_children():
 		if player.steam_id == readable_data["steam_id"]:
 			player.emp_area.get_node("Particles").emitting = true;
+
+
+## Fires a laser for the space minigame
+func laser_fired(readable_data: Dictionary):
+	var laser = laser_component_path.instantiate();
+	laser.laser_type = readable_data["laser_type"];
+	laser.shot_rotation = readable_data["shot_rotation"];
+	laser.steam_id = readable_data["steam_id"];
+	get_tree().current_scene.get_node("Space").get_node("Lasers").add_child(laser);
+	laser.global_position = readable_data["position"];
