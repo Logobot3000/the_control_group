@@ -49,7 +49,7 @@ var minigame_modifiers: Dictionary = {
 	"space": {
 		"experimental": [
 			{"id": 1, "name": "Shield", "description": "Provides a shield that breaks after 3 hits."},
-			{"id": 2, "name": "Charge Laser", "description": "Allows for a change shot that deals more damage."},
+			{"id": 2, "name": "Charging Laser", "description": "Allows for a change shot that deals more damage."},
 			{"id": 3, "name": "Tracking Lasers", "description": "Lasers track the nearest player."}
 		],
 		"control": [

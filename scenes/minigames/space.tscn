@@ -1,13 +1,15 @@
-[gd_scene load_steps=6 format=4 uid="uid://cvlquok5uc8l1"]
+[gd_scene load_steps=7 format=4 uid="uid://cvlquok5uc8l1"]
 
 [ext_resource type="Script" uid="uid://dj6bdweu4pcpr" path="res://scripts/minigames/space.gd" id="1_5tg3j"]
 [ext_resource type="PackedScene" uid="uid://7101ew6iodi4" path="res://scenes/minigames/base_minigame.tscn" id="1_lv2jp"]
+[ext_resource type="PackedScene" uid="uid://c8sjgvdnt1wfk" path="res://scenes/components/minigames/space/laser_component.tscn" id="2_dpm6u"]
 [ext_resource type="PackedScene" uid="uid://bqt3wowp50fb2" path="res://scenes/tiles/interactable_tiles.tscn" id="3_10ctt"]
 [ext_resource type="PackedScene" uid="uid://cdokncf28uuvf" path="res://scenes/tiles/non_interactable_tiles_bg.tscn" id="4_dpm6u"]
 [ext_resource type="PackedScene" uid="uid://cuggu4te88tce" path="res://scenes/tiles/non_interactable_tiles_fg.tscn" id="5_1htri"]
 
 [node name="Space" type="Node2D"]
 script = ExtResource("1_5tg3j")
+laser_component_path = ExtResource("2_dpm6u")
 
 [node name="BaseMinigame" parent="." instance=ExtResource("1_lv2jp")]
 position = Vector2(1000, 1000)
@@ -36,3 +38,5 @@ visible = false
 position = Vector2(0, 8)
 energy = 0.5
 blend_mode = 1
+
+[node name="Lasers" type="Node" parent="."]

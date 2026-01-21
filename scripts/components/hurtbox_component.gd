@@ -26,6 +26,6 @@ func apply_damage(damage: float) -> void:
 		damaged.emit(damage);
 
 
-# Update with actual logic later
-func _on_area_entered(area: Area2D) -> void:
-	pass;
+func _on_body_entered(body: Node2D) -> void:
+	## COLLISION LAYER 10 IS THE DAMAGE GROUP
+	pass # Replace with function body.

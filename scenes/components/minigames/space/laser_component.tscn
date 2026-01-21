@@ -1,0 +1,61 @@
+[gd_scene load_steps=9 format=3 uid="uid://c8sjgvdnt1wfk"]
+
+[ext_resource type="PackedScene" uid="uid://ca2wxt2wjjmqs" path="res://scenes/components/velocity_component.tscn" id="1_bdt86"]
+[ext_resource type="Script" uid="uid://dwlyfenh4s1m1" path="res://scripts/components/minigames/space/laser_component.gd" id="1_eqaoo"]
+[ext_resource type="Texture2D" uid="uid://btm7i7ah5bbnj" path="res://assets/sprites/minigames/space/laser.png" id="2_eqaoo"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_13lck"]
+atlas = ExtResource("2_eqaoo")
+region = Rect2(32, 0, 15, 15)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ej778"]
+atlas = ExtResource("2_eqaoo")
+region = Rect2(17, 1, 15, 15)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_crb8c"]
+atlas = ExtResource("2_eqaoo")
+region = Rect2(0, 0, 15, 11)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_lvrfy"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_13lck")
+}],
+"loop": true,
+"name": &"charge_shot_large",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ej778")
+}],
+"loop": true,
+"name": &"charge_shot_medium",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_crb8c")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_13lck"]
+radius = 1.0
+
+[node name="LaserComponent" type="CharacterBody2D"]
+collision_layer = 512
+script = ExtResource("1_eqaoo")
+
+[node name="VelocityComponent" parent="." instance=ExtResource("1_bdt86")]
+movement_mode = 0
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_lvrfy")
+animation = &"charge_shot_medium"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_13lck")
