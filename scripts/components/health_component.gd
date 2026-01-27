@@ -17,6 +17,10 @@ signal health_updated(updated_health: float, updated_max_health: float);
 var health: float = max_health;
 
 
+func _ready() -> void:
+	health = max_health;
+
+
 ## Clamps health between 0 and [member max_health], and dies if health < 0.
 func _clamp_health() -> void:
 	health = clamp(health, 0, max_health);

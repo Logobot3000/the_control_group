@@ -204,6 +204,10 @@ func _handle_recieved_packet(sender_id: int, readable_data: Dictionary) -> void:
 				MinigameManager.emp_particles(readable_data);
 			"laser_fired":
 				MinigameManager.laser_fired(readable_data);
+			"player_died":
+				MinigameManager.player_died(readable_data);
+			"player_undied":
+				MinigameManager.player_undied(readable_data);
 
 
 ## Reads up to [member Constants.PACKET_READ_LIMIT] packets.

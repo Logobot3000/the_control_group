@@ -560,3 +560,22 @@ func laser_fired(readable_data: Dictionary):
 	laser.steam_id = readable_data["steam_id"];
 	get_tree().current_scene.get_node("Space").get_node("Lasers").add_child(laser);
 	laser.global_position = readable_data["position"];
+
+
+## Kills a player
+func player_died(readable_data: Dictionary):
+	for player in get_tree().current_scene.get_node("Players").get_children():
+		if player.steam_id == readable_data["steam_id"]:
+			player.is_dead = true;
+			player.visible = false;
+			player.can_move = false;
+			player.position = Vector2.ZERO;
+
+
+## Kills a player
+func player_undied(readable_data: Dictionary):
+	for player in get_tree().current_scene.get_node("Players").get_children():
+		if player.steam_id == readable_data["steam_id"]:
+			player.is_dead = false;
+			player.visible = true;
+			player.can_move = true;

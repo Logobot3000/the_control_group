@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://c8sjgvdnt1wfk"]
+[gd_scene load_steps=10 format=3 uid="uid://c8sjgvdnt1wfk"]
 
 [ext_resource type="PackedScene" uid="uid://ca2wxt2wjjmqs" path="res://scenes/components/velocity_component.tscn" id="1_bdt86"]
 [ext_resource type="Script" uid="uid://dwlyfenh4s1m1" path="res://scripts/components/minigames/space/laser_component.gd" id="1_eqaoo"]
@@ -46,8 +46,12 @@ animations = [{
 [sub_resource type="CircleShape2D" id="CircleShape2D_13lck"]
 radius = 1.0
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_eqaoo"]
+radius = 1.0
+
 [node name="LaserComponent" type="CharacterBody2D"]
 collision_layer = 512
+collision_mask = 0
 script = ExtResource("1_eqaoo")
 
 [node name="VelocityComponent" parent="." instance=ExtResource("1_bdt86")]
@@ -62,10 +66,10 @@ shape = SubResource("CircleShape2D_13lck")
 
 [node name="Area2D" type="Area2D" parent="."]
 collision_layer = 512
-collision_mask = 1023
+collision_mask = 3
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-shape = SubResource("CircleShape2D_13lck")
+shape = SubResource("CircleShape2D_eqaoo")
 debug_color = Color(1, 0, 0, 0.419608)
 
 [connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]

@@ -157,15 +157,23 @@ func _physics_process(delta: float) -> void:
 	
 	if space_active and is_local:
 		if Input.is_action_just_pressed("jump"):
-			var laser_data: Dictionary = {
-				"message": "laser_fired",
-				"steam_id": steam_id,
-				"laser_type": 0,
-				"shot_rotation": rotation,
-				"position": global_position
-			};
-			Network.send_p2p_packet(0, laser_data);
-			MinigameManager.laser_fired(laser_data);
+			if laser_shot_count > 0:
+				var laser_data: Dictionary = {
+					"message": "laser_fired",
+					"steam_id": steam_id,
+					"laser_type": 0,
+					"shot_rotation": rotation,
+					"position": global_position
+				};
+				Network.send_p2p_packet(0, laser_data);
+				MinigameManager.laser_fired(laser_data);
+				laser_shot_count -= 1;
+		if Input.is_action_just_pressed("use_ability"):
+			if laser_shot_count > 0:
+				pass
+			else:
+				await get_tree().create_timer(1).timeout;
+				laser_shot_count = laser_shot_count_max;
 	
 	match animation_state:
 		0:
@@ -505,18 +513,24 @@ func unstun():
 ## Dies
 func die():
 	if is_local:
-		is_dead = true;
-		can_move = false;
-		visible = false;
+		var die_data: Dictionary = {
+			"message": "player_died",
+			"steam_id": steam_id
+		};
 		set_grayscale_overlay(0);
+		Network.send_p2p_packet(0, die_data);
+		MinigameManager.player_died(die_data);
 
 
 ## Un-dies
 func revive():
 	if is_local:
-		is_dead = false;
-		can_move = true;
-		visible = true;
+		var die_data: Dictionary = {
+			"message": "player_undied",
+			"steam_id": steam_id
+		};
+		Network.send_p2p_packet(0, die_data);
+		MinigameManager.player_undied(die_data);
 		set_grayscale_overlay(1);
 
 

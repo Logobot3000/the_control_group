@@ -23,23 +23,20 @@ func change_laser_type(type: int) -> void:
 	match type:
 		1: 
 			sprite.play("default");
-			collision_shape.shape.radius = 1;
-			collision_shape_2.shape.radius = 1.1;
+			collision_shape_2.shape.radius = 2;
 			damage = 5;
 		2:
 			sprite.play("charge_shot_medium");
-			collision_shape.shape.radius = 3;
-			collision_shape_2.shape.radius = 3.1;
+			collision_shape_2.shape.radius = 4;
 			damage = 10;
 		3:
 			sprite.play("charge_shot_large");
-			collision_shape.shape.radius = 5;
-			collision_shape_2.shape.radius = 5.1;
+			collision_shape_2.shape.radius = 6;
 			damage = 15;
 
 
 func _on_area_2d_body_entered(body: Node2D) -> void:
-	print(body, " ", body.name, " ", body.get_parent().name, " ", body.steam_id)
+	print(body)
 	if body.get_parent().name == "Players":
 		if body.steam_id != steam_id:
 			body.get_node("HealthComponent").damage(damage);
