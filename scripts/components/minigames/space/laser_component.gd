@@ -36,11 +36,13 @@ func change_laser_type(type: int) -> void:
 
 
 func _on_area_2d_body_entered(body: Node2D) -> void:
-	print(body)
 	if body.get_parent().name == "Players":
 		if body.steam_id != steam_id:
-			body.get_node("HealthComponent").damage(damage);
-			queue_free();
+			if MinigameManager.current_control_group.has(body.steam_id) and MinigameManager.current_control_group.has(steam_id):
+				pass;
+			else:
+				body.get_node("HealthComponent").damage(damage);
+				queue_free();
 	elif body == self:
 		pass;
 	else:

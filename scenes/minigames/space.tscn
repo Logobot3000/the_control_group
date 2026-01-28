@@ -40,3 +40,6 @@ energy = 0.5
 blend_mode = 1
 
 [node name="Lasers" type="Node" parent="."]
+
+[node name="Node2D" type="Node2D" parent="."]
+position = Vector2(1272, 872)

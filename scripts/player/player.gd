@@ -45,6 +45,8 @@ var rotate_speed: float = 0.05;
 var laser_shot_count_max: int = 3;
 ## How many shots the player has in the space minigame.
 var laser_shot_count: int = 3;
+## How many shots the player has in the space minigame.
+var laser_reload_time: float = 1.0;
 ## Whether or not the charge shot midifier is active in the space minigame.
 var charge_shot_enabled: bool = false;
 ## super cool crouch super cool crouch super cool crouch super cool crouch super cool crouch super cool crouch
@@ -167,12 +169,20 @@ func _physics_process(delta: float) -> void:
 				};
 				Network.send_p2p_packet(0, laser_data);
 				MinigameManager.laser_fired(laser_data);
+				get_node("Overlay/LaserShotGUI/Laser" + str(laser_shot_count)).play("empty");
 				laser_shot_count -= 1;
 		if Input.is_action_just_pressed("use_ability"):
 			if laser_shot_count > 0:
 				pass
 			else:
-				await get_tree().create_timer(1).timeout;
+				for sprite in get_node("Overlay/LaserShotGUI").get_children():
+					if laser_reload_time != 1.0:
+						sprite.play("charging", 2.0);
+					else:
+						sprite.play("charging");
+				await get_tree().create_timer(laser_reload_time).timeout;
+				for sprite in get_node("Overlay/LaserShotGUI").get_children():
+					sprite.play("full");
 				laser_shot_count = laser_shot_count_max;
 	
 	match animation_state:

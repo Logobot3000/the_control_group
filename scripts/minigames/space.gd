@@ -13,8 +13,11 @@ func minigame_setup() -> void:
 			player.velocity_component.max_speed = 75;
 			if player.steam_id == MinigameManager.current_experimental_group:
 				player.velocity_component.max_speed = 65;
+				player.get_node("HealthComponent").max_health = 9;
 			player.velocity_component.halt_x();
 			player.velocity_component.halt_y();
+			if player.steam_id == Main.player_steam_id:
+				player.get_node("Overlay/LaserShotGUI").visible = true;
 	experimental_points_container = get_node("BaseMinigame/TV/ExperimentalPoints");
 	control_points_container = get_node("BaseMinigame/TV/ControlPoints");
 
@@ -38,9 +41,13 @@ func load_modifiers() -> void:
 					1:
 						player.velocity_component.max_speed = 85;
 					2:
-						print("extra lasers")
+						player.laser_shot_count_max = 5;
+						player.laser_shot_count = 5;
+						if player.steam_id == Main.player_steam_id:
+							player.get_node("Overlay/LaserShotGUI/Laser4").visible = true;
+							player.get_node("Overlay/LaserShotGUI/Laser5").visible = true;
 					3:
-						print("faster reload")
+						player.laser_reload_time = 0.5;
 
 
 func on_minigame_ended() -> void:
@@ -50,6 +57,13 @@ func on_minigame_ended() -> void:
 			player.velocity_component.movement_mode = Enums.MovementMode.PLATFORMER;
 			player.velocity_component.max_speed = 150;
 			player.rotation = 0;
+			player.laser_reload_time = 1;
+			player.laser_shot_count_max = 3;
+			player.laser_shot_count = 3;
+			if player.steam_id == Main.player_steam_id:
+				player.get_node("Overlay/LaserShotGUI").visible = true;
+				player.get_node("Overlay/LaserShotGUI/Laser4").visible = true;
+				player.get_node("Overlay/LaserShotGUI/Laser5").visible = true;
 
 
 func _process(delta: float) -> void:

@@ -71,9 +71,9 @@ var spawn_positions: Dictionary = {
 		]
 	},
 	"space": {
-		"experimental": Vector2(150, 10),
+		"experimental": Vector2(-240, 112),
 		"control": [
-			Vector2(-150, 0), Vector2(-100, 0), Vector2(-50, 0)
+			Vector2(-272, -128), Vector2(272, -128), Vector2(272, 144)
 		]
 	},
 };
