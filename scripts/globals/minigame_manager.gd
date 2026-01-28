@@ -566,10 +566,16 @@ func laser_fired(readable_data: Dictionary):
 func player_died(readable_data: Dictionary):
 	for player in get_tree().current_scene.get_node("Players").get_children():
 		if player.steam_id == readable_data["steam_id"]:
+			var explosion = load("res://scenes/components/death_effect_component.tscn").instantiate();
+			get_tree().current_scene.add_child(explosion);
+			explosion.position = player.position;
 			player.is_dead = true;
 			player.visible = false;
 			player.can_move = false;
 			player.position = Vector2.ZERO;
+			explosion.emitting = true;
+			await get_tree().create_timer(0.5).timeout;
+			explosion.queue_free();
 
 
 ## Kills a player

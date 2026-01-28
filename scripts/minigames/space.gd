@@ -13,7 +13,8 @@ func minigame_setup() -> void:
 			player.velocity_component.max_speed = 75;
 			if player.steam_id == MinigameManager.current_experimental_group:
 				player.velocity_component.max_speed = 65;
-				player.get_node("HealthComponent").max_health = 9;
+				player.get_node("HealthComponent").max_health = 45;
+				player.get_node("HealthComponent").health = 45;
 			player.velocity_component.halt_x();
 			player.velocity_component.halt_y();
 			if player.steam_id == Main.player_steam_id:
@@ -61,9 +62,9 @@ func on_minigame_ended() -> void:
 			player.laser_shot_count_max = 3;
 			player.laser_shot_count = 3;
 			if player.steam_id == Main.player_steam_id:
-				player.get_node("Overlay/LaserShotGUI").visible = true;
-				player.get_node("Overlay/LaserShotGUI/Laser4").visible = true;
-				player.get_node("Overlay/LaserShotGUI/Laser5").visible = true;
+				player.get_node("Overlay/LaserShotGUI").visible = false;
+				player.get_node("Overlay/LaserShotGUI/Laser4").visible = false;
+				player.get_node("Overlay/LaserShotGUI/Laser5").visible = false;
 
 
 func _process(delta: float) -> void:

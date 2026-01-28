@@ -1,0 +1,34 @@
+[gd_scene load_steps=5 format=3 uid="uid://cqfpi3xlfnedu"]
+
+[sub_resource type="Gradient" id="Gradient_8d1rl"]
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_c4e5o"]
+gradient = SubResource("Gradient_8d1rl")
+width = 50
+height = 50
+fill = 1
+fill_from = Vector2(0.54717, 0.512579)
+fill_to = Vector2(0.836478, 0.166667)
+
+[sub_resource type="Curve" id="Curve_oovla"]
+_data = [Vector2(0, 1), 0.0, -0.0116847, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Gradient" id="Gradient_oqo1a"]
+offsets = PackedFloat32Array(0, 0.0462963, 0.407407, 0.685185, 0.990741)
+colors = PackedColorArray(1, 0.938439, 0.974271, 1, 1, 0.932432, 0, 1, 1, 0.405405, 0, 1, 1, 0, 0, 1, 0.576815, 0.461253, 0.473151, 1)
+
+[node name="DeathEffectComponent" type="CPUParticles2D"]
+emitting = false
+amount = 50
+texture = SubResource("GradientTexture2D_c4e5o")
+lifetime = 0.5
+one_shot = true
+explosiveness = 1.0
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 69.74
+initial_velocity_max = 139.19
+scale_amount_curve = SubResource("Curve_oovla")
+color_ramp = SubResource("Gradient_oqo1a")

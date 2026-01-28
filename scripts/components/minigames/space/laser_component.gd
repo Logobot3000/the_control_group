@@ -42,6 +42,16 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 				pass;
 			else:
 				body.get_node("HealthComponent").damage(damage);
+				print(body.get_node("HealthComponent").health, body.get_node("HealthComponent").is_dead());
+				if body.steam_id == Main.player_steam_id:
+					body.get_node("Overlay/HurtOverlay/AnimationPlayer").stop()
+					body.get_node("Overlay/HurtOverlay/AnimationPlayer").play("go");
+				if Main.player_steam_id == steam_id and body.get_node("HealthComponent").is_dead():
+					print(":3333 :33 :33333333")
+					if body.is_experimental == true:
+						get_tree().current_scene.get_node("Space").score_point(5);
+					else:
+						get_tree().current_scene.get_node("Space").score_point(1);
 				queue_free();
 	elif body == self:
 		pass;

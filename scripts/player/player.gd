@@ -169,7 +169,7 @@ func _physics_process(delta: float) -> void:
 				};
 				Network.send_p2p_packet(0, laser_data);
 				MinigameManager.laser_fired(laser_data);
-				get_node("Overlay/LaserShotGUI/Laser" + str(laser_shot_count)).play("empty");
+				get_node("Overlay/LaserShotGUI/Laser" + str(laser_shot_count)).play_backwards("charging");
 				laser_shot_count -= 1;
 		if Input.is_action_just_pressed("use_ability"):
 			if laser_shot_count > 0:
