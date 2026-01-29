@@ -44,9 +44,11 @@ animations = [{
 }]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_13lck"]
+resource_local_to_scene = true
 radius = 1.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_eqaoo"]
+resource_local_to_scene = true
 radius = 1.0
 
 [node name="LaserComponent" type="CharacterBody2D"]

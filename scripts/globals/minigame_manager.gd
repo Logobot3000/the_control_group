@@ -51,13 +51,13 @@ var minigame_modifiers: Dictionary = {
 	"space": {
 		"experimental": [
 			{"id": 1, "name": "Shield", "description": "Provides a shield that breaks after 3 hits."},
-			{"id": 2, "name": "Charging Laser", "description": "Allows for a change shot that deals more damage."},
-			{"id": 3, "name": "Tracking Lasers", "description": "Lasers track the nearest player."}
+			{"id": 2, "name": "Charging Laser", "description": "Allows for a charge shot that deals more damage, but uses all charges."},
+			{"id": 3, "name": "Tracking Lasers", "description": "Lasers track the nearest player. May track through walls."}
 		],
 		"control": [
-			{"id": 1, "name": "Faster Ship", "description": "Moves around faster"},
-			{"id": 2, "name": "Extra Lasers", "description": "Grants 2 extra laser shots before needing to reload."},
-			{"id": 3, "name": "Faster Reload", "description": "Reloads faster."}
+			{"id": 1, "name": "Faster Ship", "description": "Increases the speed of the ship."},
+			{"id": 2, "name": "Extra Lasers", "description": "Grants 2 extra laser charges."},
+			{"id": 3, "name": "Faster Reload", "description": "Reloads twice as fast."}
 		]
 	},
 };
@@ -558,6 +558,7 @@ func laser_fired(readable_data: Dictionary):
 	laser.laser_type = readable_data["laser_type"];
 	laser.shot_rotation = readable_data["shot_rotation"];
 	laser.steam_id = readable_data["steam_id"];
+	laser.tracking_active = readable_data["tracking"]
 	get_tree().current_scene.get_node("Space").get_node("Lasers").add_child(laser);
 	laser.global_position = readable_data["position"];
 

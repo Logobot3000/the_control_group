@@ -35,7 +35,7 @@ func load_modifiers() -> void:
 					2:
 						print("charging laser")
 					3:
-						print("tracking lasers")
+						player.tracking_lasers_enabled = true;
 			else:
 				chosen_modifier_id = MinigameManager.current_modifiers["control"][player.steam_id]["id"];
 				match chosen_modifier_id:

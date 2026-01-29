@@ -49,6 +49,10 @@ var laser_shot_count: int = 3;
 var laser_reload_time: float = 1.0;
 ## Whether or not the charge shot midifier is active in the space minigame.
 var charge_shot_enabled: bool = false;
+## Whether or not the shield midifier is active in the space minigame.
+var shield_ship_enabled: bool = false;
+## Whether or not the tracking lasers midifier is active in the space minigame.
+var tracking_lasers_enabled: bool = false;
 ## super cool crouch super cool crouch super cool crouch super cool crouch super cool crouch super cool crouch
 var super_cool_crouching: bool = false; 
 
@@ -93,37 +97,6 @@ func _physics_process(delta: float) -> void:
 		# Apply velocity changes
 		velocity_component.move(self);
 	
-	if fishing_active: 
-		if is_experimental and is_local:
-			collision_shape.shape.size.x = 27;
-			collision_shape.shape.size.y = 23;
-			collision_shape.position.x = -0.5;
-			collision_shape.position.y = 4.5;
-		else:
-			collision_shape.shape.size.x = 10;
-			collision_shape.shape.size.y = 15;
-			collision_shape.position.x = 0;
-			collision_shape.position.y = 0.5;
-		super_cool_crouching = false;
-	elif space_active:
-		if is_experimental:
-			if is_local:
-				collision_shape.shape.size.x = 42;
-				collision_shape.shape.size.y = 16;
-				collision_shape.position.x = 0;
-				collision_shape.position.y = 0;
-		else:
-			if not is_experimental and is_local:
-				collision_shape.shape.size.x = 8;
-				collision_shape.shape.size.y = 12;
-				collision_shape.position.x = 1;
-				collision_shape.position.y = -2;
-	else:
-		collision_shape.shape.size.x = 10;
-		collision_shape.shape.size.y = 15;
-		collision_shape.position.x = 0;
-		collision_shape.position.y = 0.5;
-	
 	if fishing_active and is_experimental: set_sprite_direction(-velocity.x);
 	else: set_sprite_direction(velocity.x);
 	
@@ -157,6 +130,8 @@ func _physics_process(delta: float) -> void:
 			animation_state = 3;
 		_send_position_p2p();
 	
+	collision_shape_update();
+	
 	if space_active and is_local:
 		if Input.is_action_just_pressed("jump"):
 			if laser_shot_count > 0:
@@ -165,7 +140,8 @@ func _physics_process(delta: float) -> void:
 					"steam_id": steam_id,
 					"laser_type": 0,
 					"shot_rotation": rotation,
-					"position": global_position
+					"position": global_position,
+					"tracking": tracking_lasers_enabled
 				};
 				Network.send_p2p_packet(0, laser_data);
 				MinigameManager.laser_fired(laser_data);
@@ -495,6 +471,39 @@ func set_sprite_direction(vel_x: float):
 ## Sets the saturation level of the grayscale overlay.
 func set_grayscale_overlay(saturation: float):
 	overlay.get_node("GrayscaleOverlay").material.set_shader_parameter("saturation", saturation);
+
+
+## Updates the collision shape of the player.
+func collision_shape_update() -> void:
+	if fishing_active: 
+		if steam_id == MinigameManager.current_experimental_group:
+			collision_shape.shape.size.x = 27;
+			collision_shape.shape.size.y = 23;
+			collision_shape.position.x = -0.5;
+			collision_shape.position.y = 4.5;
+		else:
+			collision_shape.shape.size.x = 10;
+			collision_shape.shape.size.y = 15;
+			collision_shape.position.x = 0;
+			collision_shape.position.y = 0.5;
+		super_cool_crouching = false;
+	elif space_active:
+		if steam_id == MinigameManager.current_experimental_group:
+			collision_shape.shape.size.x = 42;
+			collision_shape.shape.size.y = 16;
+			collision_shape.position.x = 0;
+			collision_shape.position.y = 0;
+		else:
+			collision_shape.shape.size.x = 8;
+			collision_shape.shape.size.y = 12;
+			collision_shape.position.x = 1;
+			collision_shape.position.y = -2;
+		super_cool_crouching = false;
+	else:
+		collision_shape.shape.size.x = 10;
+		collision_shape.shape.size.y = 15;
+		collision_shape.position.x = 0;
+		collision_shape.position.y = 0.5;
 
 
 ## Sets whether or not a player is stunned.
