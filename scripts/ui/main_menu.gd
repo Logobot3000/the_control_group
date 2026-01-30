@@ -23,16 +23,26 @@ func _on_host_button_pressed() -> void:
 		if selected_visibility_array: selected_visibility = selected_visibility_array[0];
 		match selected_visibility:
 			0:
+				get_tree().current_scene.get_node("BlackOverlay/AnimationPlayer").play("fade_in");
+				await get_tree().create_timer(1).timeout;
 				Network.create_lobby(Steam.LOBBY_TYPE_PUBLIC);
 			1:
+				get_tree().current_scene.get_node("BlackOverlay/AnimationPlayer").play("fade_in");
+				await get_tree().create_timer(1).timeout;
 				Network.create_lobby(Steam.LOBBY_TYPE_FRIENDS_ONLY);
 			2:
+				get_tree().current_scene.get_node("BlackOverlay/AnimationPlayer").play("fade_in");
+				await get_tree().create_timer(1).timeout;
 				Network.create_lobby(Steam.LOBBY_TYPE_PRIVATE);
 			3: 
+				get_tree().current_scene.get_node("BlackOverlay/AnimationPlayer").play("fade_in");
+				await get_tree().create_timer(1).timeout;
 				Network.create_lobby(Steam.LOBBY_TYPE_INVISIBLE);
 			_:
 				print("No lobby visibility selected");
 	else:
+		get_tree().current_scene.get_node("BlackOverlay/AnimationPlayer").play("fade_in");
+		await get_tree().create_timer(1).timeout;
 		Network.create_lobby(0);
 
 
@@ -41,6 +51,8 @@ func _on_join_button_pressed() -> void:
 	var input_text: String = lobby_id.text.strip_edges();
 	if input_text.is_empty() and not Network.use_local_networking: return;
 	var id: int = Main.base64_to_lobby_id(input_text);
+	get_tree().current_scene.get_node("BlackOverlay/AnimationPlayer").play("fade_in");
+	await get_tree().create_timer(1).timeout;
 	Network.join_lobby(id);
 
 

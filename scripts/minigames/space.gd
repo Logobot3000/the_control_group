@@ -54,6 +54,8 @@ func load_modifiers() -> void:
 
 
 func on_minigame_ended() -> void:
+	if get_tree().current_scene.get_node("ShieldComponent"):
+		get_tree().current_scene.get_node("ShieldComponent").queue_free();
 	for player in get_tree().current_scene.get_node("Players").get_children():
 		if MinigameManager.ready_for_minigame.has(Main.player_steam_id):
 			player.get_node("HealthComponent").max_health = 15;
@@ -80,5 +82,11 @@ func on_minigame_ended() -> void:
 
 func _process(delta: float) -> void:
 	update_group_scores();
-	if control_points_container.text == "5" or experimental_points_container.text == "3":
+	if control_points_container.text == "5":
+		end_minigame_early();
+	if MinigameManager.ready_for_minigame.size() == 4 and experimental_points_container.text == "3":
+		end_minigame_early();
+	if MinigameManager.ready_for_minigame.size() == 3 and experimental_points_container.text == "2":
+		end_minigame_early();
+	if MinigameManager.ready_for_minigame.size() == 2 and experimental_points_container.text == "1":
 		end_minigame_early();

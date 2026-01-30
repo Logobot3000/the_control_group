@@ -92,6 +92,7 @@ func spawn_fish(spawn_left: bool) -> void:
 			"fish_door_left_pos": fish_door_left.position,
 			"fish_door_right_pos": fish_door_right.position,
 			"height_modifier": height_modifier,
+			"fish_speed": randf_range(25.0, 75.0),
 			"time_scale": time_scale
 		}
 		Network.send_p2p_packet(0, data);

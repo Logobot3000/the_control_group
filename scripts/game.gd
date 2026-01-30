@@ -21,6 +21,8 @@ func _ready() -> void:
 	if not Network.use_local_networking:
 		get_tree().current_scene.get_node("LobbyCode").text = "CODE: " + Main.lobby_id_to_base64(Network.lobby_id);
 	
+	get_node("BlackOverlay/AnimationPlayer").play("go");
+	
 	await get_tree().process_frame;
 
 

@@ -15,15 +15,18 @@ extends CharacterBody2D;
 var time_alive: float = 0.0;
 ## Determines whether the fish is attached to a hook.
 var hooked: bool = false;
-## The HookComponent the fish is currently attached to (if it is attached to anything)
+## The HookComponent the fish is currently attached to (if it is attached to anything).
 var attached_hook: HookComponent = null;
-## The HookComponent that the fish is currently attracted to (if it is attracted to anything)
+## The HookComponent that the fish is currently attracted to (if it is attracted to anything).
 var lured_hook: HookComponent = null;
-## The time scaling for the sine wave
+## The time scaling for the sine wave.
 var time_scale: float = 0.1;
+## The max velocity for the fish.
+var fish_speed: float;
 
 
 func _ready() -> void:
+	get_node("VelocityComponent").max_speed = fish_speed;
 	if is_jellyfish:
 		sprite.play("jellyfish");
 		sprite.rotation_degrees = 90;
@@ -81,7 +84,7 @@ func _physics_process(delta: float) -> void:
 					if attached_hook.hook_type == Enums.HookType.ANTIVENOM:
 						get_tree().current_scene.get_node("Fishing").score_point(1);
 					elif attached_hook.hook_type == Enums.HookType.NET:
-						print(":3");
+						pass;
 					else:
 						get_tree().current_scene.get_node("Fishing").score_point(-1);
 				else:

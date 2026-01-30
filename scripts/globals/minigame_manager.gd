@@ -95,7 +95,7 @@ func handle_game_state_update(new_game_state: Enums.GameState) -> void:
 			if Network.is_host:
 				current_minigame = available_minigames[randi() % (available_minigames.size())];
 				
-				current_minigame = "space" # for if one needs to be selected
+				#current_minigame = "space" # for if one needs to be selected
 				
 				var minigame_chosen_data: Dictionary = {
 					"message": "minigame_chosen",
@@ -272,8 +272,10 @@ func handle_game_state_update(new_game_state: Enums.GameState) -> void:
 					node.get_parent().size_flags_vertical = 1;
 			var modifier_ui_container: VBoxContainer = modifier_selection_ui.get_node("Control").get_node("VBoxContainer");
 			modifier_ui_container.get_node("Modifier").add_theme_font_size_override("font_size", 26);
+			modifier_ui_container.get_node("Modifier").text = "";
 			modifier_ui_container.get_node("WaitingForExperimental").visible = true;
 			modifier_ui_container.get_node("ModifierDescription").self_modulate.a = 0;
+			modifier_ui_container.get_node("ModifierDescription").text = "";
 			
 			for player in get_tree().current_scene.get_node("Players").get_children():
 				if ready_for_minigame.has(player.steam_id):
@@ -531,6 +533,7 @@ func fish_spawn(readable_data: Dictionary) -> void:
 	fish.is_jellyfish = readable_data["is_jellyfish"];
 	fish.color = readable_data["color"];
 	fish.time_scale = readable_data["time_scale"];
+	fish.fish_speed = readable_data["fish_speed"];
 	if readable_data["spawn_from_right"]:
 		fish.spawn_from_right = false;
 		get_tree().current_scene.add_child(fish);

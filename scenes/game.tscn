@@ -1,4 +1,4 @@
-[gd_scene load_steps=55 format=4 uid="uid://cf2rpf337i6m6"]
+[gd_scene load_steps=71 format=4 uid="uid://cf2rpf337i6m6"]
 
 [ext_resource type="Script" uid="uid://bmkai2wd67610" path="res://scripts/game.gd" id="1_lbhrr"]
 [ext_resource type="PackedScene" uid="uid://bqt3wowp50fb2" path="res://scenes/tiles/interactable_tiles.tscn" id="2_lbhrr"]
@@ -11,6 +11,8 @@
 [ext_resource type="Texture2D" uid="uid://7160hlvhbpr7" path="res://assets/sprites/pick_buttons.png" id="9_0tnpc"]
 [ext_resource type="Texture2D" uid="uid://dsxyyrb88a2im" path="res://assets/sprites/modifier_selection.png" id="9_vtaks"]
 [ext_resource type="Texture2D" uid="uid://cpgwdlreqsx6t" path="res://assets/sprites/results.png" id="11_kvpfn"]
+[ext_resource type="Shader" uid="uid://dnyx2cdj7soco" path="res://assets/shaders/loading_logo.gdshader" id="12_kvuet"]
+[ext_resource type="Texture2D" uid="uid://bm2pgqollqbca" path="res://assets/logo.png" id="13_trtic"]
 
 [sub_resource type="Gradient" id="Gradient_p57ef"]
 offsets = PackedFloat32Array(0, 0.559387, 1)
@@ -246,6 +248,191 @@ height = 5
 [sub_resource type="Gradient" id="Gradient_kvuet"]
 offsets = PackedFloat32Array(0, 0.314815, 0.638889, 1)
 colors = PackedColorArray(1, 0, 0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 0.784314, 0, 1, 1)
+
+[sub_resource type="Gradient" id="Gradient_trtic"]
+offsets = PackedFloat32Array(0, 0.828829, 1)
+colors = PackedColorArray(0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_ca42v"]
+gradient = SubResource("Gradient_trtic")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_rysoc"]
+shader = ExtResource("12_kvuet")
+shader_parameter/origin = Color(0, 0, 0, 1)
+shader_parameter/new_color = Color(1, 1, 1, 1)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sww3w"]
+atlas = ExtResource("13_trtic")
+region = Rect2(359, 43, 126, 59)
+
+[sub_resource type="Gradient" id="Gradient_suyxu"]
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_ir15t"]
+gradient = SubResource("Gradient_suyxu")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_qouja"]
+texture = SubResource("GradientTexture2D_ir15t")
+
+[sub_resource type="Gradient" id="Gradient_wljb1"]
+offsets = PackedFloat32Array(0)
+colors = PackedColorArray(0, 1, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_rysoc"]
+gradient = SubResource("Gradient_wljb1")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_js0lu"]
+texture = SubResource("GradientTexture2D_rysoc")
+
+[sub_resource type="Animation" id="Animation_gxtfn"]
+resource_name = "go"
+length = 1.75
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.733333, 1.73333),
+"transitions": PackedFloat32Array(1, 2.14355),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.725, 1.73333),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(1.5, 1.5), Vector2(1e-05, 1e-05)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("ProgressBar:value")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 1.0]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("ProgressBar2:value")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 1.0]
+}
+
+[sub_resource type="Animation" id="Animation_twgab"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1.5, 1.5)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("ProgressBar:value")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("ProgressBar2:value")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
+[sub_resource type="Animation" id="Animation_kvuet"]
+resource_name = "loading"
+length = 0.75
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("ProgressBar:value")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 1.0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("ProgressBar2:value")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 1.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_02fa5"]
+_data = {
+&"RESET": SubResource("Animation_twgab"),
+&"go": SubResource("Animation_gxtfn"),
+&"loading": SubResource("Animation_kvuet")
+}
 
 [node name="Game" type="Node"]
 script = ExtResource("1_lbhrr")
@@ -735,5 +922,58 @@ angular_velocity_min = -83.08
 angular_velocity_max = 83.08
 linear_accel_max = 11.1
 color_initial_ramp = SubResource("Gradient_kvuet")
+
+[node name="BlackOverlay" type="TextureRect" parent="."]
+z_index = 10
+offset_left = -160.0
+offset_top = -96.0
+offset_right = 160.0
+offset_bottom = 96.0
+mouse_filter = 2
+texture = SubResource("GradientTexture2D_ca42v")
+
+[node name="Sprite2D" type="Sprite2D" parent="BlackOverlay"]
+modulate = Color(1, 1, 1, 0.09)
+light_mask = 0
+z_index = 11
+material = SubResource("ShaderMaterial_rysoc")
+position = Vector2(160, 96)
+scale = Vector2(1.5, 1.5)
+texture = SubResource("AtlasTexture_sww3w")
+
+[node name="ProgressBar" type="ProgressBar" parent="BlackOverlay"]
+modulate = Color(100, 100, 100, 1)
+light_mask = 0
+layout_mode = 0
+offset_left = 80.0
+offset_top = 170.0
+offset_right = 240.0
+offset_bottom = 174.0
+mouse_filter = 2
+theme_override_constants/outline_size = 10
+theme_override_styles/background = SubResource("StyleBoxTexture_qouja")
+theme_override_styles/fill = SubResource("StyleBoxTexture_js0lu")
+max_value = 1.0
+show_percentage = false
+
+[node name="ProgressBar2" type="ProgressBar" parent="BlackOverlay"]
+modulate = Color(100, 100, 100, 1)
+light_mask = 0
+layout_mode = 0
+offset_left = 80.0
+offset_top = 16.0
+offset_right = 240.0
+offset_bottom = 20.0
+mouse_filter = 2
+theme_override_constants/outline_size = 10
+theme_override_styles/background = SubResource("StyleBoxTexture_qouja")
+theme_override_styles/fill = SubResource("StyleBoxTexture_js0lu")
+max_value = 1.0
+show_percentage = false
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="BlackOverlay"]
+libraries = {
+&"": SubResource("AnimationLibrary_02fa5")
+}
 
 [connection signal="body_entered" from="ReadyForMinigame" to="." method="_on_ready_for_minigame_entered"]
