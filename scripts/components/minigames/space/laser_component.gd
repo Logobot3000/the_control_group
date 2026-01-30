@@ -9,9 +9,14 @@ extends CharacterBody2D
 
 var damage = 5;
 var shot_rotation: float = 0;
+var shot_direction: Vector2;
 var steam_id = 0;
 var tracking_active: bool = true;
 var closest_player: Player = null;
+
+
+func _ready() -> void:
+	shot_direction = Vector2.UP.rotated(shot_rotation);
 
 
 func _process(delta: float) -> void:
@@ -24,12 +29,11 @@ func _process(delta: float) -> void:
 				if distance < closest_distance:
 					closest_distance = distance;
 					closest_player = player;
-				if distance < 20:
-					tracking_active = false;
-	if tracking_active:
-		get_node("VelocityComponent").accelerate_towards((closest_player.global_position - global_position).normalized(), delta);
-	else:
-		get_node("VelocityComponent").accelerate_towards(Vector2.UP.rotated(shot_rotation), delta);
+		if closest_distance < 65:
+			tracking_active = false;
+		shot_direction = (closest_player.global_position - global_position).normalized()
+			
+	get_node("VelocityComponent").accelerate_towards(shot_direction, delta);
 	get_node("VelocityComponent").move(self);
 
 

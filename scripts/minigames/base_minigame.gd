@@ -125,3 +125,10 @@ func countdown_timer(time: float) -> void:
 		
 		await get_tree().create_timer(0.1).timeout;
 		if time > 0: countdown_timer(time - 0.1);
+
+
+## Ends a minigame early.
+func end_minigame_early() -> void:
+	await get_tree().create_timer(1).timeout;
+	is_timer_running = false;
+	minigame_ended.emit();

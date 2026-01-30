@@ -288,7 +288,10 @@ func handle_game_state_update(new_game_state: Enums.GameState) -> void:
 			
 			var experimental_points: int = 0;
 			if current_scores.has(current_experimental_group):
-				experimental_points = current_scores[current_experimental_group]
+				experimental_points = current_scores[current_experimental_group];
+			for pl in ready_for_minigame:
+				if not current_scores.has(pl):
+					current_scores[pl] = 0;
 			var total_control_points: int = 0;
 			var control_won: bool = true;
 			var mvp_id = 0;

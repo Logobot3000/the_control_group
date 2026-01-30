@@ -1,0 +1,70 @@
+[gd_scene load_steps=9 format=3 uid="uid://dan6mybadyono"]
+
+[ext_resource type="Script" uid="uid://cn0rsoukq6ukp" path="res://scripts/components/minigames/space/shield_component.gd" id="1_06is3"]
+[ext_resource type="Texture2D" uid="uid://nxgl1xjk7ol1" path="res://assets/sprites/minigames/space/ship_shield.png" id="1_uyheu"]
+[ext_resource type="PackedScene" uid="uid://cdorjp5slf1rj" path="res://scenes/components/health_component.tscn" id="3_vdmld"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_d7isu"]
+atlas = ExtResource("1_uyheu")
+region = Rect2(0, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_06is3"]
+atlas = ExtResource("1_uyheu")
+region = Rect2(96, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vdmld"]
+atlas = ExtResource("1_uyheu")
+region = Rect2(48, 0, 48, 48)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_8ipbm"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_d7isu")
+}],
+"loop": true,
+"name": &"one_hit",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_06is3")
+}],
+"loop": true,
+"name": &"three_hit",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vdmld")
+}],
+"loop": true,
+"name": &"two_hit",
+"speed": 5.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_alc7g"]
+radius = 15.3333
+height = 49.3333
+
+[node name="ShieldComponent" type="Area2D"]
+collision_mask = 513
+script = ExtResource("1_06is3")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+scale = Vector2(1.5, 1.5)
+sprite_frames = SubResource("SpriteFrames_8ipbm")
+animation = &"three_hit"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(1.42109e-14, 4)
+rotation = -1.5708
+scale = Vector2(1.5, 1.5)
+shape = SubResource("CapsuleShape2D_alc7g")
+
+[node name="HealthComponent" parent="." instance=ExtResource("3_vdmld")]
+max_health = 15.0
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="died" from="HealthComponent" to="." method="_on_health_component_died"]
+[connection signal="health_updated" from="HealthComponent" to="." method="_on_health_component_health_updated"]
