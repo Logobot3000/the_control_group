@@ -28,11 +28,13 @@ var laser_component_path: PackedScene = preload("res://scenes/components/minigam
 var available_minigames: Array = [
 	"fishing",
 	"space",
+	"juggernaut",
 ];
 ## The array of the display names of all available minigames. UPDATE THIS WHENEVER A MINIGAME IS ADDED. This shouldn't be necessary but it is.
 var available_minigame_names: Dictionary = {
 	"fishing": "Fishing",
-	"space": "Space"
+	"space": "Space",
+	"juggernaut": "Juggernaut",
 };
 ## The modifier definitions for each available minigame. UPDATE THIS WHENEVER A MINIGAME IS ADDED.
 var minigame_modifiers: Dictionary = {
@@ -60,6 +62,18 @@ var minigame_modifiers: Dictionary = {
 			{"id": 3, "name": "Faster Reload", "description": "Reloads twice as fast."}
 		]
 	},
+	"juggernaut": {
+		"experimental": [
+			{"id": 1, "name": "Experimental1", "description": "Experimental"},
+			{"id": 2, "name": "Experimental2", "description": "Experimental"},
+			{"id": 3, "name": "Experimental3", "description": "Experimental"}
+		],
+		"control": [
+			{"id": 1, "name": "Control1", "description": "Control"},
+			{"id": 2, "name": "Control2", "description": "Control"},
+			{"id": 3, "name": "Control3", "description": "Control"}
+		]
+	},
 };
 
 ## The spawn positions for each available minigame. UPDATE THIS WHENEVER A MINIGAME IS ADDED.
@@ -74,6 +88,12 @@ var spawn_positions: Dictionary = {
 		"experimental": Vector2(-240, 112),
 		"control": [
 			Vector2(-272, -128), Vector2(272, -128), Vector2(272, 144)
+		]
+	},
+	"juggernaut": {
+		"experimental": Vector2(150, 10),
+		"control": [
+			Vector2(-150, 0), Vector2(-100, 0), Vector2(-50, 0)
 		]
 	},
 };
@@ -95,7 +115,7 @@ func handle_game_state_update(new_game_state: Enums.GameState) -> void:
 			if Network.is_host:
 				current_minigame = available_minigames[randi() % (available_minigames.size())];
 				
-				#current_minigame = "space" # for if one needs to be selected
+				current_minigame = "juggernaut" # for if one needs to be selected
 				
 				var minigame_chosen_data: Dictionary = {
 					"message": "minigame_chosen",
