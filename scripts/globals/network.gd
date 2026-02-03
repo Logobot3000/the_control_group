@@ -318,13 +318,19 @@ func _update_remote_player_position(data: Dictionary) -> void:
 						if player.fishing_active: 
 							if player.is_experimental: player.animation_state = 6;
 							else: player.animation_state = 4;
+						elif player.juggernaut_active and player.is_experimental:
+							player.animation_state = 12;
 						else: player.animation_state = 0;
 					elif not is_on_floor and !player.fishing_active:
-						player.animation_state = 1;
+						if player.juggernaut_active and player.is_experimental:
+							player.animation_state = 13;
+						else: player.animation_state = 1;
 					elif snapped(player.velocity.x, 100) != 0 and player.velocity.y == 0:
 						if player.fishing_active: 
 							if player.is_experimental: player.animation_state = 7;
 							else: player.animation_state = 5;
+						elif player.juggernaut_active and player.is_experimental:
+							player.animation_state = 14;
 						else: player.animation_state = 2;
 				else:
 					if player.is_experimental:

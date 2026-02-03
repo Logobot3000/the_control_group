@@ -53,6 +53,8 @@ var laser_reload_time: float = 1.0;
 var charge_shot_enabled: bool = false;
 ## Whether or not the tracking lasers midifier is active in the space minigame.
 var tracking_lasers_enabled: bool = false;
+## Whether or not the extra life modifier is active in the juggernaut minigame.
+var juggernaut_extra_life: bool = false;
 ## super cool crouch super cool crouch super cool crouch super cool crouch super cool crouch super cool crouch
 var super_cool_crouching: bool = false; 
 
@@ -107,13 +109,20 @@ func _physics_process(delta: float) -> void:
 					if fishing_active: 
 						if is_experimental: animation_state = 6;
 						else: animation_state = 4;
+					elif juggernaut_active and is_experimental:
+						animation_state = 12;
 					else: animation_state = 0;
 				elif not is_on_floor() and !fishing_active:
-					animation_state = 1;
+					if juggernaut_active and is_experimental:
+						animation_state = 13;
+					else:
+						animation_state = 1;
 				elif snapped(velocity.x, 100) != 0 and velocity.y == 0:
 					if fishing_active: 
 						if is_experimental: animation_state = 7;
 						else: animation_state = 5;
+					elif juggernaut_active and is_experimental:
+						animation_state = 14;
 					else: animation_state = 2;
 			else:
 				if is_experimental:
@@ -403,6 +412,42 @@ func _physics_process(delta: float) -> void:
 						sprite.play("moving_control_ship_orange");
 					else:
 						sprite.play("moving_control_ship_orange");
+		12:
+			match player_color_index:
+				-1:
+					pass;
+				0:
+					sprite.play("still_juggernaut_yellow");
+				1:
+					sprite.play("still_juggernaut_green");
+				2:
+					sprite.play("still_juggernaut_purple");
+				3:
+					sprite.play("still_juggernaut_orange");
+		13:
+			match player_color_index:
+				-1:
+					pass;
+				0:
+					sprite.play("falling_juggernaut_yellow");
+				1:
+					sprite.play("falling_juggernaut_green");
+				2:
+					sprite.play("falling_juggernaut_purple");
+				3:
+					sprite.play("falling_juggernaut_orange");
+		14:
+			match player_color_index:
+				-1:
+					pass;
+				0:
+					sprite.play("moving_juggernaut_yellow");
+				1:
+					sprite.play("moving_juggernaut_green");
+				2:
+					sprite.play("moving_juggernaut_purple");
+				3:
+					sprite.play("moving_juggernaut_orange");
 
 
 ## Local-only: Sends a P2P packet containing the position of the player.
@@ -516,6 +561,13 @@ func collision_shape_update() -> void:
 			collision_shape.position.x = 1;
 			collision_shape.position.y = -2;
 		super_cool_crouching = false;
+	elif juggernaut_active:
+		if steam_id == MinigameManager.current_experimental_group:
+			collision_shape.shape.size.x = 16;
+			collision_shape.shape.size.y = 29.5;
+			collision_shape.position.x = 0;
+			collision_shape.position.y = 0.25;
+			super_cool_crouching = false;
 	else:
 		collision_shape.shape.size.x = 10;
 		collision_shape.shape.size.y = 15;
@@ -606,3 +658,13 @@ func do_emp_particles():
 	};
 	Network.send_p2p_packet(0, emp_particle_msg);
 	emp_area.get_node("Particles").emitting = true;
+
+
+func _on_juggernaut_hitbox_body_entered(body) -> void:
+	if juggernaut_active and is_experimental and body.steam_id != steam_id and body.get_parent().name == "Players":
+		print(body, " ", body.get_parent().name)
+		if not juggernaut_extra_life:
+			body.die();
+			get_tree().current_scene.get_node("Juggernaut").score_point(1);
+		else:
+			juggernaut_extra_life = false;

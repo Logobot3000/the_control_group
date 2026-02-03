@@ -30,7 +30,7 @@ func load_modifiers() -> void:
 					1:
 						player.get_node("VelocityComponent").max_speed = 175;
 					2:
-						print("extra health")
+						player.juggernaut_extra_life = true;
 					3:
 						player.get_node("VelocityComponent").jump_strength = 500;
 
@@ -41,6 +41,7 @@ func on_minigame_ended() -> void:
 			player.get_node("VelocityComponent").max_speed = 150;
 			player.get_node("VelocityComponent").jump_strength = 400;
 			player.juggernaut_active = false;
+			player.juggernaut_extra_life = false;
 
 
 func _on_portal_hitbox_body_entered(body) -> void:
