@@ -376,7 +376,7 @@ position = Vector2(720, 1155)
 sprite_frames = SubResource("SpriteFrames_dk74w")
 animation = &"yellow_portal"
 autoplay = "yellow_portal"
-frame_progress = 0.118359
+frame_progress = 0.901899
 
 [node name="Portal2" type="AnimatedSprite2D" parent="Tiles"]
 position = Vector2(1280, 1155)
@@ -469,12 +469,14 @@ color = Color(1, 0, 0, 1)
 texture = SubResource("GradientTexture2D_nknr6")
 
 [node name="TestingOnlyDarkLight" type="DirectionalLight2D" parent="."]
+visible = false
 position = Vector2(0, 8)
 energy = 0.25
 blend_mode = 1
 
 [node name="PortalHitbox" type="Area2D" parent="."]
 position = Vector2(720, 1156)
+collision_mask = 3
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PortalHitbox"]
 position = Vector2(0, -1)
@@ -482,6 +484,7 @@ shape = SubResource("RectangleShape2D_e0x0t")
 
 [node name="PortalHitbox2" type="Area2D" parent="."]
 position = Vector2(1280, 1156)
+collision_mask = 3
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PortalHitbox2"]
 position = Vector2(0, -1)

@@ -43,11 +43,12 @@ func on_minigame_ended() -> void:
 			player.juggernaut_active = false;
 
 
-func _on_portal_hitbox_body_entered(body: Node2D) -> void:
+func _on_portal_hitbox_body_entered(body) -> void:
+	print(body, " ", body.get_parent().name)
 	if body.get_parent().name == "Players":
-		body.global_position = Vector2(1720, 1880);
+		body.global_position = Vector2(720, 880);
 
 
-func _on_portal_hitbox_2_body_entered(body: Node2D) -> void:
+func _on_portal_hitbox_2_body_entered(body) -> void:
 	if body.get_parent().name == "Players":
-		body.global_position = Vector2(2280, 1897);
+		body.global_position = Vector2(1280, 897);
