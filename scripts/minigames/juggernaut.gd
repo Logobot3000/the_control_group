@@ -41,3 +41,13 @@ func on_minigame_ended() -> void:
 			player.get_node("VelocityComponent").max_speed = 150;
 			player.get_node("VelocityComponent").jump_strength = 400;
 			player.juggernaut_active = false;
+
+
+func _on_portal_hitbox_body_entered(body: Node2D) -> void:
+	if body.get_parent().name == "Players":
+		body.global_position = Vector2(1720, 1880);
+
+
+func _on_portal_hitbox_2_body_entered(body: Node2D) -> void:
+	if body.get_parent().name == "Players":
+		body.global_position = Vector2(2280, 1897);
