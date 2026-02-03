@@ -64,14 +64,14 @@ var minigame_modifiers: Dictionary = {
 	},
 	"juggernaut": {
 		"experimental": [
-			{"id": 1, "name": "Experimental1", "description": "Experimental"},
-			{"id": 2, "name": "Experimental2", "description": "Experimental"},
-			{"id": 3, "name": "Experimental3", "description": "Experimental"}
+			{"id": 1, "name": "Speed Boost", "description": "Allows you to move faster (10s cooldown, 4s duration)."},
+			{"id": 2, "name": "Sketchy Teleportation", "description": "Teleport to a random position on the map (3x a game)."},
+			{"id": 3, "name": "Stun Mines", "description": "Place mines down that stun Control Group players."}
 		],
 		"control": [
-			{"id": 1, "name": "Control1", "description": "Control"},
-			{"id": 2, "name": "Control2", "description": "Control"},
-			{"id": 3, "name": "Control3", "description": "Control"}
+			{"id": 1, "name": "Faster Movement", "description": "Allows you to move faster."},
+			{"id": 2, "name": "Extra Life", "description": "Allows you to survive the Juggernaut one extra time."},
+			{"id": 3, "name": "Jump Boost", "description": "Allows you to jump higher."}
 		]
 	},
 };

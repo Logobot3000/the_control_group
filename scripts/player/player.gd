@@ -31,6 +31,8 @@ var animation_state: int = 0;
 var fishing_active: bool = false;
 ## Whether or not the space minigame is active.
 var space_active: bool = false;
+## Whether or not the juggernaut minigame is active.
+var juggernaut_active: bool = false;
 ## Whether or not the plaeyer is in the experimental group.
 var is_experimental: bool = false;
 ## Whether or not the player has the emp modifier in the fishing minigame.

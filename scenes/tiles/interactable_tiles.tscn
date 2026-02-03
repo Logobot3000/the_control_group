@@ -1,8 +1,9 @@
-[gd_scene load_steps=8 format=3 uid="uid://bqt3wowp50fb2"]
+[gd_scene load_steps=10 format=3 uid="uid://bqt3wowp50fb2"]
 
 [ext_resource type="Texture2D" uid="uid://d1l3tqledwex4" path="res://assets/tiles/blue_plascrete.png" id="1_0h41c"]
 [ext_resource type="Texture2D" uid="uid://c432irma8qxnx" path="res://assets/tiles/plascrete.png" id="1_r6dmk"]
 [ext_resource type="Texture2D" uid="uid://cwidc22nfnqa4" path="res://assets/tiles/stars.png" id="3_o2akd"]
+[ext_resource type="Texture2D" uid="uid://ciu5hthsklp3h" path="res://assets/tiles/juggernaut_platforms.png" id="4_5l433"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_o2akd"]
 texture = ExtResource("1_0h41c")
@@ -35,12 +36,22 @@ texture = ExtResource("3_o2akd")
 20:0/0 = 0
 20:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_a8wq7"]
+texture = ExtResource("4_5l433")
+0:0/0 = 0
+0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, -2.24823, 0.0899296, -0.269788, -8, -2.06838)
+1:0/0 = 0
+1:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, -2.24823, 0.269788, -0.0899296, -8, -2.24823)
+2:0/0 = 0
+2:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, -2.42809, 0.0899296, -0.0899296, -8, -2.24823)
+
 [sub_resource type="TileSet" id="TileSet_o2akd"]
 physics_layer_0/collision_layer = 1
 physics_layer_0/collision_mask = 2
 sources/1 = SubResource("TileSetAtlasSource_0h41c")
 sources/0 = SubResource("TileSetAtlasSource_o2akd")
 sources/2 = SubResource("TileSetAtlasSource_5l433")
+sources/3 = SubResource("TileSetAtlasSource_a8wq7")
 
 [node name="InteractableTiles" type="TileMapLayer"]
 z_index = -1
