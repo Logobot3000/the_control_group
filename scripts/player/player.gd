@@ -55,6 +55,14 @@ var charge_shot_enabled: bool = false;
 var tracking_lasers_enabled: bool = false;
 ## Whether or not the extra life modifier is active in the juggernaut minigame.
 var juggernaut_extra_life: bool = false;
+## Whether or not the speed boost modifier is active in the juggernaut minigame.
+var juggernaut_speed_boost_enabled: bool = false;
+## The speed boost cooldown for the speed boost modifier in the juggernaut minigame.
+var juggernaut_speed_boost_cooldown: bool = false;
+## Whether or not the sketchy teleportation modifier is active in the juggernaut minigame.
+var juggernaut_sketchy_tp_enabled: bool = false;
+## Whether or not the stun mines modifier is active in the juggernaut minigame.
+var juggernaut_stun_mines_enabled: bool = false;
 ## super cool crouch super cool crouch super cool crouch super cool crouch super cool crouch super cool crouch
 var super_cool_crouching: bool = false; 
 
@@ -468,6 +476,15 @@ func _unhandled_input(event: InputEvent) -> void:
 	if Input.is_action_just_pressed("use_ability"):
 		if emp_enabled and fishing_active and is_experimental and is_local:
 			use_emp_ability();
+		elif juggernaut_active and is_experimental and is_local:
+			if juggernaut_speed_boost_enabled and not juggernaut_speed_boost_cooldown:
+				print("wee?")
+				velocity_component.max_speed = 200;
+				juggernaut_speed_boost_cooldown = true;
+				await get_tree().create_timer(4).timeout;
+				velocity_component.max_speed = 150;
+				await get_tree().create_timer(6).timeout;
+				juggernaut_speed_boost_cooldown = false;
 
 
 ## Gets [member steam_id].
@@ -663,8 +680,10 @@ func do_emp_particles():
 func _on_juggernaut_hitbox_body_entered(body) -> void:
 	if juggernaut_active and is_experimental and body.steam_id != steam_id and body.get_parent().name == "Players":
 		print(body, " ", body.get_parent().name)
-		if not juggernaut_extra_life:
+		if not body.juggernaut_extra_life:
 			body.die();
-			get_tree().current_scene.get_node("Juggernaut").score_point(1);
+			if is_local:
+				if get_tree().current_scene.get_node("Juggernaut"):
+					get_tree().current_scene.get_node("Juggernaut").score_point(1);
 		else:
-			juggernaut_extra_life = false;
+			body.juggernaut_extra_life = false;

@@ -93,11 +93,11 @@ func on_minigame_started() -> void:
 
 ## A function called when the minigame ends.
 func pre_on_minigame_ended() -> void:
+	minigame_active = false;
+	on_minigame_ended();
 	for player in get_tree().current_scene.get_node("Players").get_children():
 		player.is_experimental = false;
 		player.revive();
-	minigame_active = false;
-	on_minigame_ended();
 	if Network.is_host:
 		Main.update_game_state(Enums.GameState.MINIGAME_END);
 

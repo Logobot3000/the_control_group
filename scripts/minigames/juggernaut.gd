@@ -19,7 +19,7 @@ func load_modifiers() -> void:
 				chosen_modifier_id = MinigameManager.current_modifiers["experimental"]["id"];
 				match chosen_modifier_id:
 					1:
-						print("speed boost")
+						player.juggernaut_speed_boost_enabled = true;
 					2:
 						print("sketchy tp")
 					3:
@@ -38,10 +38,14 @@ func load_modifiers() -> void:
 func on_minigame_ended() -> void:
 	for player in get_tree().current_scene.get_node("Players").get_children():
 		if MinigameManager.ready_for_minigame.has(Main.player_steam_id):
+			if not player.is_dead and MinigameManager.current_control_group.has(player.steam_id):
+				if get_tree().current_scene.get_node("Juggernaut") and player.is_local:
+					get_tree().current_scene.get_node("Juggernaut").score_point(1);
 			player.get_node("VelocityComponent").max_speed = 150;
 			player.get_node("VelocityComponent").jump_strength = 400;
 			player.juggernaut_active = false;
 			player.juggernaut_extra_life = false;
+			player.juggernaut_speed_boost_enabled = false;
 
 
 func _on_portal_hitbox_body_entered(body) -> void:
@@ -53,3 +57,13 @@ func _on_portal_hitbox_body_entered(body) -> void:
 func _on_portal_hitbox_2_body_entered(body) -> void:
 	if body.get_parent().name == "Players":
 		body.global_position = Vector2(1280, 897);
+
+
+func _process(delta: float) -> void:
+	update_group_scores();
+	if MinigameManager.ready_for_minigame.size() == 4 and experimental_points_container.text == "3":
+		end_minigame_early();
+	if MinigameManager.ready_for_minigame.size() == 3 and experimental_points_container.text == "2":
+		end_minigame_early();
+	if MinigameManager.ready_for_minigame.size() == 2 and experimental_points_container.text == "1":
+		end_minigame_early();
