@@ -21,7 +21,7 @@ func load_modifiers() -> void:
 					1:
 						player.juggernaut_speed_boost_enabled = true;
 					2:
-						print("sketchy tp")
+						player.juggernaut_sketchy_tp_enabled = true;
 					3:
 						player.juggernaut_stun_mines_enabled = true;
 			else:
@@ -49,6 +49,8 @@ func on_minigame_ended() -> void:
 			player.juggernaut_extra_life = false;
 			player.juggernaut_speed_boost_enabled = false;
 			player.juggernaut_stun_mines_enabled = false;
+			player.juggernaut_sketchy_tp_enabled = false;
+			player.juggernaut_sketchy_tp_uses = 3;
 
 
 func _on_portal_hitbox_body_entered(body) -> void:

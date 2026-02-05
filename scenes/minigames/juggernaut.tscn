@@ -493,7 +493,7 @@ shape = SubResource("RectangleShape2D_e0x0t")
 [node name="Mines" type="Node2D" parent="."]
 
 [node name="Node2D" type="Node2D" parent="."]
-position = Vector2(1128, 955)
+position = Vector2(803, 1128)
 
 [connection signal="body_entered" from="PortalHitbox" to="." method="_on_portal_hitbox_body_entered"]
 [connection signal="body_entered" from="PortalHitbox2" to="." method="_on_portal_hitbox_2_body_entered"]

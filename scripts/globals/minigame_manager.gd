@@ -66,7 +66,7 @@ var minigame_modifiers: Dictionary = {
 		"experimental": [
 			{"id": 1, "name": "Speed Boost", "description": "Allows you to move faster (10s cooldown, 4s duration)."},
 			{"id": 2, "name": "Sketchy Teleportation", "description": "Teleport to a random position on the map (3x a game)."},
-			{"id": 3, "name": "Stun Mines", "description": "Place mines down that stun Control Group players."}
+			{"id": 3, "name": "Stun Mines", "description": "Place mines down that stun Control Group players for 2s (10s cooldown)."}
 		],
 		"control": [
 			{"id": 1, "name": "Faster Movement", "description": "Allows you to move faster."},
@@ -595,6 +595,22 @@ func add_mine(readable_data: Dictionary):
 	mine.global_position = readable_data["pos"];
 	mine.global_position.y += 7;
 	get_tree().current_scene.get_node("Juggernaut").get_node("Mines").add_child(mine);
+
+
+## Does a sketchy teleportation in the juggernaut minigame
+func sketchy_tp(readable_data: Dictionary):
+	var tp = load("res://scenes/components/minigames/juggernaut/sketchy_portal_component.tscn").instantiate();
+	var working_tp: bool = false;
+	while not working_tp:
+		tp.global_position = Vector2(1000 + randi_range(-280, 280), 1000 + randi_range(-128, 128));
+		if tp.get_overlapping_bodies().size() == 0:
+			working_tp = true;
+		else:
+			print("s");
+	get_tree().current_scene.get_node("Juggernaut").get_node("Mines").add_child(tp);
+	for player in get_tree().current_scene.get_node("Players").get_children():
+		if player.is_experimental:
+			player.global_position = tp.global_position;
 
 
 ## Kills a player

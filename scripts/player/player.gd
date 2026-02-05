@@ -61,6 +61,8 @@ var juggernaut_speed_boost_enabled: bool = false;
 var juggernaut_cooldown: bool = false;
 ## Whether or not the sketchy teleportation modifier is active in the juggernaut minigame.
 var juggernaut_sketchy_tp_enabled: bool = false;
+## Whether or not the sketchy teleportation modifier is active in the juggernaut minigame.
+var juggernaut_sketchy_tp_uses: int = 3;
 ## Whether or not the stun mines modifier is active in the juggernaut minigame.
 var juggernaut_stun_mines_enabled: bool = false;
 ## super cool crouch super cool crouch super cool crouch super cool crouch super cool crouch super cool crouch
@@ -494,6 +496,17 @@ func _unhandled_input(event: InputEvent) -> void:
 				juggernaut_cooldown = true;
 				await get_tree().create_timer(10).timeout;
 				juggernaut_cooldown = false;
+			elif juggernaut_sketchy_tp_enabled and juggernaut_sketchy_tp_uses > 0 and not juggernaut_cooldown:
+				var tp_data: Dictionary = {
+					"message": "sketchy_tp"
+				};
+				Network.send_p2p_packet(0, tp_data);
+				MinigameManager.sketchy_tp(tp_data);
+				juggernaut_sketchy_tp_uses -= 1;
+				juggernaut_cooldown = true;
+				await get_tree().create_timer(2).timeout;
+				juggernaut_cooldown = false;
+			
 
 
 ## Gets [member steam_id].

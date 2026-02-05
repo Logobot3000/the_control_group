@@ -1,0 +1,115 @@
+[gd_scene load_steps=17 format=3 uid="uid://h3pg3wb3o1r0"]
+
+[ext_resource type="Texture2D" uid="uid://otpjnhj7mo0g" path="res://assets/sprites/minigames/juggernaut/sketchy_portal.png" id="1_8sib8"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lsl4c"]
+atlas = ExtResource("1_8sib8")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4ivaf"]
+atlas = ExtResource("1_8sib8")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tnryv"]
+atlas = ExtResource("1_8sib8")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pl386"]
+atlas = ExtResource("1_8sib8")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8aov3"]
+atlas = ExtResource("1_8sib8")
+region = Rect2(128, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_snm5m"]
+atlas = ExtResource("1_8sib8")
+region = Rect2(160, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_a82yx"]
+atlas = ExtResource("1_8sib8")
+region = Rect2(192, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_45fkn"]
+atlas = ExtResource("1_8sib8")
+region = Rect2(224, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yltt2"]
+atlas = ExtResource("1_8sib8")
+region = Rect2(256, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cqmt6"]
+atlas = ExtResource("1_8sib8")
+region = Rect2(288, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tf4x7"]
+atlas = ExtResource("1_8sib8")
+region = Rect2(320, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qkii2"]
+atlas = ExtResource("1_8sib8")
+region = Rect2(352, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_n0reu"]
+atlas = ExtResource("1_8sib8")
+region = Rect2(127, 0, 1, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_kaxog"]
+animations = [{
+"frames": [{
+"duration": 5.0,
+"texture": SubResource("AtlasTexture_lsl4c")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4ivaf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tnryv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pl386")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8aov3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_snm5m")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_a82yx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_45fkn")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yltt2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cqmt6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tf4x7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qkii2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_n0reu")
+}],
+"loop": false,
+"name": &"fade",
+"speed": 16.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ce6jx"]
+size = Vector2(32, 32)
+
+[node name="SketchyPortalComponent" type="Area2D"]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_kaxog")
+animation = &"fade"
+autoplay = "fade"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_ce6jx")
