@@ -478,7 +478,6 @@ func _unhandled_input(event: InputEvent) -> void:
 			use_emp_ability();
 		elif juggernaut_active and is_experimental and is_local:
 			if juggernaut_speed_boost_enabled and not juggernaut_speed_boost_cooldown:
-				print("wee?")
 				velocity_component.max_speed = 200;
 				juggernaut_speed_boost_cooldown = true;
 				await get_tree().create_timer(4).timeout;

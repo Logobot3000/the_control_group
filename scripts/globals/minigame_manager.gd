@@ -91,9 +91,9 @@ var spawn_positions: Dictionary = {
 		]
 	},
 	"juggernaut": {
-		"experimental": Vector2(150, 10),
+		"experimental": Vector2(0, 155),
 		"control": [
-			Vector2(-150, 0), Vector2(-100, 0), Vector2(-50, 0)
+			Vector2(64, -50), Vector2(128, -50), Vector2(192, -50)
 		]
 	},
 };
@@ -115,7 +115,7 @@ func handle_game_state_update(new_game_state: Enums.GameState) -> void:
 			if Network.is_host:
 				current_minigame = available_minigames[randi() % (available_minigames.size())];
 				
-				current_minigame = "juggernaut" # for if one needs to be selected
+				#current_minigame = "juggernaut" # for if one needs to be selected
 				
 				var minigame_chosen_data: Dictionary = {
 					"message": "minigame_chosen",
