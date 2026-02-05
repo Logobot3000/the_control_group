@@ -605,8 +605,6 @@ func sketchy_tp(readable_data: Dictionary):
 		tp.global_position = Vector2(1000 + randi_range(-280, 280), 1000 + randi_range(-128, 128));
 		if tp.get_overlapping_bodies().size() == 0:
 			working_tp = true;
-		else:
-			print("s");
 	get_tree().current_scene.get_node("Juggernaut").get_node("Mines").add_child(tp);
 	for player in get_tree().current_scene.get_node("Players").get_children():
 		if player.is_experimental:
