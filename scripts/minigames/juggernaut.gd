@@ -23,7 +23,7 @@ func load_modifiers() -> void:
 					2:
 						print("sketchy tp")
 					3:
-						print("stun mines")
+						player.juggernaut_stun_mines_enabled = true;
 			else:
 				chosen_modifier_id = MinigameManager.current_modifiers["control"][player.steam_id]["id"];
 				match chosen_modifier_id:
@@ -43,9 +43,12 @@ func on_minigame_ended() -> void:
 					get_tree().current_scene.get_node("Juggernaut").score_point(1);
 			player.get_node("VelocityComponent").max_speed = 150;
 			player.get_node("VelocityComponent").jump_strength = 400;
+			for mine in get_tree().current_scene.get_node("Juggernaut").get_node("Mines").get_children():
+				mine.queue_free();
 			player.juggernaut_active = false;
 			player.juggernaut_extra_life = false;
 			player.juggernaut_speed_boost_enabled = false;
+			player.juggernaut_stun_mines_enabled = false;
 
 
 func _on_portal_hitbox_body_entered(body) -> void:

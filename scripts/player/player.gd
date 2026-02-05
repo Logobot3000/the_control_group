@@ -57,8 +57,8 @@ var tracking_lasers_enabled: bool = false;
 var juggernaut_extra_life: bool = false;
 ## Whether or not the speed boost modifier is active in the juggernaut minigame.
 var juggernaut_speed_boost_enabled: bool = false;
-## The speed boost cooldown for the speed boost modifier in the juggernaut minigame.
-var juggernaut_speed_boost_cooldown: bool = false;
+## The speed boost cooldown for the modifiers in the juggernaut minigame.
+var juggernaut_cooldown: bool = false;
 ## Whether or not the sketchy teleportation modifier is active in the juggernaut minigame.
 var juggernaut_sketchy_tp_enabled: bool = false;
 ## Whether or not the stun mines modifier is active in the juggernaut minigame.
@@ -477,13 +477,23 @@ func _unhandled_input(event: InputEvent) -> void:
 		if emp_enabled and fishing_active and is_experimental and is_local:
 			use_emp_ability();
 		elif juggernaut_active and is_experimental and is_local:
-			if juggernaut_speed_boost_enabled and not juggernaut_speed_boost_cooldown:
+			if juggernaut_speed_boost_enabled and not juggernaut_cooldown:
 				velocity_component.max_speed = 200;
-				juggernaut_speed_boost_cooldown = true;
+				juggernaut_cooldown = true;
 				await get_tree().create_timer(4).timeout;
 				velocity_component.max_speed = 150;
 				await get_tree().create_timer(6).timeout;
-				juggernaut_speed_boost_cooldown = false;
+				juggernaut_cooldown = false;
+			elif juggernaut_stun_mines_enabled and not juggernaut_cooldown:
+				var mine_data: Dictionary = {
+					"message": "add_mine",
+					"pos": global_position
+				};
+				Network.send_p2p_packet(0, mine_data);
+				MinigameManager.add_mine(mine_data);
+				juggernaut_cooldown = true;
+				await get_tree().create_timer(10).timeout;
+				juggernaut_cooldown = false;
 
 
 ## Gets [member steam_id].

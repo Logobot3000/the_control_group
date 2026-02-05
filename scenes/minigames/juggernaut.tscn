@@ -490,6 +490,8 @@ collision_mask = 3
 position = Vector2(0, -1)
 shape = SubResource("RectangleShape2D_e0x0t")
 
+[node name="Mines" type="Node2D" parent="."]
+
 [node name="Node2D" type="Node2D" parent="."]
 position = Vector2(1128, 955)
 

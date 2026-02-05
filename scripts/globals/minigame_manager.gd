@@ -115,7 +115,7 @@ func handle_game_state_update(new_game_state: Enums.GameState) -> void:
 			if Network.is_host:
 				current_minigame = available_minigames[randi() % (available_minigames.size())];
 				
-				#current_minigame = "juggernaut" # for if one needs to be selected
+				current_minigame = "juggernaut" # for if one needs to be selected
 				
 				var minigame_chosen_data: Dictionary = {
 					"message": "minigame_chosen",
@@ -587,6 +587,14 @@ func laser_fired(readable_data: Dictionary):
 	laser.tracking_active = readable_data["tracking"]
 	get_tree().current_scene.get_node("Space").get_node("Lasers").add_child(laser);
 	laser.global_position = readable_data["position"];
+
+
+## Adds a stun mine to the juggernaut minigame
+func add_mine(readable_data: Dictionary):
+	var mine = load("res://scenes/components/minigames/juggernaut/stun_mine_component.tscn").instantiate();
+	mine.global_position = readable_data["pos"];
+	mine.global_position.y += 7;
+	get_tree().current_scene.get_node("Juggernaut").get_node("Mines").add_child(mine);
 
 
 ## Kills a player

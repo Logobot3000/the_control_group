@@ -10,7 +10,7 @@ func _ready() -> void:
 
 ## Does the little ad popping up animation.
 func popup(n: Node, index: int) -> void:
-	if !get_tree():
+	if get_tree():
 		await get_tree().create_timer(randf_range(3.0 * index, 8.0 * index) + 3).timeout;
 		print(get_tree())
 		var tween: Tween = get_tree().create_tween();

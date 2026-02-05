@@ -1,0 +1,59 @@
+[gd_scene load_steps=9 format=3 uid="uid://cm7eyu204agn1"]
+
+[ext_resource type="Script" uid="uid://duljjqvxu5igv" path="res://scripts/components/minigames/juggernaut/stun_mine_component.gd" id="1_rmytq"]
+[ext_resource type="Texture2D" uid="uid://2pt57dv6u8gg" path="res://assets/sprites/minigames/juggernaut/stun_mine.png" id="2_24por"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gpw1j"]
+atlas = ExtResource("2_24por")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7r5u4"]
+atlas = ExtResource("2_24por")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_qon3j"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gpw1j")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7r5u4")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_tm42b"]
+size = Vector2(6, 2)
+
+[sub_resource type="Gradient" id="Gradient_rmytq"]
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_24por"]
+gradient = SubResource("Gradient_rmytq")
+fill = 1
+fill_from = Vector2(0.496855, 0.474843)
+
+[node name="StunMineComponent" type="Area2D"]
+collision_mask = 7
+script = ExtResource("1_rmytq")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+z_index = 5
+sprite_frames = SubResource("SpriteFrames_qon3j")
+frame = 1
+frame_progress = 0.411571
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(1, 7)
+shape = SubResource("RectangleShape2D_tm42b")
+
+[node name="PointLight2D" type="PointLight2D" parent="."]
+position = Vector2(1, 7)
+color = Color(0.918187, 0.894723, 1.54018e-06, 1)
+energy = 0.25
+texture = SubResource("GradientTexture2D_24por")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

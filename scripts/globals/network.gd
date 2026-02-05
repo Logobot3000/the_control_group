@@ -204,6 +204,8 @@ func _handle_recieved_packet(sender_id: int, readable_data: Dictionary) -> void:
 				MinigameManager.emp_particles(readable_data);
 			"laser_fired":
 				MinigameManager.laser_fired(readable_data);
+			"add_mine":
+				MinigameManager.add_mine(readable_data);
 			"player_died":
 				MinigameManager.player_died(readable_data);
 			"player_undied":
