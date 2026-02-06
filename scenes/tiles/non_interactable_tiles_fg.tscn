@@ -1,8 +1,9 @@
-[gd_scene load_steps=8 format=3 uid="uid://cuggu4te88tce"]
+[gd_scene load_steps=10 format=3 uid="uid://cuggu4te88tce"]
 
 [ext_resource type="Texture2D" uid="uid://bs81jpogbobt4" path="res://assets/tiles/lobby_lights.png" id="1_pfaf0"]
 [ext_resource type="Texture2D" uid="uid://d3yvbg3ijnonl" path="res://assets/tiles/screen.png" id="2_poit8"]
 [ext_resource type="Texture2D" uid="uid://ciu5hthsklp3h" path="res://assets/tiles/juggernaut_platforms.png" id="2_ugba7"]
+[ext_resource type="Texture2D" uid="uid://colkof32f4p05" path="res://assets/tiles/grass_overlay.png" id="4_srgpo"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_poit8"]
 texture = ExtResource("1_pfaf0")
@@ -27,10 +28,21 @@ texture = ExtResource("2_poit8")
 7:0/0 = 0
 8:0/0 = 0
 
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_mq3o3"]
+texture = ExtResource("4_srgpo")
+0:0/0 = 0
+1:0/0 = 0
+2:0/0 = 0
+3:0/0 = 0
+4:0/0 = 0
+5:0/0 = 0
+6:0/0 = 0
+
 [sub_resource type="TileSet" id="TileSet_ugba7"]
 sources/0 = SubResource("TileSetAtlasSource_poit8")
 sources/2 = SubResource("TileSetAtlasSource_ugba7")
 sources/1 = SubResource("TileSetAtlasSource_srgpo")
+sources/3 = SubResource("TileSetAtlasSource_mq3o3")
 
 [node name="NonInteractableTilesFG" type="TileMapLayer"]
 z_index = -2

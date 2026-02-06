@@ -27,20 +27,26 @@ var can_jump: bool = true;
 var player_color_index: int = -1;
 ## The current animation state of the player.
 var animation_state: int = 0;
+
 ## Whether or not the fishing minigame is active.
 var fishing_active: bool = false;
 ## Whether or not the space minigame is active.
 var space_active: bool = false;
 ## Whether or not the juggernaut minigame is active.
 var juggernaut_active: bool = false;
+## Whether or not the archery minigame is active.
+var archery_active: bool = false;
+
 ## Whether or not the plaeyer is in the experimental group.
 var is_experimental: bool = false;
-## Whether or not the player has the emp modifier in the fishing minigame.
-var emp_enabled: bool = false;
+
 ## Whether or not the player is stunned.
 var stunned: bool = false;
 ## Whether or not the player is dead.
 var is_dead: bool = false;
+
+## Whether or not the player has the emp modifier in the fishing minigame.
+var emp_enabled: bool = false;
 ## How fast the player rotates in freeflying mode
 var rotate_speed: float = 0.05;
 ## Maximum amount of shots the player has in the space minigame.
@@ -65,6 +71,7 @@ var juggernaut_sketchy_tp_enabled: bool = false;
 var juggernaut_sketchy_tp_uses: int = 3;
 ## Whether or not the stun mines modifier is active in the juggernaut minigame.
 var juggernaut_stun_mines_enabled: bool = false;
+
 ## super cool crouch super cool crouch super cool crouch super cool crouch super cool crouch super cool crouch
 var super_cool_crouching: bool = false; 
 
