@@ -11,7 +11,7 @@
 [ext_resource type="Texture2D" uid="uid://7160hlvhbpr7" path="res://assets/sprites/pick_buttons.png" id="9_0tnpc"]
 [ext_resource type="Texture2D" uid="uid://dsxyyrb88a2im" path="res://assets/sprites/modifier_selection.png" id="9_vtaks"]
 [ext_resource type="Texture2D" uid="uid://cpgwdlreqsx6t" path="res://assets/sprites/results.png" id="11_kvpfn"]
-[ext_resource type="Shader" path="res://assets/shaders/loading_logo.gdshader" id="12_kvuet"]
+[ext_resource type="Shader" uid="uid://dnyx2cdj7soco" path="res://assets/shaders/loading_logo.gdshader" id="12_kvuet"]
 [ext_resource type="Texture2D" uid="uid://bm2pgqollqbca" path="res://assets/logo.png" id="13_trtic"]
 
 [sub_resource type="Gradient" id="Gradient_p57ef"]

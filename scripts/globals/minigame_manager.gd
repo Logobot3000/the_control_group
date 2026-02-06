@@ -78,14 +78,14 @@ var minigame_modifiers: Dictionary = {
 	},
 	"archery": {
 		"experimental": [
-			{"id": 1, "name": "E1", "description": "E"},
-			{"id": 2, "name": "E2", "description": "E"},
-			{"id": 3, "name": "E3", "description": "E"}
+			{"id": 1, "name": "Mineral Deposit", "description": "Special targets give double points."},
+			{"id": 2, "name": "Big Clicker", "description": "If you hit 3 targets in 4 seconds, you get +5 points."},
+			{"id": 3, "name": "Intentional Misfire", "description": "Stuns all control group players for 5 seconds (20s cooldown)."}
 		],
 		"control": [
-			{"id": 1, "name": "C1", "description": "C"},
-			{"id": 2, "name": "C2", "description": "C"},
-			{"id": 3, "name": "C3", "description": "C"}
+			{"id": 1, "name": "Upgraded Bow", "description": "Less cooldown time between shots."},
+			{"id": 2, "name": "Jackpot", "description": "+1 points for all special targets."},
+			{"id": 3, "name": "Midas Touch", "description": "5% chance for a target to act as a gold target."}
 		]
 	},
 };
@@ -629,6 +629,14 @@ func sketchy_tp(readable_data: Dictionary):
 	for player in get_tree().current_scene.get_node("Players").get_children():
 		if player.is_experimental:
 			player.global_position = tp.global_position;
+
+
+## Spawns a target in the archery minigame
+func spawn_target(readable_data: Dictionary):
+	var target = load("res://scenes/components/minigames/archery/target_component.tscn").instantiate();
+	target.global_position = readable_data["position"];
+	target.target_tier = readable_data["tier"];
+	get_tree().current_scene.get_node("Archery").get_node("SkyTargets").add_child(target);
 
 
 ## Kills a player
