@@ -1,6 +1,8 @@
 extends Area2D;
 
 @export var target_tier: int = 0;
+var hit: bool = false;
+var id: int = 0;
 
 
 func _ready() -> void:
@@ -19,7 +21,7 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	match target_tier:
 		0:
-			get_node("AnimatedSprite2D").play("defualt");
+			get_node("AnimatedSprite2D").play("default");
 		1:
 			get_node("AnimatedSprite2D").play("bronze");
 		2:
@@ -29,21 +31,23 @@ func _process(delta: float) -> void:
 
 
 func hit_control():
-	get_node("AnimatedSprite2D").visible = false;
-	get_node("ControlHitParticles").emitting = true;
+	if not hit:
+		get_node("AnimatedSprite2D").visible = false;
+		get_node("ControlHitParticles").emitting = true;
 
 
 func hit_experimental():
-	get_node("AnimatedSprite2D").visible = false;
-	get_node("experimentalHitParticles").emitting = true;
+	if not hit:
+		get_node("AnimatedSprite2D").visible = false;
+		get_node("ExperimentalHitParticles").emitting = true;
 
 
 func _on_input_event(viewport: Node, event: InputEvent, shape_idx: int) -> void:
-	print("woah")
 	if event.is_action("click"):
-		for player in get_tree().current_scene.get_node("Players").get_children():
-			if player.steam_id == Main.player_steam_id:
-				if player.is_experimental:
-					hit_experimental();
-				else:
-					hit_control();
+		var break_target_data: Dictionary = {
+			"message": "break_target",
+			"target_id": id,
+			"player_id": Main.player_steam_id
+		};
+		Network.send_p2p_packet(0, break_target_data);
+		MinigameManager.break_target(break_target_data);

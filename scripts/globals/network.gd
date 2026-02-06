@@ -210,6 +210,8 @@ func _handle_recieved_packet(sender_id: int, readable_data: Dictionary) -> void:
 				MinigameManager.sketchy_tp(readable_data);
 			"spawn_target":
 				MinigameManager.spawn_target(readable_data);
+			"break_target":
+				MinigameManager.break_target(readable_data);
 			"player_died":
 				MinigameManager.player_died(readable_data);
 			"player_undied":

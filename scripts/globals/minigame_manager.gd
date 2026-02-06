@@ -636,7 +636,30 @@ func spawn_target(readable_data: Dictionary):
 	var target = load("res://scenes/components/minigames/archery/target_component.tscn").instantiate();
 	target.global_position = readable_data["position"];
 	target.target_tier = readable_data["tier"];
+	target.id = readable_data["id"];
 	get_tree().current_scene.get_node("Archery").get_node("SkyTargets").add_child(target);
+
+
+## Breaks a target in the archery minigame
+func break_target(readable_data: Dictionary):
+	var target;
+	for tg in get_tree().current_scene.get_node("Archery").get_node("SkyTargets").get_children():
+		if tg.id == readable_data["target_id"]:
+			target = tg;
+	for player in get_tree().current_scene.get_node("Players").get_children():
+			if player.steam_id == readable_data["player_id"]:
+				if player.is_experimental:
+					target.hit_experimental();
+					target.hit = true;
+					await get_tree().create_timer(1).timeout;
+					if target:
+						target.queue_free();
+				else:
+					target.hit_control();
+					target.hit = true;
+					await get_tree().create_timer(1).timeout;
+					if target:
+						target.queue_free();
 
 
 ## Kills a player
