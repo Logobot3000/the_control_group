@@ -651,12 +651,32 @@ func break_target(readable_data: Dictionary):
 				if player.is_experimental:
 					target.hit_experimental();
 					target.hit = true;
+					if Main.player_steam_id == player.steam_id:
+						match target.target_tier:
+							0:
+								get_tree().current_scene.get_node("Archery").score_point(1);
+							1:
+								get_tree().current_scene.get_node("Archery").score_point(2);
+							2:
+								get_tree().current_scene.get_node("Archery").score_point(3);
+							3:
+								get_tree().current_scene.get_node("Archery").score_point(5);
 					await get_tree().create_timer(1).timeout;
 					if target:
 						target.queue_free();
 				else:
 					target.hit_control();
 					target.hit = true;
+					if Main.player_steam_id == player.steam_id:
+						match target.target_tier:
+							0:
+								get_tree().current_scene.get_node("Archery").score_point(1);
+							1:
+								get_tree().current_scene.get_node("Archery").score_point(2);
+							2:
+								get_tree().current_scene.get_node("Archery").score_point(3);
+							3:
+								get_tree().current_scene.get_node("Archery").score_point(5);
 					await get_tree().create_timer(1).timeout;
 					if target:
 						target.queue_free();
