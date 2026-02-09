@@ -1,4 +1,4 @@
-[gd_scene load_steps=71 format=4 uid="uid://bscdj2wh22vxs"]
+[gd_scene load_steps=74 format=4 uid="uid://bscdj2wh22vxs"]
 
 [ext_resource type="Script" uid="uid://c31vxh33c7ku5" path="res://scripts/ui/startup_menu.gd" id="1_ebq67"]
 [ext_resource type="Texture2D" uid="uid://bm2pgqollqbca" path="res://assets/logo.png" id="1_s5o28"]
@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://bqt3wowp50fb2" path="res://scenes/tiles/interactable_tiles.tscn" id="3_t8iw3"]
 [ext_resource type="Texture2D" uid="uid://c510teiytyin2" path="res://assets/sprites/quit_button.png" id="4_y3ntw"]
 [ext_resource type="Script" uid="uid://1hvrauxm37s7" path="res://scripts/ui/quit_button.gd" id="5_nbmw6"]
+[ext_resource type="Texture2D" uid="uid://ddyvut4e0x55o" path="res://assets/sprites/settings_button.png" id="6_ae4xg"]
 [ext_resource type="Script" uid="uid://rfv4g2k8qu4w" path="res://scripts/ui/main_menu.gd" id="9_oe7rv"]
 [ext_resource type="Texture2D" uid="uid://dolvvd6ctrqfo" path="res://assets/sprites/network_menu.png" id="10_ee2qx"]
 [ext_resource type="Texture2D" uid="uid://jn3o3o4cl7b" path="res://assets/sprites/back_button.png" id="11_cohpv"]
@@ -178,9 +179,17 @@ _data = {
 &"hover_out": SubResource("Animation_ee2qx")
 }
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_nbmw6"]
-atlas = ExtResource("1_s5o28")
-region = Rect2(991, 79, 18, 18)
+[sub_resource type="AtlasTexture" id="AtlasTexture_s3yu3"]
+atlas = ExtResource("6_ae4xg")
+region = Rect2(0, 0, 18, 18)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_armpk"]
+atlas = ExtResource("6_ae4xg")
+region = Rect2(36, 0, 18, 18)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_o1t3v"]
+atlas = ExtResource("6_ae4xg")
+region = Rect2(18, 0, 18, 18)
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_t8iw3"]
 load_path = "res://.godot/imported/logo.png-e2220799298e3631eb0e245316e0501a.ctex"
@@ -894,7 +903,9 @@ offset_right = 329.0
 offset_bottom = 331.0
 scale = Vector2(2, 2)
 pivot_offset = Vector2(9, 9)
-texture_normal = SubResource("AtlasTexture_nbmw6")
+texture_normal = SubResource("AtlasTexture_s3yu3")
+texture_pressed = SubResource("AtlasTexture_armpk")
+texture_hover = SubResource("AtlasTexture_o1t3v")
 
 [node name="Logo" type="Sprite2D" parent="."]
 z_index = 1
