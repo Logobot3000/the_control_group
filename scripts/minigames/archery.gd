@@ -1,7 +1,7 @@
 extends BaseMinigame;
 
-## The time for the next fish to spawn.
-var target_spawn_time: float = 2;
+## The time for the next target to spawn.
+var target_spawn_time: float = 1.25;
 ## The current target id.
 var target_id: int = 0;
 
@@ -10,7 +10,7 @@ func minigame_setup() -> void:
 	for player in get_tree().current_scene.get_node("Players").get_children():
 		if player.steam_id in MinigameManager.ready_for_minigame:
 			player.archery_active = true;
-			player.can_move = false;
+			player.get_node("VelocityComponent").set_speed_multiplier(0);
 			
 	experimental_points_container = get_node("BaseMinigame/TV/ExperimentalPoints");
 	control_points_container = get_node("BaseMinigame/TV/ControlPoints");
@@ -24,20 +24,20 @@ func load_modifiers() -> void:
 				chosen_modifier_id = MinigameManager.current_modifiers["experimental"]["id"];
 				match chosen_modifier_id:
 					1:
-						print("e1")
+						player.archery_mineral_deposit_enabled = true;
 					2:
-						print("e2")
+						player.archery_big_clicker_enabled = true;
 					3:
-						print("e3")
+						player.archery_intentional_misfire_enabled = true;
 			else:
 				chosen_modifier_id = MinigameManager.current_modifiers["control"][player.steam_id]["id"];
 				match chosen_modifier_id:
 					1:
-						print("c1")
+						player.arrow_cooldown_time = 0.9;
 					2:
-						print("c2")
+						player.archery_jackpot_enabled = true;
 					3:
-						print("c3")
+						player.archery_midas_touch_enabled = true;
 
 
 func on_minigame_started() -> void:
@@ -48,15 +48,22 @@ func on_minigame_ended() -> void:
 	for player in get_tree().current_scene.get_node("Players").get_children():
 		if MinigameManager.ready_for_minigame.has(Main.player_steam_id):
 			player.archery_active = false;
-			player.can_move = true;
-	for target in get_tree().current_scene.get_node("Archery").get_node("SkyTargets"):
+			player.get_node("VelocityComponent").set_speed_multiplier(1);
+			player.arrow_cooldown_time = 1;
+			player.arrow_cooldown = false;
+			player.archery_mineral_deposit_enabled = false;
+			player.archery_jackpot_enabled = false;
+			player.archery_midas_touch_enabled = false;
+			player.archery_intentional_misfire_enabled = false;
+			player.archery_big_clicker_enabled = false;
+	for target in get_tree().current_scene.get_node("Archery").get_node("SkyTargets").get_children():
 		target.queue_free();
 
 
 func spawn_target_timer() -> void:
 	if minigame_active:
 		target_id += 1;
-		target_spawn_time = target_spawn_time - 0.01;
+		target_spawn_time = target_spawn_time - 0.005;
 		spawn_target();
 		await get_tree().create_timer(target_spawn_time).timeout;
 		spawn_target_timer();
