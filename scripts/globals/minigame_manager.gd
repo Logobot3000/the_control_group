@@ -111,9 +111,9 @@ var spawn_positions: Dictionary = {
 		]
 	},
 	"archery": {
-		"experimental": Vector2(-112, 168),
+		"experimental": Vector2(-112, 160),
 		"control": [
-			Vector2(64, 168), Vector2(112, 168), Vector2(160, 168)
+			Vector2(64, 160), Vector2(112, 160), Vector2(160, 160)
 		]
 	},
 };
@@ -144,12 +144,6 @@ func handle_game_state_update(new_game_state: Enums.GameState) -> void:
 				Network.send_p2p_packet(0, minigame_chosen_data);
 			
 			## Add narrator dialogue and tv logic here
-			await get_tree().create_timer(3).timeout;
-			
-			var narrator: NarratorComponent = get_tree().current_scene.get_node("NarratorComponent");
-			narrator.narrator_intro(Vector2(1, 1));
-			await get_tree().create_timer(narrator.playing_length).timeout;
-			
 			
 			var door: MinigameDoor = get_tree().current_scene.get_node("MinigameDoor");
 			if is_door_open == false:
@@ -656,54 +650,33 @@ func break_target(readable_data: Dictionary):
 			if player.steam_id == readable_data["player_id"]:
 				if player.is_experimental:
 					target.hit_experimental();
-					if Main.player_steam_id == player.steam_id and not target.hit:
+					target.hit = true;
+					if Main.player_steam_id == player.steam_id:
 						match target.target_tier:
 							0:
 								get_tree().current_scene.get_node("Archery").score_point(1);
 							1:
-								if player.archery_mineral_deposit_enabled:
-									get_tree().current_scene.get_node("Archery").score_point(4);
-								else:
-									get_tree().current_scene.get_node("Archery").score_point(2);
+								get_tree().current_scene.get_node("Archery").score_point(2);
 							2:
-								if player.archery_mineral_deposit_enabled:
-									get_tree().current_scene.get_node("Archery").score_point(6);
-								else:
-									get_tree().current_scene.get_node("Archery").score_point(3);
+								get_tree().current_scene.get_node("Archery").score_point(3);
 							3:
-								if player.archery_mineral_deposit_enabled:
-									get_tree().current_scene.get_node("Archery").score_point(10);
-								else:
-									get_tree().current_scene.get_node("Archery").score_point(5);
-					target.hit = true;
+								get_tree().current_scene.get_node("Archery").score_point(5);
 					await get_tree().create_timer(1).timeout;
 					if target:
 						target.queue_free();
 				else:
 					target.hit_control();
-					if Main.player_steam_id == player.steam_id and not target.hit:
-						if player.archery_midas_touch_enabled and randi_range(1, 20) == 20:
-							get_tree().current_scene.get_node("Archery").score_point(5);
-						else:
-							match target.target_tier:
-								0:
-									get_tree().current_scene.get_node("Archery").score_point(1);
-								1:
-									if player.archery_jackpot_enabled:
-										get_tree().current_scene.get_node("Archery").score_point(3);
-									else:
-										get_tree().current_scene.get_node("Archery").score_point(2);
-								2:
-									if player.archery_jackpot_enabled:
-										get_tree().current_scene.get_node("Archery").score_point(4);
-									else:
-										get_tree().current_scene.get_node("Archery").score_point(3);
-								3:
-									if player.archery_jackpot_enabled:
-										get_tree().current_scene.get_node("Archery").score_point(6);
-									else:
-										get_tree().current_scene.get_node("Archery").score_point(5);
 					target.hit = true;
+					if Main.player_steam_id == player.steam_id:
+						match target.target_tier:
+							0:
+								get_tree().current_scene.get_node("Archery").score_point(1);
+							1:
+								get_tree().current_scene.get_node("Archery").score_point(2);
+							2:
+								get_tree().current_scene.get_node("Archery").score_point(3);
+							3:
+								get_tree().current_scene.get_node("Archery").score_point(5);
 					await get_tree().create_timer(1).timeout;
 					if target:
 						target.queue_free();

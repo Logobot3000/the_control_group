@@ -47,7 +47,6 @@ var is_dead: bool = false;
 
 ## Whether or not the player has the emp modifier in the fishing minigame.
 var emp_enabled: bool = false;
-
 ## How fast the player rotates in freeflying mode
 var rotate_speed: float = 0.05;
 ## Maximum amount of shots the player has in the space minigame.
@@ -60,7 +59,6 @@ var laser_reload_time: float = 1.0;
 var charge_shot_enabled: bool = false;
 ## Whether or not the tracking lasers midifier is active in the space minigame.
 var tracking_lasers_enabled: bool = false;
-
 ## Whether or not the extra life modifier is active in the juggernaut minigame.
 var juggernaut_extra_life: bool = false;
 ## Whether or not the speed boost modifier is active in the juggernaut minigame.
@@ -73,27 +71,6 @@ var juggernaut_sketchy_tp_enabled: bool = false;
 var juggernaut_sketchy_tp_uses: int = 3;
 ## Whether or not the stun mines modifier is active in the juggernaut minigame.
 var juggernaut_stun_mines_enabled: bool = false;
-
-## Arrow shot cooldown time in the archery minigame.
-var arrow_cooldown_time: float = 1.0;
-## Arrow shot cooldown in the archery minigame.
-var arrow_cooldown: bool = false;
-## Whether or not the mineral deposit modifier is active in the archery minigame.
-var archery_mineral_deposit_enabled: bool = false;
-## Whether or not the big clicker modifier is active in the archery minigame.
-var archery_big_clicker_enabled: bool = false;
-## Whether or not the big clicker modifier is active in the archery minigame.
-var archery_big_clicker_timer_active: bool = false;
-## Big clicker modifier amount in the archery minigame.
-var archery_big_clicker_amt: int = 0;
-## Whether or not the intentional misfire modifier is active in the archery minigame.
-var archery_intentional_misfire_enabled: bool = false;
-## Whether or not the intentional misfire modifier is on cooldown in the archery minigame.
-var archery_intentional_misfire_cooldown: int = false;
-## Whether or not the jackpot modifier is active in the archery minigame.
-var archery_jackpot_enabled: bool = false;
-## Whether or not the midas touch modifier is active in the archery minigame.
-var archery_midas_touch_enabled: bool = false;
 
 ## super cool crouch super cool crouch super cool crouch super cool crouch super cool crouch super cool crouch
 var super_cool_crouching: bool = false; 
@@ -536,11 +513,6 @@ func _unhandled_input(event: InputEvent) -> void:
 				juggernaut_cooldown = true;
 				await get_tree().create_timer(2).timeout;
 				juggernaut_cooldown = false;
-		elif archery_active and is_experimental and is_local and archery_intentional_misfire_enabled and not archery_intentional_misfire_cooldown:
-			Network.send_p2p_packet(0, { "message": "stun", "time": 5 });
-			archery_intentional_misfire_cooldown = true;
-			await get_tree().create_timer(20).timeout;
-			archery_intentional_misfire_cooldown = false;
 			
 
 
@@ -744,14 +716,3 @@ func _on_juggernaut_hitbox_body_entered(body) -> void:
 					get_tree().current_scene.get_node("Juggernaut").score_point(1);
 		else:
 			body.juggernaut_extra_life = false;
-
-
-## Does the big clicker timer for the archery minigame.
-func do_big_clicker_timer():
-	if is_local and archery_big_clicker_enabled and not archery_big_clicker_timer_active:
-		archery_big_clicker_timer_active = true;
-		archery_big_clicker_amt = 0;
-		await get_tree().create_timer(4).timeout;
-		archery_big_clicker_timer_active = false;
-		if archery_big_clicker_amt >= 4:
-			get_tree().current_scene.get_node("Archery").score_point(5);
