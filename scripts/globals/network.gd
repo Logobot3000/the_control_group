@@ -194,6 +194,10 @@ func _handle_recieved_packet(sender_id: int, readable_data: Dictionary) -> void:
 				MinigameManager.update_scores(readable_data);
 			"minigame_timer_updated":
 				MinigameManager.update_minigame_timer(readable_data);
+			"do_narrator_disabled":
+				MinigameManager.do_narrator_disabled(readable_data);
+			"do_narrator_reenabled":
+				MinigameManager.do_narrator_reenabled(readable_data);
 			"hook_update":
 				MinigameManager.hook_update(readable_data);
 			"fish_spawn":

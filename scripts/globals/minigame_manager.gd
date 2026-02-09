@@ -20,6 +20,8 @@ var is_timer_running: bool = false;
 var has_experimental_chosen: bool = false;
 ## The current minigame instance.
 var current_minigame_instance: BaseMinigame = null;
+## Whether or not the narrator is disabled.
+var narrator_disabled: bool = false;
 ## The path for the fish component for the fishing minigame.
 var fish_component_path: PackedScene = preload("res://scenes/components/minigames/fishing/fish_component.tscn");
 ## The path for the laser component for the space minigame.
@@ -146,9 +148,10 @@ func handle_game_state_update(new_game_state: Enums.GameState) -> void:
 			## Add narrator dialogue and tv logic here
 			await get_tree().create_timer(3).timeout;
 			
-			var narrator: NarratorComponent = get_tree().current_scene.get_node("NarratorComponent");
-			narrator.narrator_intro(Vector2(1, 1));
-			await get_tree().create_timer(narrator.playing_length).timeout;
+			if not narrator_disabled:
+				var narrator: NarratorComponent = get_tree().current_scene.get_node("NarratorComponent");
+				narrator.narrator_intro(Vector2(1, 1));
+				await get_tree().create_timer(narrator.playing_length).timeout;
 			
 			
 			var door: MinigameDoor = get_tree().current_scene.get_node("MinigameDoor");
@@ -732,3 +735,13 @@ func player_undied(readable_data: Dictionary):
 			player.is_dead = false;
 			player.visible = true;
 			player.can_move = true;
+
+
+func do_narrator_disabled(readable_data: Dictionary) -> void:
+	narrator_disabled = true;
+	print(get_tree().current_scene.get_node("NarratorComponent"), get_tree().current_scene.get_node("NarratorComponent").currently_playing)
+	get_tree().current_scene.get_node("NarratorComponent").currently_playing.stop();
+
+
+func do_narrator_reenabled(readable_data: Dictionary) -> void:
+	narrator_disabled = false;

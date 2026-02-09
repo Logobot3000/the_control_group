@@ -19,8 +19,14 @@ func _ready() -> void:
 		players_root.add_child(player_instance);
 	
 	if not Network.use_local_networking:
-		get_tree().current_scene.get_node("LobbyCode").text = "CODE: " + Main.lobby_id_to_base64(Network.lobby_id);
+		get_tree().current_scene.get_node("HostSettings").get_node("HostSettingsUI").get_node("TextureRect").get_node("LobbyCode").text = Main.lobby_id_to_base64(Network.lobby_id);
 	
+	if Network.is_host:
+		get_tree().current_scene.get_node("HostSettings").visible = true;
+	else:
+		get_tree().current_scene.get_node("HostSettings").visible = false;
+	
+	get_node("BlackOverlay").visible = true;
 	get_node("BlackOverlay/AnimationPlayer").play("go");
 	
 	await get_tree().process_frame;

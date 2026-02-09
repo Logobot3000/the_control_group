@@ -3184,6 +3184,7 @@ offset_left = 3.0
 offset_top = -4.0
 offset_right = 643.0
 offset_bottom = 356.0
+mouse_filter = 2
 
 [node name="LaserShotGUI" type="Control" parent="Overlay"]
 visible = false
@@ -3191,6 +3192,7 @@ layout_mode = 3
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
+mouse_filter = 2
 
 [node name="Laser1" type="AnimatedSprite2D" parent="Overlay/LaserShotGUI"]
 position = Vector2(608, 32)
@@ -3223,6 +3225,7 @@ animation = &"full"
 modulate = Color(1, 1, 1, 0)
 offset_right = 640.0
 offset_bottom = 360.0
+mouse_filter = 2
 texture = SubResource("GradientTexture2D_rw8a5")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Overlay/HurtOverlay"]
