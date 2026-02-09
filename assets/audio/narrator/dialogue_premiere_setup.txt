@@ -1,0 +1,5 @@
+for narrator:
+
+- control group narrator preset
+- studio reverb: vocal reverb (small)
+- add pitch shifter: deathly ill

@@ -144,6 +144,12 @@ func handle_game_state_update(new_game_state: Enums.GameState) -> void:
 				Network.send_p2p_packet(0, minigame_chosen_data);
 			
 			## Add narrator dialogue and tv logic here
+			await get_tree().create_timer(3).timeout;
+			
+			var narrator: NarratorComponent = get_tree().current_scene.get_node("NarratorComponent");
+			narrator.narrator_intro(Vector2(1, 1));
+			await get_tree().create_timer(narrator.playing_length).timeout;
+			
 			
 			var door: MinigameDoor = get_tree().current_scene.get_node("MinigameDoor");
 			if is_door_open == false:
