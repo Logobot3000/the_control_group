@@ -32,6 +32,7 @@ var available_minigames: Array = [
 	"space",
 	"juggernaut",
 	"archery",
+	"koth",
 ];
 ## The array of the display names of all available minigames. UPDATE THIS WHENEVER A MINIGAME IS ADDED. This shouldn't be necessary but it is.
 var available_minigame_names: Dictionary = {
@@ -39,6 +40,7 @@ var available_minigame_names: Dictionary = {
 	"space": "Space",
 	"juggernaut": "Juggernaut",
 	"archery": "Archery",
+	"koth": "KingOfTheHill",
 };
 ## The modifier definitions for each available minigame. UPDATE THIS WHENEVER A MINIGAME IS ADDED.
 var minigame_modifiers: Dictionary = {
@@ -90,6 +92,18 @@ var minigame_modifiers: Dictionary = {
 			{"id": 3, "name": "Midas Touch", "description": "5% chance for a target to act as a gold target."}
 		]
 	},
+	"koth": {
+		"experimental": [
+			{"id": 1, "name": "E1", "description": "E"},
+			{"id": 2, "name": "E2", "description": "E"},
+			{"id": 3, "name": "E3", "description": "E"}
+		],
+		"control": [
+			{"id": 1, "name": "C1", "description": "C"},
+			{"id": 2, "name": "C2", "description": "C"},
+			{"id": 3, "name": "C3", "description": "C"}
+		]
+	},
 };
 
 ## The spawn positions for each available minigame. UPDATE THIS WHENEVER A MINIGAME IS ADDED.
@@ -118,6 +132,12 @@ var spawn_positions: Dictionary = {
 			Vector2(64, 168), Vector2(112, 168), Vector2(160, 168)
 		]
 	},
+	"koth": {
+		"experimental": Vector2(-112, 168),
+		"control": [
+			Vector2(64, 168), Vector2(112, 168), Vector2(160, 168)
+		]
+	},
 };
 
 
@@ -137,7 +157,7 @@ func handle_game_state_update(new_game_state: Enums.GameState) -> void:
 			if Network.is_host:
 				current_minigame = available_minigames[randi() % (available_minigames.size())];
 				
-				#current_minigame = "archery" # for if one needs to be selected
+				current_minigame = "koth" # for if one needs to be selected
 				
 				var minigame_chosen_data: Dictionary = {
 					"message": "minigame_chosen",

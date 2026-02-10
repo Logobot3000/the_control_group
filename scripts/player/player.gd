@@ -36,6 +36,8 @@ var space_active: bool = false;
 var juggernaut_active: bool = false;
 ## Whether or not the archery minigame is active.
 var archery_active: bool = false;
+## Whether or not the king of the hill minigame is active.
+var koth_active: bool = false;
 
 ## Whether or not the plaeyer is in the experimental group.
 var is_experimental: bool = false;
