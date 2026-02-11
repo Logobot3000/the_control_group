@@ -4,7 +4,7 @@ extends BaseMinigame;
 func minigame_setup() -> void:
 	for player in get_tree().current_scene.get_node("Players").get_children():
 		if player.steam_id in MinigameManager.ready_for_minigame:
-			player.koth_active = true;
+			player.collector_active = true;
 			
 	experimental_points_container = get_node("BaseMinigame/TV/ExperimentalPoints");
 	control_points_container = get_node("BaseMinigame/TV/ControlPoints");
@@ -37,7 +37,7 @@ func load_modifiers() -> void:
 func on_minigame_ended() -> void:
 	for player in get_tree().current_scene.get_node("Players").get_children():
 		if MinigameManager.ready_for_minigame.has(Main.player_steam_id):
-			player.koth_active = false;
+			player.collector_active = false;
 
 
 func _process(delta: float) -> void:

@@ -32,7 +32,7 @@ var available_minigames: Array = [
 	"space",
 	"juggernaut",
 	"archery",
-	"koth",
+	"collector",
 ];
 ## The array of the display names of all available minigames. UPDATE THIS WHENEVER A MINIGAME IS ADDED. This shouldn't be necessary but it is.
 var available_minigame_names: Dictionary = {
@@ -40,7 +40,7 @@ var available_minigame_names: Dictionary = {
 	"space": "Space",
 	"juggernaut": "Juggernaut",
 	"archery": "Archery",
-	"koth": "KingOfTheHill",
+	"collector": "Collector",
 };
 ## The modifier definitions for each available minigame. UPDATE THIS WHENEVER A MINIGAME IS ADDED.
 var minigame_modifiers: Dictionary = {
@@ -92,7 +92,7 @@ var minigame_modifiers: Dictionary = {
 			{"id": 3, "name": "Midas Touch", "description": "5% chance for a target to act as a gold target."}
 		]
 	},
-	"koth": {
+	"collector": {
 		"experimental": [
 			{"id": 1, "name": "E1", "description": "E"},
 			{"id": 2, "name": "E2", "description": "E"},
@@ -132,7 +132,7 @@ var spawn_positions: Dictionary = {
 			Vector2(64, 168), Vector2(112, 168), Vector2(160, 168)
 		]
 	},
-	"koth": {
+	"collector": {
 		"experimental": Vector2(-112, 168),
 		"control": [
 			Vector2(64, 168), Vector2(112, 168), Vector2(160, 168)

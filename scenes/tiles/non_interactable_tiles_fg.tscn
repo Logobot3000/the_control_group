@@ -1,10 +1,11 @@
-[gd_scene load_steps=12 format=3 uid="uid://cuggu4te88tce"]
+[gd_scene load_steps=14 format=3 uid="uid://cuggu4te88tce"]
 
 [ext_resource type="Texture2D" uid="uid://bs81jpogbobt4" path="res://assets/tiles/lobby_lights.png" id="1_pfaf0"]
 [ext_resource type="Texture2D" uid="uid://d3yvbg3ijnonl" path="res://assets/tiles/screen.png" id="2_poit8"]
 [ext_resource type="Texture2D" uid="uid://ciu5hthsklp3h" path="res://assets/tiles/juggernaut_platforms.png" id="2_ugba7"]
 [ext_resource type="Texture2D" uid="uid://colkof32f4p05" path="res://assets/tiles/grass_overlay.png" id="4_srgpo"]
 [ext_resource type="Texture2D" uid="uid://px5eayeaejbc" path="res://assets/tiles/wood_bar.png" id="5_mq3o3"]
+[ext_resource type="Texture2D" uid="uid://dpeups3l8m08l" path="res://assets/tiles/exp_ctrl_markers.png" id="6_frs0g"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_poit8"]
 texture = ExtResource("1_pfaf0")
@@ -43,12 +44,22 @@ texture = ExtResource("4_srgpo")
 texture = ExtResource("5_mq3o3")
 0:0/0 = 0
 
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_fih7n"]
+texture = ExtResource("6_frs0g")
+0:0/0 = 0
+1:0/0 = 0
+2:0/0 = 0
+3:0/0 = 0
+4:0/0 = 0
+5:0/0 = 0
+
 [sub_resource type="TileSet" id="TileSet_ugba7"]
 sources/0 = SubResource("TileSetAtlasSource_poit8")
 sources/2 = SubResource("TileSetAtlasSource_ugba7")
 sources/1 = SubResource("TileSetAtlasSource_srgpo")
 sources/3 = SubResource("TileSetAtlasSource_mq3o3")
 sources/4 = SubResource("TileSetAtlasSource_frs0g")
+sources/5 = SubResource("TileSetAtlasSource_fih7n")
 
 [node name="NonInteractableTilesFG" type="TileMapLayer"]
 z_index = -2
