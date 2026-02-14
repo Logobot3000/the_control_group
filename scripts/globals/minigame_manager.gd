@@ -157,7 +157,7 @@ func handle_game_state_update(new_game_state: Enums.GameState) -> void:
 			if Network.is_host:
 				current_minigame = available_minigames[randi() % (available_minigames.size())];
 				
-				current_minigame = "koth" # for if one needs to be selected
+				current_minigame = "collector" # for if one needs to be selected
 				
 				var minigame_chosen_data: Dictionary = {
 					"message": "minigame_chosen",

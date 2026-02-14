@@ -1,0 +1,83 @@
+[gd_scene load_steps=10 format=3 uid="uid://cmkdgh73bgswu"]
+
+[ext_resource type="Script" uid="uid://bm5clqg5dr02a" path="res://scripts/components/minigames/collector/ball_component.gd" id="1_6kegx"]
+[ext_resource type="Texture2D" uid="uid://1qkkqqvqur1k" path="res://assets/sprites/minigames/collector/ball_dispenser_and_balls.png" id="2_s48hl"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_i8xxd"]
+atlas = ExtResource("2_s48hl")
+region = Rect2(880, 0, 40, 40)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_stdgo"]
+atlas = ExtResource("2_s48hl")
+region = Rect2(840, 0, 40, 40)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fj7bn"]
+atlas = ExtResource("2_s48hl")
+region = Rect2(960, 0, 40, 40)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nmal5"]
+atlas = ExtResource("2_s48hl")
+region = Rect2(920, 0, 40, 40)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_nr54f"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_i8xxd")
+}],
+"loop": true,
+"name": &"bronze",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_stdgo")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fj7bn")
+}],
+"loop": true,
+"name": &"gold",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nmal5")
+}],
+"loop": true,
+"name": &"silver",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_foc4u"]
+radius = 16.0312
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_j2d7c"]
+radius = 17.0
+
+[node name="BallComponent" type="RigidBody2D"]
+collision_layer = 4
+collision_mask = 7
+script = ExtResource("1_6kegx")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_nr54f")
+animation = &"gold"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_foc4u")
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_layer = 6
+collision_mask = 6
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CircleShape2D_j2d7c")
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
+[connection signal="body_exited" from="Area2D" to="." method="_on_area_2d_body_exited"]
