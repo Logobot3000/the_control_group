@@ -1,6 +1,10 @@
 extends BaseMinigame;
 
 
+var ball_id = 0;
+var ball_spawn_time = 4;
+
+
 func minigame_setup() -> void:
 	for player in get_tree().current_scene.get_node("Players").get_children():
 		if player.steam_id in MinigameManager.ready_for_minigame:
@@ -34,10 +38,36 @@ func load_modifiers() -> void:
 						print("C3")
 
 
+func on_minigame_started() -> void:
+	spawn_ball_timer();
+
+
 func on_minigame_ended() -> void:
 	for player in get_tree().current_scene.get_node("Players").get_children():
 		if MinigameManager.ready_for_minigame.has(Main.player_steam_id):
 			player.collector_active = false;
+
+
+func spawn_ball_timer() -> void:
+	if minigame_active:
+		ball_id += 1;
+		ball_spawn_time = ball_spawn_time - 0.01;
+		spawn_ball();
+		await get_tree().create_timer(ball_spawn_time).timeout;
+		spawn_ball_timer();
+
+
+func spawn_ball() -> void:
+	if Network.is_host:
+		var tier: Array = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 2, 2, 3];
+		var ball_data: Dictionary = {
+			"message": "spawn_ball",
+			"position": Vector2(1000, 950),
+			"tier": tier[randi_range(0, 15)],
+			"id": ball_id
+		};
+		Network.send_p2p_packet(0, ball_data);
+		MinigameManager.spawn_ball(ball_data);
 
 
 func _process(delta: float) -> void:

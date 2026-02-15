@@ -732,6 +732,30 @@ func break_target(readable_data: Dictionary):
 						target.queue_free();
 
 
+## Balls update in collector minigame
+func ball_update(readable_data: Dictionary) -> void:
+	var has_been_found: bool = false;
+	for ball in get_tree().current_scene.get_node("Collector").get_node("Balls").get_children():
+		if ball.id == readable_data["id"]:
+			has_been_found = true;
+			ball.global_position = readable_data["pos"];
+			ball.rotation = readable_data["rot"];
+			ball.linear_velocity = readable_data["vel"];
+	if not has_been_found:
+		for ball in get_tree().current_scene.get_node("Collector").get_node("Balls").get_children():
+			if ball.id == readable_data["id"]:
+				ball.queue_free();
+
+
+## Spawns a ball in collector minigame
+func spawn_ball(readable_data: Dictionary) -> void:
+	var ball = load("res://scenes/components/minigames/collector/ball_component.tscn").instantiate();
+	ball.global_position = readable_data["position"];
+	ball.ball_tier = readable_data["tier"];
+	ball.id = readable_data["id"];
+	get_tree().current_scene.get_node("Collector").get_node("Balls").add_child(ball);
+
+
 ## Kills a player
 func player_died(readable_data: Dictionary):
 	for player in get_tree().current_scene.get_node("Players").get_children():
@@ -748,7 +772,7 @@ func player_died(readable_data: Dictionary):
 			explosion.queue_free();
 
 
-## Kills a player
+## Un-kills a player
 func player_undied(readable_data: Dictionary):
 	for player in get_tree().current_scene.get_node("Players").get_children():
 		if player.steam_id == readable_data["steam_id"]:
@@ -759,7 +783,8 @@ func player_undied(readable_data: Dictionary):
 
 func do_narrator_disabled(readable_data: Dictionary) -> void:
 	narrator_disabled = true;
-	get_tree().current_scene.get_node("NarratorComponent").currently_playing.stop();
+	if get_tree().current_scene.get_node("NarratorComponent").currently_playing:
+		get_tree().current_scene.get_node("NarratorComponent").currently_playing.stop();
 	get_tree().current_scene.get_node("NarratorComponent").currently_playing = null;
 
 
