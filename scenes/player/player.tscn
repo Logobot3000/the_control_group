@@ -1,4 +1,4 @@
-[gd_scene load_steps=401 format=3 uid="uid://c16w4qnbtqp14"]
+[gd_scene load_steps=400 format=3 uid="uid://c16w4qnbtqp14"]
 
 [ext_resource type="PackedScene" uid="uid://ca2wxt2wjjmqs" path="res://scenes/components/velocity_component.tscn" id="1_8afob"]
 [ext_resource type="Script" uid="uid://3eabxdixflc4" path="res://scripts/player/player.gd" id="1_dovo2"]
@@ -3123,11 +3123,9 @@ _data = {
 &"go": SubResource("Animation_iwuka")
 }
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_rw8a5"]
-size = Vector2(6, 13)
-
 [node name="Player" type="CharacterBody2D"]
 collision_layer = 2
+collision_mask = 9
 script = ExtResource("1_dovo2")
 velocity_component_path = NodePath("VelocityComponent")
 
@@ -3242,15 +3240,5 @@ collision_mask = 2
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="JuggernautHitbox"]
 polygon = PackedVector2Array(-6, 15, 0, 15, -2, 10, 2, 10, 4, 15, 10, 15, 8, 10, 8, -1, 15, 2, 10, -2, 15, -5, 8, -3, 6, -7, 3, -15, -5, -15, -8, -7, -9, -6, -11, -7, -14, -7, -15, -6, -15, 5, -14, 6, -11, 6, -10, 5, -8, 7, -8, 9, -7, 10)
 
-[node name="BallDetectorHitbox" type="Area2D" parent="."]
-collision_layer = 4
-collision_mask = 4
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="BallDetectorHitbox"]
-position = Vector2(0, 3.5)
-shape = SubResource("RectangleShape2D_rw8a5")
-
 [connection signal="area_entered" from="HurtboxComponent" to="HurtboxComponent" method="_on_area_entered"]
 [connection signal="body_entered" from="JuggernautHitbox" to="." method="_on_juggernaut_hitbox_body_entered"]
-[connection signal="body_entered" from="BallDetectorHitbox" to="." method="_on_ball_detector_hitbox_body_entered"]
-[connection signal="body_exited" from="BallDetectorHitbox" to="." method="_on_ball_detector_hitbox_body_exited"]

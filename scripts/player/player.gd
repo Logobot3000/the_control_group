@@ -757,13 +757,3 @@ func do_big_clicker_timer():
 		archery_big_clicker_timer_active = false;
 		if archery_big_clicker_amt >= 4:
 			get_tree().current_scene.get_node("Archery").score_point(5);
-
-
-func _on_ball_detector_hitbox_body_entered(body) -> void:
-	if body.get_parent().name == "Balls":
-		body.collision_layer = 5;
-
-
-func _on_ball_detector_hitbox_body_exited(body) -> void:
-	if body.get_parent().name == "Balls":
-		body.collision_layer = 4;
