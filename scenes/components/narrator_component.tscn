@@ -1,7 +1,15 @@
-[gd_scene load_steps=3 format=3 uid="uid://cw24svt0wc285"]
+[gd_scene load_steps=11 format=3 uid="uid://cw24svt0wc285"]
 
 [ext_resource type="Script" uid="uid://t6ne022ma4dk" path="res://scripts/components/narrator_component.gd" id="1_7mchb"]
 [ext_resource type="AudioStream" uid="uid://t5jgxgo5vf2" path="res://assets/audio/narrator/narrator_intro_1.mp3" id="1_qh6b4"]
+[ext_resource type="AudioStream" uid="uid://5mbes4aig0gs" path="res://assets/audio/narrator/narrator_intro_2.mp3" id="3_3yobm"]
+[ext_resource type="AudioStream" uid="uid://cr8banjrnvbfv" path="res://assets/audio/narrator/narrator_intro_3.mp3" id="4_r3mst"]
+[ext_resource type="AudioStream" uid="uid://co2tpp2v33ufg" path="res://assets/audio/narrator/narrator_intro_4.mp3" id="5_tw8ik"]
+[ext_resource type="AudioStream" uid="uid://cvqmongpptfyj" path="res://assets/audio/narrator/narrator_intro_5.mp3" id="6_ikvpb"]
+[ext_resource type="AudioStream" uid="uid://c6utqhijajfa2" path="res://assets/audio/narrator/narrator_intro_6.mp3" id="7_vt27t"]
+[ext_resource type="AudioStream" uid="uid://cvdd7dbrcxjpy" path="res://assets/audio/narrator/narrator_intro_7.mp3" id="8_rwuey"]
+[ext_resource type="AudioStream" uid="uid://bho24mds78fuq" path="res://assets/audio/narrator/narrator_disabled.mp3" id="9_w13tu"]
+[ext_resource type="AudioStream" uid="uid://bplye6ubtlc13" path="res://assets/audio/narrator/narrator_reenabled.mp3" id="10_ikvpb"]
 
 [node name="NarratorComponent" type="Node2D"]
 script = ExtResource("1_7mchb")
@@ -10,3 +18,31 @@ script = ExtResource("1_7mchb")
 
 [node name="NarratorIntro1" type="AudioStreamPlayer2D" parent="NarratorIntro"]
 stream = ExtResource("1_qh6b4")
+
+[node name="NarratorIntro2" type="AudioStreamPlayer2D" parent="NarratorIntro"]
+stream = ExtResource("3_3yobm")
+
+[node name="NarratorIntro3" type="AudioStreamPlayer2D" parent="NarratorIntro"]
+stream = ExtResource("4_r3mst")
+
+[node name="NarratorIntro4" type="AudioStreamPlayer2D" parent="NarratorIntro"]
+stream = ExtResource("5_tw8ik")
+
+[node name="NarratorIntro5" type="AudioStreamPlayer2D" parent="NarratorIntro"]
+stream = ExtResource("6_ikvpb")
+
+[node name="NarratorIntro6" type="AudioStreamPlayer2D" parent="NarratorIntro"]
+stream = ExtResource("7_vt27t")
+
+[node name="NarratorIntro7" type="AudioStreamPlayer2D" parent="NarratorIntro"]
+stream = ExtResource("8_rwuey")
+
+[node name="NarratorDisabled" type="Node2D" parent="."]
+
+[node name="NarratorDisabled" type="AudioStreamPlayer2D" parent="NarratorDisabled"]
+stream = ExtResource("9_w13tu")
+
+[node name="NarratorReenabled" type="Node2D" parent="."]
+
+[node name="NarratorReenabled" type="AudioStreamPlayer2D" parent="NarratorReenabled"]
+stream = ExtResource("10_ikvpb")

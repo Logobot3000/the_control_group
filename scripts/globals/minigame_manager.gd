@@ -22,6 +22,12 @@ var has_experimental_chosen: bool = false;
 var current_minigame_instance: BaseMinigame = null;
 ## Whether or not the narrator is disabled.
 var narrator_disabled: bool = false;
+## Determines whether or not you can disable the narrator.
+var can_disable: bool = true;
+## The current intro that the narrator will perform.
+var intro_num: int = 0;
+## The maximum amount of narrator intros. UPDATE THIS WHENEVER A NARRATOR INTRO IS ADDED.
+var max_intros: int = 7;
 ## The path for the fish component for the fishing minigame.
 var fish_component_path: PackedScene = preload("res://scenes/components/minigames/fishing/fish_component.tscn");
 ## The path for the laser component for the space minigame.
@@ -94,14 +100,14 @@ var minigame_modifiers: Dictionary = {
 	},
 	"collector": {
 		"experimental": [
-			{"id": 1, "name": "E1", "description": "E"},
-			{"id": 2, "name": "E2", "description": "E"},
-			{"id": 3, "name": "E3", "description": "E"}
+			{"id": 1, "name": "Ball Master", "description": "Special balls give double points."},
+			{"id": 2, "name": "Ball Bomb", "description": "Explodes balls around you outwards (20s cooldown)."},
+			{"id": 3, "name": "Baller", "description": "Stuns all control group players for 5 seconds (20s cooldown)."}
 		],
 		"control": [
-			{"id": 1, "name": "C1", "description": "C"},
-			{"id": 2, "name": "C2", "description": "C"},
-			{"id": 3, "name": "C3", "description": "C"}
+			{"id": 1, "name": "Ball Navigator", "description": "Allows you to move faster."},
+			{"id": 2, "name": "Ball Connoisseur", "description": "+1 points for all special balls."}, #mango's favorite
+			{"id": 3, "name": "Novelty Balls", "description": "5% chance for a ball to act as a gold ball."}
 		]
 	},
 };
@@ -153,6 +159,7 @@ func handle_game_state_update(new_game_state: Enums.GameState) -> void:
 			ready_for_minigame.clear();
 			has_experimental_chosen = false;
 			current_minigame = "";
+			can_disable = true;
 			
 			if Network.is_host:
 				current_minigame = available_minigames[randi() % (available_minigames.size())];
@@ -164,15 +171,23 @@ func handle_game_state_update(new_game_state: Enums.GameState) -> void:
 					"minigame": current_minigame
 				};
 				Network.send_p2p_packet(0, minigame_chosen_data);
+				
+				intro_num = randi_range(1, max_intros);
+				var intro_num_update: Dictionary = {
+					"message": "intro_num_update",
+					"num": intro_num
+				};
+				Network.send_p2p_packet(0, intro_num_update);
 			
 			## Add narrator dialogue and tv logic here
 			await get_tree().create_timer(3).timeout;
 			
 			if not narrator_disabled:
 				var narrator: NarratorComponent = get_tree().current_scene.get_node("NarratorComponent");
-				narrator.narrator_intro(Vector2(1, 1));
-				await get_tree().create_timer(narrator.playing_length).timeout;
+				narrator.narrator_intro(intro_num);
+				await narrator.finished;
 			
+			can_disable = false;
 			
 			var door: MinigameDoor = get_tree().current_scene.get_node("MinigameDoor");
 			if is_door_open == false:
@@ -782,11 +797,16 @@ func player_undied(readable_data: Dictionary):
 
 
 func do_narrator_disabled(readable_data: Dictionary) -> void:
-	narrator_disabled = true;
-	if get_tree().current_scene.get_node("NarratorComponent").currently_playing:
-		get_tree().current_scene.get_node("NarratorComponent").currently_playing.stop();
-	get_tree().current_scene.get_node("NarratorComponent").currently_playing = null;
+	if can_disable:
+		narrator_disabled = true;
+		if get_tree().current_scene.get_node("NarratorComponent").currently_playing:
+			get_tree().current_scene.get_node("NarratorComponent").currently_playing.stop();
+		get_tree().current_scene.get_node("NarratorComponent").narrator_disabled();
 
 
 func do_narrator_reenabled(readable_data: Dictionary) -> void:
-	narrator_disabled = false;
+	if can_disable:
+		narrator_disabled = false;
+		if get_tree().current_scene.get_node("NarratorComponent").currently_playing:
+			get_tree().current_scene.get_node("NarratorComponent").currently_playing.stop();
+		get_tree().current_scene.get_node("NarratorComponent").narrator_reenabled();

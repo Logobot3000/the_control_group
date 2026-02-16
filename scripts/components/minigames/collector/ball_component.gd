@@ -3,7 +3,9 @@ extends RigidBody2D;
 
 var id: int = 0;
 var ball_tier: int = 0;
+var ball_score_amt: int = 0;
 var inside_coll;
+var last_touched;
 
 
 func _ready() -> void:
@@ -11,12 +13,16 @@ func _ready() -> void:
 	match ball_tier:
 		0:
 			get_node("AnimatedSprite2D").play("default");
+			ball_score_amt = 1;
 		1:
 			get_node("AnimatedSprite2D").play("bronze");
+			ball_score_amt = 2;
 		2:
 			get_node("AnimatedSprite2D").play("silver");
+			ball_score_amt = 3;
 		3:
 			get_node("AnimatedSprite2D").play("gold");
+			ball_score_amt = 5;
 	
 	if not Network.is_host:
 		freeze_mode = RigidBody2D.FREEZE_MODE_KINEMATIC;
@@ -39,3 +45,36 @@ func _physics_process(delta: float) -> void:
 
 func _process(delta: float) -> void:
 	inside_coll.rotation = -rotation;
+	
+	if global_position.y >= 1250:
+		if last_touched:
+			if MinigameManager.current_control_group.has(last_touched) and global_position.x >= 1000:
+				if Main.player_steam_id == last_touched:
+					get_tree().current_scene.get_node("Collector").score_point(ball_score_amt);
+			elif last_touched == MinigameManager.current_experimental_group and global_position.x <= 1000:
+				if Main.player_steam_id == last_touched:
+					get_tree().current_scene.get_node("Collector").score_point(ball_score_amt);
+			elif global_position.x >= 1000:
+				_score_random_control();
+			else:
+				if Main.player_steam_id == MinigameManager.current_experimental_group:
+					get_tree().current_scene.get_node("Collector").score_point(ball_score_amt);
+		else:
+			if global_position.x >= 1000:
+				_score_random_control();
+			else:
+				if Main.player_steam_id == MinigameManager.current_experimental_group:
+						get_tree().current_scene.get_node("Collector").score_point(ball_score_amt);
+		
+		queue_free();
+
+
+func _on_area_2d_2_body_entered(body) -> void:
+	if body.get_parent().name == "Players":
+		last_touched = body.steam_id;
+
+
+func _score_random_control() -> void:
+	var id = MinigameManager.current_control_group[randi_range(0, MinigameManager.current_control_group.size() - 1)];
+	if MinigameManager.current_control_group.has(Main.player_steam_id) and Main.player_steam_id == id:
+		get_tree().current_scene.get_node("Collector").score_point(ball_score_amt);

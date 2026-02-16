@@ -46,6 +46,8 @@ func on_minigame_ended() -> void:
 	for player in get_tree().current_scene.get_node("Players").get_children():
 		if MinigameManager.ready_for_minigame.has(Main.player_steam_id):
 			player.collector_active = false;
+	for ball in get_tree().current_scene.get_node("Collector").get_node("Balls").get_children():
+		ball.queue_free();
 
 
 func spawn_ball_timer() -> void:

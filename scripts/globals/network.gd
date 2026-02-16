@@ -224,6 +224,8 @@ func _handle_recieved_packet(sender_id: int, readable_data: Dictionary) -> void:
 				MinigameManager.player_died(readable_data);
 			"player_undied":
 				MinigameManager.player_undied(readable_data);
+			"intro_num_update":
+				MinigameManager.intro_num = readable_data["num"];
 
 
 ## Reads up to [member Constants.PACKET_READ_LIMIT] packets.

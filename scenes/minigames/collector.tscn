@@ -336,4 +336,7 @@ sprite_frames = SubResource("SpriteFrames_hx7u6")
 
 [node name="Balls" type="Node2D" parent="."]
 
+[node name="Node2D" type="Node2D" parent="."]
+position = Vector2(1000, 1256)
+
 [editable path="BaseMinigame"]
