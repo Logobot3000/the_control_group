@@ -805,7 +805,7 @@ func do_narrator_disabled(readable_data: Dictionary) -> void:
 
 
 func do_narrator_reenabled(readable_data: Dictionary) -> void:
-	if can_disable:
+	if narrator_disabled:
 		narrator_disabled = false;
 		if get_tree().current_scene.get_node("NarratorComponent").currently_playing:
 			get_tree().current_scene.get_node("NarratorComponent").currently_playing.stop();

@@ -52,6 +52,8 @@ func _process(delta: float) -> void:
 	if currently_playing:
 		var spectrum = AudioServer.get_bus_effect_instance(0, 0);
 		volume = spectrum.get_magnitude_for_frequency_range(100, 1000).length() * 10;
+		if currently_playing.name == "NarratorDisabled" or currently_playing.name == "NarratorReenabled":
+			volume = 0;
 	vol_control.pop_back();
 	vol_control.push_front(volume);
 	var i = 0;
