@@ -200,7 +200,7 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_wpy2y"]
-size = Vector2(608, 18)
+size = Vector2(672, 15)
 
 [node name="Collector" type="Node2D"]
 script = ExtResource("1_y24pj")
@@ -345,9 +345,10 @@ position = Vector2(1000, 1256)
 
 [node name="PlayerSaver" type="Area2D" parent="."]
 position = Vector2(1000, 1000)
+collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerSaver"]
-position = Vector2(0, 216)
+position = Vector2(0, 217.5)
 shape = SubResource("RectangleShape2D_wpy2y")
 
 [connection signal="body_entered" from="PlayerSaver" to="." method="_on_player_saver_body_entered"]

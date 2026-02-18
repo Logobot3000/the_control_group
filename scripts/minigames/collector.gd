@@ -24,7 +24,7 @@ func load_modifiers() -> void:
 					1:
 						player.collector_ball_master_enabled = true;
 					2:
-						print("ball bomb")
+						player.collector_ball_bomb_enabled = true;
 					3:
 						player.collector_baller_enabled = true;
 			else:
@@ -50,6 +50,7 @@ func on_minigame_ended() -> void:
 			player.collector_ball_connoisseur_enabled = false;
 			player.collector_baller_enabled = false;
 			player.collector_novelty_balls_enabled = false;
+			player.collector_ball_bomb_enabled = false;
 			player.get_node("VelocityComponent").max_speed = 150;
 	for ball in get_tree().current_scene.get_node("Collector").get_node("Balls").get_children():
 		ball.queue_free();

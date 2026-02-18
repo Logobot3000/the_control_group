@@ -101,6 +101,8 @@ var archery_midas_touch_enabled: bool = false;
 var collector_ball_master_enabled: bool = false;
 ## Whether or not the ball bomb modifier is active in the collector minigame.
 var collector_ball_bomb_enabled: bool = false;
+## Whether or not the ball bomb modifier cooldown is active in the collector minigame.
+var collector_ball_bomb_cooldown: bool = false;
 ## Whether or not the baller modifier is active in the collector minigame.
 var collector_baller_enabled: bool = false;
 ## Whether or not the baller modifier cooldown is active in the collector minigame.
@@ -561,6 +563,13 @@ func _unhandled_input(event: InputEvent) -> void:
 			collector_baller_cooldown = true;
 			await get_tree().create_timer(20).timeout;
 			collector_baller_cooldown = false;
+		elif collector_active and is_experimental and is_local and collector_ball_bomb_enabled and not collector_ball_bomb_cooldown:
+			for ball in emp_area.get_overlapping_bodies():
+				if ball.get_parent().name == "Balls":
+					ball.global_position = Vector2(1000, 1000);
+			collector_ball_bomb_cooldown = true;
+			await get_tree().create_timer(20).timeout;
+			collector_ball_bomb_cooldown = false;
 			
 
 

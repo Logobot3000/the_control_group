@@ -14,7 +14,7 @@
 [ext_resource type="Texture2D" uid="uid://jn3o3o4cl7b" path="res://assets/sprites/back_button.png" id="11_cohpv"]
 [ext_resource type="Texture2D" uid="uid://msg7jcj17ea1" path="res://assets/sprites/host_button.png" id="11_utgyn"]
 [ext_resource type="Texture2D" uid="uid://dgvpsu6wi06lf" path="res://assets/sprites/join_button.png" id="12_5gn0v"]
-[ext_resource type="Shader" path="res://assets/shaders/loading_logo.gdshader" id="14_rhd0x"]
+[ext_resource type="Shader" uid="uid://dnyx2cdj7soco" path="res://assets/shaders/loading_logo.gdshader" id="14_rhd0x"]
 
 [sub_resource type="Gradient" id="Gradient_8k8b7"]
 colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 1)
