@@ -764,11 +764,22 @@ func ball_update(readable_data: Dictionary) -> void:
 
 ## Spawns a ball in collector minigame
 func spawn_ball(readable_data: Dictionary) -> void:
+	match readable_data["tier"]:
+		0:
+			get_tree().current_scene.get_node("Collector").get_node("BallDispenser").get_node("AnimatedSprite2D").play("red_ball_dispensing");
+		1:
+			get_tree().current_scene.get_node("Collector").get_node("BallDispenser").get_node("AnimatedSprite2D").play("bronze_ball_dispensing");
+		2:
+			get_tree().current_scene.get_node("Collector").get_node("BallDispenser").get_node("AnimatedSprite2D").play("silver_ball_dispensing");
+		3:
+			get_tree().current_scene.get_node("Collector").get_node("BallDispenser").get_node("AnimatedSprite2D").play("gold_ball_dispensing");
+	await get_tree().create_timer(0.4).timeout;
 	var ball = load("res://scenes/components/minigames/collector/ball_component.tscn").instantiate();
 	ball.global_position = readable_data["position"];
 	ball.ball_tier = readable_data["tier"];
 	ball.id = readable_data["id"];
 	get_tree().current_scene.get_node("Collector").get_node("Balls").add_child(ball);
+	get_tree().current_scene.get_node("Collector").get_node("BallDispenser").get_node("AnimatedSprite2D").play("default");
 
 
 ## Kills a player

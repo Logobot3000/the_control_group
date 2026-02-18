@@ -22,20 +22,20 @@ func load_modifiers() -> void:
 				chosen_modifier_id = MinigameManager.current_modifiers["experimental"]["id"];
 				match chosen_modifier_id:
 					1:
-						print("E1")
+						player.collector_ball_master_enabled = true;
 					2:
-						print("E2")
+						print("ball bomb")
 					3:
-						print("E3")
+						player.collector_baller_enabled = true;
 			else:
 				chosen_modifier_id = MinigameManager.current_modifiers["control"][player.steam_id]["id"];
 				match chosen_modifier_id:
 					1:
-						print("C1")
+						player.get_node("VelocityComponent").max_speed = 175;
 					2:
-						print("C2")
+						player.collector_ball_connoisseur_enabled = true;
 					3:
-						print("C3")
+						player.collector_novelty_balls_enabled = true;
 
 
 func on_minigame_started() -> void:
@@ -46,6 +46,11 @@ func on_minigame_ended() -> void:
 	for player in get_tree().current_scene.get_node("Players").get_children():
 		if MinigameManager.ready_for_minigame.has(Main.player_steam_id):
 			player.collector_active = false;
+			player.collector_ball_master_enabled = false;
+			player.collector_ball_connoisseur_enabled = false;
+			player.collector_baller_enabled = false;
+			player.collector_novelty_balls_enabled = false;
+			player.get_node("VelocityComponent").max_speed = 150;
 	for ball in get_tree().current_scene.get_node("Collector").get_node("Balls").get_children():
 		ball.queue_free();
 
@@ -74,3 +79,8 @@ func spawn_ball() -> void:
 
 func _process(delta: float) -> void:
 	update_group_scores();
+
+
+func _on_player_saver_body_entered(body) -> void:
+	if body.get_parent().name == "Players":
+		body.global_position = Vector2(1000, 1000);

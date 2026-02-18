@@ -652,8 +652,8 @@ energy = 0.5
 texture = SubResource("GradientTexture2D_iywne")
 
 [node name="PointLight2D2" type="PointLight2D" parent="Lighting/LobbyLights"]
-position = Vector2(-24, 8)
-scale = Vector2(-1.25, 2.75)
+position = Vector2(-24.2684, 8)
+scale = Vector2(-1.25839, 2.75)
 energy = 0.5
 texture = SubResource("GradientTexture2D_iywne")
 
@@ -664,8 +664,8 @@ energy = 0.5
 texture = SubResource("GradientTexture2D_iywne")
 
 [node name="PointLight2D4" type="PointLight2D" parent="Lighting/LobbyLights"]
-position = Vector2(104, 8)
-scale = Vector2(-1.25, 2.75)
+position = Vector2(103.713, 8)
+scale = Vector2(-1.25897, 2.75)
 energy = 0.5
 texture = SubResource("GradientTexture2D_iywne")
 

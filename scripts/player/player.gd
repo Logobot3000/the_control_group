@@ -97,6 +97,19 @@ var archery_jackpot_enabled: bool = false;
 ## Whether or not the midas touch modifier is active in the archery minigame.
 var archery_midas_touch_enabled: bool = false;
 
+## Whether or not the ball master modifier is active in the collector minigame.
+var collector_ball_master_enabled: bool = false;
+## Whether or not the ball bomb modifier is active in the collector minigame.
+var collector_ball_bomb_enabled: bool = false;
+## Whether or not the baller modifier is active in the collector minigame.
+var collector_baller_enabled: bool = false;
+## Whether or not the baller modifier cooldown is active in the collector minigame.
+var collector_baller_cooldown: bool = false;
+## Whether or not the ball connoisseur modifier is active in the collector minigame.
+var collector_ball_connoisseur_enabled: bool = false;
+## Whether or not the novelty balls modifier is active in the collector minigame.
+var collector_novelty_balls_enabled: bool = false;
+
 ## super cool crouch super cool crouch super cool crouch super cool crouch super cool crouch super cool crouch
 var super_cool_crouching: bool = false; 
 
@@ -543,6 +556,11 @@ func _unhandled_input(event: InputEvent) -> void:
 			archery_intentional_misfire_cooldown = true;
 			await get_tree().create_timer(20).timeout;
 			archery_intentional_misfire_cooldown = false;
+		elif collector_active and is_experimental and is_local and collector_baller_enabled and not collector_baller_cooldown:
+			Network.send_p2p_packet(0, { "message": "stun", "time": 5 });
+			collector_baller_cooldown = true;
+			await get_tree().create_timer(20).timeout;
+			collector_baller_cooldown = false;
 			
 
 
