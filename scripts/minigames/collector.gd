@@ -72,7 +72,8 @@ func spawn_ball() -> void:
 			"message": "spawn_ball",
 			"position": Vector2(1000, 950),
 			"tier": tier[randi_range(0, 15)],
-			"id": ball_id
+			"id": ball_id,
+			"vel": Vector2(randi_range(-10, 10), 0)
 		};
 		Network.send_p2p_packet(0, ball_data);
 		MinigameManager.spawn_ball(ball_data);

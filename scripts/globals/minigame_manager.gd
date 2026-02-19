@@ -778,8 +778,21 @@ func spawn_ball(readable_data: Dictionary) -> void:
 	ball.global_position = readable_data["position"];
 	ball.ball_tier = readable_data["tier"];
 	ball.id = readable_data["id"];
+	ball.linear_velocity = readable_data["vel"];
 	get_tree().current_scene.get_node("Collector").get_node("Balls").add_child(ball);
 	get_tree().current_scene.get_node("Collector").get_node("BallDispenser").get_node("AnimatedSprite2D").play("default");
+
+
+## Does a ball bomb in collector minigame
+func ball_bomb(readable_data: Dictionary):
+	if Network.is_host:
+		for ball: RigidBody2D in get_tree().current_scene.get_node("Collector").get_node("Balls").get_children():
+			print(ball, ball.linear_velocity)
+			var dist: Vector2 = (ball.global_position - readable_data["player_pos"]).normalized();
+			dist.y *= 1.5;
+			dist.normalized();
+			ball.linear_velocity = dist * 1500;
+			print(ball, ball.linear_velocity)
 
 
 ## Kills a player

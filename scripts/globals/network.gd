@@ -220,6 +220,8 @@ func _handle_recieved_packet(sender_id: int, readable_data: Dictionary) -> void:
 				MinigameManager.ball_update(readable_data);
 			"spawn_ball":
 				MinigameManager.spawn_ball(readable_data);
+			"ball_bomb":
+				MinigameManager.ball_bomb(readable_data);
 			"player_died":
 				MinigameManager.player_died(readable_data);
 			"player_undied":

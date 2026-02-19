@@ -564,9 +564,12 @@ func _unhandled_input(event: InputEvent) -> void:
 			await get_tree().create_timer(20).timeout;
 			collector_baller_cooldown = false;
 		elif collector_active and is_experimental and is_local and collector_ball_bomb_enabled and not collector_ball_bomb_cooldown:
-			for ball in emp_area.get_overlapping_bodies():
-				if ball.get_parent().name == "Balls":
-					ball.global_position = Vector2(1000, 1000);
+			var ball_bomb_data: Dictionary = {
+				"message": "ball_bomb",
+				"player_pos": global_position
+			};
+			Network.send_p2p_packet(0, ball_bomb_data);
+			MinigameManager.ball_bomb(ball_bomb_data);
 			collector_ball_bomb_cooldown = true;
 			await get_tree().create_timer(20).timeout;
 			collector_ball_bomb_cooldown = false;
