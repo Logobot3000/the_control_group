@@ -38,6 +38,8 @@ var juggernaut_active: bool = false;
 var archery_active: bool = false;
 ## Whether or not the collector minigame is active.
 var collector_active: bool = false;
+## Whether or not the $$$ minigame is active.
+var kaching_active: bool = false;
 
 ## Whether or not the plaeyer is in the experimental group.
 var is_experimental: bool = false;

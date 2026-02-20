@@ -38,11 +38,20 @@ func _ready() -> void:
 	minigame_setup();
 	load_modifiers();
 	minigame_active = true;
+	for player in get_tree().current_scene.get_node("Players").get_children():
+		if player.steam_id == MinigameManager.current_experimental_group:
+			player.is_experimental = true;
+	
+	print(3)
+	await get_tree().create_timer(1).timeout;
+	print(2)
+	await get_tree().create_timer(1).timeout;
+	print(1)
+	await get_tree().create_timer(1).timeout;
+	
 	minigame_started.emit();
 	for player in get_tree().current_scene.get_node("Players").get_children():
 		player.can_move = true;
-		if player.steam_id == MinigameManager.current_experimental_group:
-			player.is_experimental = true;
 	countdown_timer(minigame_timer_length);
 
 
