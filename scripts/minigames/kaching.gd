@@ -42,3 +42,8 @@ func on_minigame_ended() -> void:
 
 func _process(delta: float) -> void:
 	update_group_scores();
+
+
+func _on_trampoline_body_entered(body) -> void:
+	if body.get_parent().name == "Players":
+		body.get_node("VelocityComponent").velocity.y = -1000;

@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=4 uid="uid://cc87hgtvwo5os"]
+[gd_scene load_steps=21 format=4 uid="uid://cc87hgtvwo5os"]
 
 [ext_resource type="Script" uid="uid://by6be0kbrkfm4" path="res://scripts/minigames/kaching.gd" id="1_acu8o"]
 [ext_resource type="PackedScene" uid="uid://7101ew6iodi4" path="res://scenes/minigames/base_minigame.tscn" id="1_s3yu1"]
@@ -78,6 +78,18 @@ animations = [{
 "name": &"default",
 "speed": 5.0
 }]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_gyvb8"]
+size = Vector2(611, 49)
+
+[sub_resource type="Gradient" id="Gradient_gyvb8"]
+offsets = PackedFloat32Array(0, 0.981982)
+colors = PackedColorArray(0.0866667, 0.4, 0, 0.501961, 0.0953333, 0.44, 0, 0.501961)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_867mb"]
+gradient = SubResource("Gradient_gyvb8")
+width = 8
+height = 4
 
 [node name="Kaching" type="Node2D"]
 script = ExtResource("1_acu8o")
@@ -200,6 +212,7 @@ energy = 0.25
 texture = SubResource("GradientTexture2D_y7tpj")
 
 [node name="TestingOnlyDarkLight" type="DirectionalLight2D" parent="."]
+visible = false
 position = Vector2(0, 8)
 energy = 0.25
 blend_mode = 1
@@ -209,3 +222,24 @@ position = Vector2(1000, 1168)
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Trampoline"]
 sprite_frames = SubResource("SpriteFrames_qrb24")
+
+[node name="Area2D" type="Area2D" parent="Trampoline"]
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Trampoline/Area2D"]
+position = Vector2(0.5, -14.5)
+shape = SubResource("RectangleShape2D_gyvb8")
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="."]
+z_index = -1
+position = Vector2(1000, 800)
+amount = 50
+texture = SubResource("GradientTexture2D_867mb")
+lifetime = 3.0
+emission_shape = 3
+emission_rect_extents = Vector2(600, 1)
+gravity = Vector2(0, 100)
+angular_velocity_min = -182.3
+angular_velocity_max = 180.0
+
+[connection signal="body_entered" from="Trampoline/Area2D" to="." method="_on_trampoline_body_entered"]
