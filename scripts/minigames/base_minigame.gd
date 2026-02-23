@@ -42,12 +42,9 @@ func _ready() -> void:
 		if player.steam_id == MinigameManager.current_experimental_group:
 			player.is_experimental = true;
 	
-	print(3)
-	await get_tree().create_timer(1).timeout;
-	print(2)
-	await get_tree().create_timer(1).timeout;
-	print(1)
-	await get_tree().create_timer(1).timeout;
+	if name != "BaseMinigame":
+		get_node("BaseMinigame").get_node("AnimationPlayer").play("go");
+	await get_tree().create_timer(4).timeout;
 	
 	minigame_started.emit();
 	for player in get_tree().current_scene.get_node("Players").get_children():

@@ -114,14 +114,14 @@ var minigame_modifiers: Dictionary = {
 	},
 	"kaching": {
 		"experimental": [
-			{"id": 1, "name": "E1", "description": "E"},
-			{"id": 2, "name": "E2", "description": "E"},
-			{"id": 3, "name": "E3", "description": "E"}
+			{"id": 1, "name": "Billionaire", "description": "Special coins give double points."},
+			{"id": 2, "name": "Magnet", "description": "Nearby coins will be attracted to you."},
+			{"id": 3, "name": "Winning Streak", "description": "If you collect 4 coins in 2 seconds, you get +5 points."}
 		],
 		"control": [
-			{"id": 1, "name": "C1", "description": "C"},
-			{"id": 2, "name": "C2", "description": "C"},
-			{"id": 3, "name": "C3", "description": "C"}
+			{"id": 1, "name": "Fast Money", "description": "Allows you to move faster."},
+			{"id": 2, "name": "Millionaire", "description": "+1 points for all special coins."},
+			{"id": 3, "name": "All In", "description": "5% chance for a coin to act as a gold coin."}
 		]
 	},
 };
@@ -813,6 +813,15 @@ func ball_bomb(readable_data: Dictionary):
 			dist.normalized();
 			ball.linear_velocity = dist * 1500;
 			print(ball, ball.linear_velocity)
+
+
+## Spawns a coin in $$$ minigame
+func spawn_coin(readable_data: Dictionary):
+	var coin = load("res://scenes/components/minigames/kaching/coin_component.tscn").instantiate();
+	coin.global_position = readable_data["position"];
+	coin.coin_tier = readable_data["tier"];
+	coin.id = readable_data["id"];
+	get_tree().current_scene.get_node("Kaching").get_node("Coins").add_child(coin);
 
 
 ## Kills a player

@@ -114,6 +114,21 @@ var collector_ball_connoisseur_enabled: bool = false;
 ## Whether or not the novelty balls modifier is active in the collector minigame.
 var collector_novelty_balls_enabled: bool = false;
 
+## Whether or not the billionaire modifier is active in the kaching minigame.
+var kaching_billionaire_enabled: bool = false;
+## Whether or not the magnet modifier is active in the kaching minigame.
+var kaching_magnet_enabled: bool = false;
+## Whether or not the winning streak modifier is active in the kaching minigame.
+var kaching_winning_streak_enabled: bool = false;
+## Whether or not the winning streak timer is active in the kaching minigame.
+var kaching_winning_streak_timer_active: bool = false;
+## Winning streak amount in the kaching minigame.
+var kaching_winning_streak_amt: int = 0;
+## Whether or not the ball connoisseur modifier is active in the kaching minigame.
+var kaching_millionaire_enabled: bool = false;
+## Whether or not the novelty balls modifier is active in the kaching minigame.
+var kaching_all_in_enabled: bool = false;
+
 ## super cool crouch super cool crouch super cool crouch super cool crouch super cool crouch super cool crouch
 var super_cool_crouching: bool = false; 
 
@@ -737,10 +752,11 @@ func use_emp_ability():
 		var ships = emp_area.get_overlapping_bodies();
 		var ship_count: int = 0;
 		for player in ships:
-			ship_count += 1;
-			if player.steam_id != steam_id:
-				Network.send_p2p_packet(player.steam_id, { "message": "stun", "time": 6 });
-				player.get_node("HookComponent").raise_hook(false);
+			if player.get_parent().name == "Players":
+				ship_count += 1;
+				if player.steam_id != steam_id:
+					Network.send_p2p_packet(player.steam_id, { "message": "stun", "time": 6 });
+					player.get_node("HookComponent").raise_hook(false);
 		do_emp_particles();
 		emp_rod_upgrade(ship_count);
 		await get_tree().create_timer(20).timeout;
@@ -787,5 +803,18 @@ func do_big_clicker_timer():
 		archery_big_clicker_amt = 0;
 		await get_tree().create_timer(4).timeout;
 		archery_big_clicker_timer_active = false;
-		if archery_big_clicker_amt >= 4:
+		if archery_big_clicker_amt >= 3:
 			get_tree().current_scene.get_node("Archery").score_point(5);
+
+
+## Does the winning streak timer for the kaching minigame.
+func do_winning_streak_timer():
+	print(is_local)
+	if is_local and kaching_winning_streak_enabled and not kaching_winning_streak_timer_active:
+		kaching_winning_streak_timer_active = true;
+		kaching_winning_streak_amt = 0;
+		await get_tree().create_timer(2).timeout;
+		kaching_winning_streak_timer_active = false;
+		if kaching_winning_streak_amt >= 4:
+			print(kaching_winning_streak_enabled)
+			get_tree().current_scene.get_node("Kaching").score_point(5);

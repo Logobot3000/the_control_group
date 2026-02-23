@@ -1,0 +1,170 @@
+[gd_scene load_steps=16 format=3 uid="uid://b5y5ffcrr53sl"]
+
+[ext_resource type="Texture2D" uid="uid://b8ftpl1s0jlup" path="res://assets/sprites/minigames/kaching/coins.png" id="1_kbayh"]
+[ext_resource type="Script" uid="uid://d8g3bbfi7b2l" path="res://scripts/components/minigames/kaching/coin_component.gd" id="1_qg1fr"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qg1fr"]
+atlas = ExtResource("1_kbayh")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gj5ny"]
+atlas = ExtResource("1_kbayh")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_84a0f"]
+atlas = ExtResource("1_kbayh")
+region = Rect2(48, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pceoh"]
+atlas = ExtResource("1_kbayh")
+region = Rect2(32, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_7l1o4"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qg1fr")
+}],
+"loop": true,
+"name": &"bronze",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gj5ny")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_84a0f")
+}],
+"loop": true,
+"name": &"gold",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pceoh")
+}],
+"loop": true,
+"name": &"silver",
+"speed": 5.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ujsyf"]
+radius = 7.0
+height = 18.0
+
+[sub_resource type="Gradient" id="Gradient_qg1fr"]
+offsets = PackedFloat32Array(0, 0.296296, 0.648148, 0.981481)
+colors = PackedColorArray(0.941176, 0.290196, 0.290196, 1, 0.913725, 0.235294, 0.235294, 1, 0.85098, 0.192157, 0.192157, 1, 0.713726, 0.156863, 0.156863, 1)
+
+[sub_resource type="Gradient" id="Gradient_gj5ny"]
+offsets = PackedFloat32Array(0, 0.296296, 0.648148, 0.981481)
+colors = PackedColorArray(0.580392, 0.380392, 0.239216, 1, 0.913725, 0.67451, 0.439216, 1, 0.780392, 0.458824, 0.290196, 1, 0.87451, 0.572549, 0.360784, 1)
+
+[sub_resource type="Gradient" id="Gradient_84a0f"]
+offsets = PackedFloat32Array(0, 0.296296, 0.648148, 0.953704)
+colors = PackedColorArray(0.513726, 0.513726, 0.513726, 1, 0.772549, 0.756863, 0.752941, 1, 0.4, 0.4, 0.4, 1, 0.772549, 0.772549, 0.772549, 1)
+
+[sub_resource type="Gradient" id="Gradient_pceoh"]
+offsets = PackedFloat32Array(0, 0.296296, 0.648148, 0.953704)
+colors = PackedColorArray(0.858824, 0.658824, 0, 1, 1, 0.803922, 0.152941, 1, 0.658824, 0.505882, 0, 1, 1, 0.847059, 0.333333, 1)
+
+[sub_resource type="Animation" id="Animation_gng8b"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_25hei"]
+resource_name = "appear"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.5, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_g12mc"]
+_data = {
+&"RESET": SubResource("Animation_gng8b"),
+&"appear": SubResource("Animation_25hei")
+}
+
+[node name="CoinComponent" type="Area2D"]
+collision_mask = 2
+script = ExtResource("1_qg1fr")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+modulate = Color(1, 1, 1, 0)
+sprite_frames = SubResource("SpriteFrames_7l1o4")
+animation = &"gold"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_ujsyf")
+
+[node name="AppearParticlesDefault" type="CPUParticles2D" parent="."]
+emitting = false
+amount = 40
+one_shot = true
+explosiveness = 0.5
+emission_shape = 1
+emission_sphere_radius = 8.0
+gravity = Vector2(0, 0)
+color_ramp = SubResource("Gradient_qg1fr")
+
+[node name="AppearParticlesBronze" type="CPUParticles2D" parent="."]
+emitting = false
+amount = 40
+one_shot = true
+explosiveness = 0.5
+emission_shape = 1
+emission_sphere_radius = 8.0
+gravity = Vector2(0, 0)
+color_ramp = SubResource("Gradient_gj5ny")
+
+[node name="AppearParticlesSilver" type="CPUParticles2D" parent="."]
+emitting = false
+amount = 40
+one_shot = true
+explosiveness = 0.5
+emission_shape = 1
+emission_sphere_radius = 8.0
+gravity = Vector2(0, 0)
+color_ramp = SubResource("Gradient_84a0f")
+
+[node name="AppearParticlesGold" type="CPUParticles2D" parent="."]
+emitting = false
+amount = 40
+one_shot = true
+explosiveness = 0.5
+emission_shape = 1
+emission_sphere_radius = 8.0
+gravity = Vector2(0, 0)
+color_ramp = SubResource("Gradient_pceoh")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_g12mc")
+}
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

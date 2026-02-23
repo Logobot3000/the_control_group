@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=4 uid="uid://cc87hgtvwo5os"]
+[gd_scene load_steps=22 format=4 uid="uid://cc87hgtvwo5os"]
 
 [ext_resource type="Script" uid="uid://by6be0kbrkfm4" path="res://scripts/minigames/kaching.gd" id="1_acu8o"]
 [ext_resource type="PackedScene" uid="uid://7101ew6iodi4" path="res://scenes/minigames/base_minigame.tscn" id="1_s3yu1"]
@@ -44,6 +44,10 @@ region = Rect2(1216, 0, 608, 16)
 atlas = ExtResource("6_tbdqi")
 region = Rect2(608, 0, 608, 16)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_gyvb8"]
+atlas = ExtResource("6_tbdqi")
+region = Rect2(0, 0, 608, 16)
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_qik4v"]
 atlas = ExtResource("6_tbdqi")
 region = Rect2(0, 0, 608, 16)
@@ -65,10 +69,13 @@ animations = [{
 }, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_ettx5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gyvb8")
 }],
 "loop": false,
 "name": &"boing",
-"speed": 10.0
+"speed": 15.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -222,6 +229,7 @@ position = Vector2(1000, 1168)
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Trampoline"]
 sprite_frames = SubResource("SpriteFrames_qrb24")
+animation = &"boing"
 
 [node name="Area2D" type="Area2D" parent="Trampoline"]
 collision_mask = 2
@@ -241,5 +249,7 @@ emission_rect_extents = Vector2(600, 1)
 gravity = Vector2(0, 100)
 angular_velocity_min = -182.3
 angular_velocity_max = 180.0
+
+[node name="Coins" type="Node2D" parent="."]
 
 [connection signal="body_entered" from="Trampoline/Area2D" to="." method="_on_trampoline_body_entered"]
