@@ -40,6 +40,8 @@ var archery_active: bool = false;
 var collector_active: bool = false;
 ## Whether or not the $$$ minigame is active.
 var kaching_active: bool = false;
+## Whether or not the capture the flag minigame is active.
+var ctf_active: bool = false;
 
 ## Whether or not the plaeyer is in the experimental group.
 var is_experimental: bool = false;
