@@ -1,0 +1,140 @@
+[gd_scene load_steps=20 format=3 uid="uid://wbv3righmmdf"]
+
+[ext_resource type="Script" uid="uid://qwmcgwbp2we2" path="res://scripts/components/minigames/ctf/flag_component.gd" id="1_4axc1"]
+[ext_resource type="Texture2D" uid="uid://tbwwc4fccofb" path="res://assets/sprites/minigames/ctf/flag.png" id="1_5oj6x"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4axc1"]
+atlas = ExtResource("1_5oj6x")
+region = Rect2(0, 0, 16, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tyjje"]
+atlas = ExtResource("1_5oj6x")
+region = Rect2(16, 0, 16, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cfjtk"]
+atlas = ExtResource("1_5oj6x")
+region = Rect2(32, 0, 16, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_htwrv"]
+atlas = ExtResource("1_5oj6x")
+region = Rect2(48, 0, 16, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_67dyr"]
+atlas = ExtResource("1_5oj6x")
+region = Rect2(64, 0, 16, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qy6my"]
+atlas = ExtResource("1_5oj6x")
+region = Rect2(80, 0, 16, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mb5fy"]
+atlas = ExtResource("1_5oj6x")
+region = Rect2(96, 0, 16, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_crysx"]
+atlas = ExtResource("1_5oj6x")
+region = Rect2(112, 0, 16, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dwa2c"]
+atlas = ExtResource("1_5oj6x")
+region = Rect2(128, 0, 16, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ahr0t"]
+atlas = ExtResource("1_5oj6x")
+region = Rect2(144, 0, 16, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8gddg"]
+atlas = ExtResource("1_5oj6x")
+region = Rect2(160, 0, 16, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7rbdg"]
+atlas = ExtResource("1_5oj6x")
+region = Rect2(176, 0, 16, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_uwi01"]
+atlas = ExtResource("1_5oj6x")
+region = Rect2(192, 0, 16, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7vtiq"]
+atlas = ExtResource("1_5oj6x")
+region = Rect2(208, 0, 16, 48)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_o2pam"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4axc1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tyjje")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cfjtk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_htwrv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_67dyr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qy6my")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mb5fy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_crysx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dwa2c")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ahr0t")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8gddg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7rbdg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_uwi01")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7vtiq")
+}],
+"loop": true,
+"name": &"wave",
+"speed": 5.0
+}]
+
+[sub_resource type="Gradient" id="Gradient_1tatr"]
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_fcdi7"]
+gradient = SubResource("Gradient_1tatr")
+fill = 1
+fill_from = Vector2(0.495726, 0.492877)
+fill_to = Vector2(0.307692, 0.307692)
+
+[node name="FlagComponent" type="Area2D"]
+collision_mask = 2
+script = ExtResource("1_4axc1")
+
+[node name="Sprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_o2pam")
+animation = &"wave"
+autoplay = "wave"
+frame_progress = 0.845965
+
+[node name="PointLight2D" type="PointLight2D" parent="."]
+position = Vector2(1, -14)
+color = Color(1, 0.883333, 0, 1)
+energy = 0.3
+texture = SubResource("GradientTexture2D_fcdi7")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+polygon = PackedVector2Array(-10, -21, -10, 24, -2, 24, -2, 20, -6, 15, -6, -8, 10, -8, 10, -21)
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

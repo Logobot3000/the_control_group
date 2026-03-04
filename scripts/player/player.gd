@@ -131,6 +131,19 @@ var kaching_millionaire_enabled: bool = false;
 ## Whether or not the novelty balls modifier is active in the kaching minigame.
 var kaching_all_in_enabled: bool = false;
 
+## Whether or not the flag hunter modifier is active in the capture the flag minigame.
+var ctf_flag_hunter_enabled: bool = false;
+## Whether or not the flag master modifier is active in the capture the flag minigame.
+var ctf_flag_master_enabled: bool = false;
+## Whether or not the stun blast modifier is active in the capture the flag minigame.
+var ctf_stun_blast_enabled: bool = false;
+## Whether or not the stun blast timer is active in the capture the flag minigame.
+var ctf_stun_blast_timer_active: bool = false;
+## Whether or not the dash modifier is active in the capture the flag minigame.
+var ctf_dash_enabled: bool = false;
+## Whether or not the dash timer is active in the capture the flag minigame.
+var ctf_dash_timer_active: bool = false;
+
 ## super cool crouch super cool crouch super cool crouch super cool crouch super cool crouch super cool crouch
 var super_cool_crouching: bool = false; 
 
@@ -592,7 +605,18 @@ func _unhandled_input(event: InputEvent) -> void:
 			collector_ball_bomb_cooldown = true;
 			await get_tree().create_timer(20).timeout;
 			collector_ball_bomb_cooldown = false;
-			
+		elif ctf_active and is_experimental and is_local and ctf_dash_enabled and not ctf_dash_timer_active:
+			velocity_component.max_speed = 182;
+			ctf_dash_timer_active = true;
+			await get_tree().create_timer(5).timeout;
+			velocity_component.max_speed = 150;
+			await get_tree().create_timer(10).timeout;
+			ctf_dash_timer_active = false;
+		elif ctf_active and is_experimental and is_local and ctf_stun_blast_enabled and not ctf_stun_blast_timer_active:
+			Network.send_p2p_packet(0, { "message": "stun", "time": 5 });
+			ctf_stun_blast_timer_active = true;
+			await get_tree().create_timer(15).timeout;
+			ctf_stun_blast_timer_active = false;
 
 
 ## Gets [member steam_id].

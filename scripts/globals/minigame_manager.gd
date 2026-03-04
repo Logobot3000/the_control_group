@@ -128,14 +128,14 @@ var minigame_modifiers: Dictionary = {
 	},
 	"ctf": {
 		"experimental": [
-			{"id": 1, "name": "E1", "description": "e"},
-			{"id": 2, "name": "E2", "description": "e"},
-			{"id": 3, "name": "E3", "description": "e"}
+			{"id": 1, "name": "Flag Master", "description": "+3 points instead of +1 upon securing the flag."},
+			{"id": 2, "name": "Dash", "description": "5 second speed boost (15s cooldown)"},
+			{"id": 3, "name": "Stun Blast", "description": "Stuns all control group players for 5 seconds (15s cooldown)"}
 		],
 		"control": [
-			{"id": 1, "name": "C1", "description": "c"},
-			{"id": 2, "name": "C2", "description": "c"},
-			{"id": 3, "name": "C3", "description": "c"}
+			{"id": 1, "name": "Speed Boost", "description": "Allows you to move faster."},
+			{"id": 2, "name": "Jump Boost", "description": "Allows you to jump higher."},
+			{"id": 3, "name": "Flag Hunter", "description": "+2 points instead of +1 if you capture the flag."}
 		]
 	},
 };
@@ -179,9 +179,9 @@ var spawn_positions: Dictionary = {
 		]
 	},
 	"ctf": {
-		"experimental": Vector2(-112, 100),
+		"experimental": Vector2(280, -132),
 		"control": [
-			Vector2(64, 100), Vector2(112, 100), Vector2(160, 100)
+			Vector2(-280, 156), Vector2(-280, -132), Vector2(280, 156)
 		]
 	},
 };
@@ -204,7 +204,7 @@ func handle_game_state_update(new_game_state: Enums.GameState) -> void:
 			if Network.is_host:
 				current_minigame = available_minigames[randi() % (available_minigames.size())];
 				
-				current_minigame = "ctf" # for if one needs to be selected
+				#current_minigame = "ctf" # for if one needs to be selected
 				
 				var minigame_chosen_data: Dictionary = {
 					"message": "minigame_chosen",
@@ -842,6 +842,25 @@ func spawn_coin(readable_data: Dictionary):
 	coin.coin_tier = readable_data["tier"];
 	coin.id = readable_data["id"];
 	get_tree().current_scene.get_node("Kaching").get_node("Coins").add_child(coin);
+
+
+## Locks or unlocks a flag to the player in the CTF minigame
+func player_lock(readable_data: Dictionary):
+	var flag = get_tree().current_scene.get_node("CTF").get_node("FlagComponent");
+	if not readable_data["toggle"]:
+		flag.player_lock(false, null, false);
+	else:
+		var id;
+		for pl in get_tree().current_scene.get_node("Players").get_children():
+			if pl.steam_id == readable_data["player_id"]:
+				flag.player_lock(true, pl, false);
+				break;
+
+
+## Toggles the barrier in the CTF minigame
+func toggle_barrier(readable_data: Dictionary):
+	var flag = get_tree().current_scene.get_node("CTF").get_node("FlagComponent");
+	flag.toggle_barrier(readable_data["toggle"], false);
 
 
 ## Kills a player

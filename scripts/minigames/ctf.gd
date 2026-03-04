@@ -18,26 +18,32 @@ func load_modifiers() -> void:
 				chosen_modifier_id = MinigameManager.current_modifiers["experimental"]["id"];
 				match chosen_modifier_id:
 					1:
-						print("e1")
+						player.ctf_flag_master_enabled = true;
 					2:
-						print("e2")
+						player.ctf_dash_enabled = true;
 					3:
-						print("e3")
+						player.ctf_stun_blast_enabled = true;
 			else:
 				chosen_modifier_id = MinigameManager.current_modifiers["control"][player.steam_id]["id"];
 				match chosen_modifier_id:
 					1:
-						print("c1")
+						player.get_node("VelocityComponent").max_speed = 162;
 					2:
-						print("c2")
+						player.get_node("VelocityComponent").jump_strength = 450;
 					3:
-						print("c3")
+						player.ctf_flag_hunter_enabled = true;
 
 
 func on_minigame_ended() -> void:
 	for player in get_tree().current_scene.get_node("Players").get_children():
 		if MinigameManager.ready_for_minigame.has(Main.player_steam_id):
 			player.ctf_active = false;
+			player.get_node("VelocityComponent").max_speed = 150;
+			player.get_node("VelocityComponent").jump_strength = 400;
+			player.ctf_flag_hunter_enabled = false;
+			player.ctf_flag_master_enabled = false;
+			player.ctf_dash_enabled = false;
+			player.ctf_stun_blast_enabled = false;
 
 
 func _process(delta: float) -> void:

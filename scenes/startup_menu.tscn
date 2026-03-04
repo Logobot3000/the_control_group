@@ -1,4 +1,4 @@
-[gd_scene load_steps=74 format=4 uid="uid://bscdj2wh22vxs"]
+[gd_scene load_steps=75 format=4 uid="uid://bscdj2wh22vxs"]
 
 [ext_resource type="Script" uid="uid://c31vxh33c7ku5" path="res://scripts/ui/startup_menu.gd" id="1_ebq67"]
 [ext_resource type="Texture2D" uid="uid://bm2pgqollqbca" path="res://assets/logo.png" id="1_s5o28"]
@@ -15,6 +15,7 @@
 [ext_resource type="Texture2D" uid="uid://msg7jcj17ea1" path="res://assets/sprites/host_button.png" id="11_utgyn"]
 [ext_resource type="Texture2D" uid="uid://dgvpsu6wi06lf" path="res://assets/sprites/join_button.png" id="12_5gn0v"]
 [ext_resource type="Shader" path="res://assets/shaders/loading_logo.gdshader" id="14_rhd0x"]
+[ext_resource type="AudioStream" uid="uid://co0ple2g1mijw" path="res://assets/audio/background/control_group_main_menu.wav" id="16_57fdt"]
 
 [sub_resource type="Gradient" id="Gradient_8k8b7"]
 colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 1)
@@ -1336,6 +1337,11 @@ show_percentage = false
 libraries = {
 &"": SubResource("AnimationLibrary_armpk")
 }
+
+[node name="BackgroundMusic" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("16_57fdt")
+volume_db = -5.0
+autoplay = true
 
 [connection signal="mouse_entered" from="Start" to="Start" method="_on_mouse_entered"]
 [connection signal="mouse_exited" from="Start" to="Start" method="_on_mouse_exited"]
