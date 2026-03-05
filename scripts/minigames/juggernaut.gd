@@ -64,7 +64,7 @@ func _on_portal_hitbox_2_body_entered(body) -> void:
 		body.global_position = Vector2(1280, 897);
 
 
-func _process(delta: float) -> void:
+func _physics_process(delta: float) -> void:
 	update_group_scores();
 	if MinigameManager.ready_for_minigame.size() == 4 and experimental_points_container.text == "3":
 		end_minigame_early();

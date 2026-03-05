@@ -76,7 +76,7 @@ func spawn_coin() -> void:
 		Network.send_p2p_packet(0, target_data);
 		MinigameManager.spawn_coin(target_data);
 
-func _process(delta: float) -> void:
+func _physics_process(delta: float) -> void:
 	update_group_scores();
 
 

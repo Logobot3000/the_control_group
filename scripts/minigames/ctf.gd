@@ -46,5 +46,5 @@ func on_minigame_ended() -> void:
 			player.ctf_stun_blast_enabled = false;
 
 
-func _process(delta: float) -> void:
+func _physics_process(delta: float) -> void:
 	update_group_scores();

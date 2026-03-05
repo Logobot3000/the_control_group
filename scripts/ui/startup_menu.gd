@@ -13,7 +13,7 @@ func _ready() -> void:
 	tween.tween_property(white_flash, "modulate", Color("#FFFFFF", 0.0), 3);
 
 
-func _process(delta: float) -> void:
+func _physics_process(delta: float) -> void:
 	hue += 0.5;
 	tiles.modulate = Color.from_hsv((int(floor(hue)) % 360) / 360.0, 0.25, 1.0);
 	tiles.rotation += 0.005;

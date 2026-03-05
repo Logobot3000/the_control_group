@@ -109,7 +109,7 @@ func spawn_fish_timer() -> void:
 		spawn_fish_timer();
 
 
-func _process(delta: float) -> void:
+func _physics_process(delta: float) -> void:
 	update_group_scores();
 	if Input.is_action_just_pressed("click"):
 		for player in get_tree().current_scene.get_node("Players").get_children():
