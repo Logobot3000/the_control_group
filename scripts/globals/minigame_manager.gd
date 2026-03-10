@@ -36,11 +36,12 @@ var laser_component_path: PackedScene = preload("res://scenes/components/minigam
 var available_minigames: Array = [
 	"fishing",
 	"space",
-	"juggernaut",
+	"juggernaut", # the random special
 	"archery",
 	"collector",
 	"kaching",
-	"ctf"
+	"ctf",
+	"rlgl"
 ];
 ## The array of the display names of all available minigames. UPDATE THIS WHENEVER A MINIGAME IS ADDED. This shouldn't be necessary but it is.
 var available_minigame_names: Dictionary = {
@@ -50,7 +51,8 @@ var available_minigame_names: Dictionary = {
 	"archery": "Archery",
 	"collector": "Collector",
 	"kaching": "Kaching",
-	"ctf": "CTF"
+	"ctf": "CTF",
+	"rlgl": "RLGL"
 };
 ## The modifier definitions for each available minigame. UPDATE THIS WHENEVER A MINIGAME IS ADDED.
 var minigame_modifiers: Dictionary = {
@@ -58,7 +60,7 @@ var minigame_modifiers: Dictionary = {
 		"experimental": [
 			{"id": 1, "name": "Net Harpoon", "description": "Catches multiple fish, but has a slow reel speed. Ignores jellyfish."},
 			{"id": 2, "name": "Antivenom Hook", "description": "Allows reeling in jellyfish, also adds more jellyfish."},
-			{"id": 3, "name": "EMP", "description": "Stuns ships around you (20s cooldown). Gives a temporary rod upgrade per player stunned."}
+			{"id": 3, "name": "EMP", "description": "(Ability) Stuns ships around you (20s cooldown). Gives a temporary rod upgrade per player stunned."}
 		],
 		"control": [
 			{"id": 1, "name": "Upgraded Rod", "description": "Reels in fish faster."},
@@ -81,8 +83,8 @@ var minigame_modifiers: Dictionary = {
 	"juggernaut": {
 		"experimental": [
 			{"id": 1, "name": "Speed Boost", "description": "Allows you to move faster (10s cooldown, 4s duration)."},
-			{"id": 2, "name": "Sketchy Teleportation", "description": "Teleport to a random position on the map (3x a game)."},
-			{"id": 3, "name": "Stun Mines", "description": "Place mines down that stun Control Group players for 2s (10s cooldown)."}
+			{"id": 2, "name": "Sketchy Teleportation", "description": "(Ability) Teleport to a random position on the map (3x a game)."},
+			{"id": 3, "name": "Stun Mines", "description": "(Ability) Place mines down that stun Control Group players for 2s (10s cooldown)."}
 		],
 		"control": [
 			{"id": 1, "name": "Faster Movement", "description": "Allows you to move faster."},
@@ -94,7 +96,7 @@ var minigame_modifiers: Dictionary = {
 		"experimental": [
 			{"id": 1, "name": "Mineral Deposit", "description": "Special targets give double points."},
 			{"id": 2, "name": "Big Clicker", "description": "If you hit 3 targets in 4 seconds, you get +5 points."},
-			{"id": 3, "name": "Intentional Misfire", "description": "Stuns all control group players for 5 seconds (20s cooldown)."}
+			{"id": 3, "name": "Intentional Misfire", "description": "(Ability) Stuns all control group players for 5 seconds (20s cooldown)."}
 		],
 		"control": [
 			{"id": 1, "name": "Upgraded Bow", "description": "Less cooldown time between shots."},
@@ -105,8 +107,8 @@ var minigame_modifiers: Dictionary = {
 	"collector": {
 		"experimental": [
 			{"id": 1, "name": "Ball Master", "description": "Special balls give double points."},
-			{"id": 2, "name": "Ball Bomb", "description": "Explodes balls around you outwards (20s cooldown)."},
-			{"id": 3, "name": "Baller", "description": "Stuns all control group players for 5 seconds (20s cooldown)."}
+			{"id": 2, "name": "Ball Bomb", "description": "(Ability) Explodes balls around you outwards (20s cooldown)."},
+			{"id": 3, "name": "Baller", "description": "(Ability) Stuns all control group players for 5 seconds (20s cooldown)."}
 		],
 		"control": [
 			{"id": 1, "name": "Ball Navigator", "description": "Allows you to move faster."},
@@ -129,13 +131,25 @@ var minigame_modifiers: Dictionary = {
 	"ctf": {
 		"experimental": [
 			{"id": 1, "name": "Flag Master", "description": "+3 points instead of +1 upon securing the flag."},
-			{"id": 2, "name": "Dash", "description": "5 second speed boost (15s cooldown)"},
-			{"id": 3, "name": "Stun Blast", "description": "Stuns all control group players for 5 seconds (15s cooldown)"}
+			{"id": 2, "name": "Dash", "description": "(Ability) 5 second speed boost (15s cooldown)."},
+			{"id": 3, "name": "Stun Blast", "description": "(Ability) Stuns all control group players for 5 seconds (15s cooldown)."}
 		],
 		"control": [
 			{"id": 1, "name": "Speed Boost", "description": "Allows you to move faster."},
 			{"id": 2, "name": "Jump Boost", "description": "Allows you to jump higher."},
 			{"id": 3, "name": "Flag Hunter", "description": "+2 points instead of +1 if you capture the flag."}
+		]
+	},
+	"rlgl": {
+		"experimental": [
+			{"id": 1, "name": "Colorblind", "description": "(Ability) Grayscale a random control group player for 10 seconds (20s cooldown)."},
+			{"id": 2, "name": "Jumpscare", "description": "Decreases the time for yellow light."},
+			{"id": 3, "name": "Fair Game", "description": "(Ability) If possible, teleports a random Control Group player to the start (1 time use)."}
+		],
+		"control": [
+			{"id": 1, "name": "Speed Boost", "description": "Allows you to move faster."},
+			{"id": 2, "name": "Main Character", "description": "Allows you to move 0.5 seconds into red light."},
+			{"id": 3, "name": "Jump Boost", "description": "Allows you to jump higher."}
 		]
 	},
 };
@@ -184,6 +198,12 @@ var spawn_positions: Dictionary = {
 			Vector2(-280, 156), Vector2(-280, -132), Vector2(280, 156)
 		]
 	},
+	"rlgl": {
+		"experimental": Vector2(-288, 168),
+		"control": [
+			Vector2(264, 168), Vector2(280, 168), Vector2(296, 168)
+		]
+	},
 };
 
 
@@ -204,7 +224,7 @@ func handle_game_state_update(new_game_state: Enums.GameState) -> void:
 			if Network.is_host:
 				current_minigame = available_minigames[randi() % (available_minigames.size())];
 				
-				#current_minigame = "ctf" # for if one needs to be selected
+				#current_minigame = "rlgl" # for if one needs to be selected
 				
 				var minigame_chosen_data: Dictionary = {
 					"message": "minigame_chosen",
@@ -282,9 +302,9 @@ func handle_game_state_update(new_game_state: Enums.GameState) -> void:
 					modifier_selection_ui.get_node("Experimental").get_node("VBoxContainer").get_node("Modifier").get_node("Modifier3").get_node("Pick").pressed.connect(_update_experimental_group_modifier);
 					for modifier in minigame_modifiers[current_minigame]["experimental"]:
 						var modifier_ui_container: VBoxContainer = modifier_selection_ui.get_node("Experimental").get_node("VBoxContainer").get_node("Modifier").get_node("Modifier" + str(modifier["id"]));
-						modifier_ui_container.get_node("Title").text = modifier["name"];
-						modifier_ui_container.get_node("Description").add_theme_color_override("font_color", Constants.GAME_COLORS["gray"]);
-						modifier_ui_container.get_node("Description").text = modifier["description"];
+						modifier_ui_container.get_node("Title").text = modifier["name"].to_upper();
+						modifier_ui_container.get_node("Description").add_theme_color_override("font_color", Constants.GAME_COLORS["light_gray"]);
+						modifier_ui_container.get_node("Description").text = modifier["description"].to_upper();
 				else:
 					modifier_selection_ui.get_node("Control").visible = true;
 				modifier_selection_ui.get_node("AnimationPlayer").play("fade_in");
@@ -389,13 +409,13 @@ func handle_game_state_update(new_game_state: Enums.GameState) -> void:
 					node.alignment = 1;
 					node.get_node("Pick").visible = true;
 					node.get_node("Gradient").visible = true;
-					node.get_node("Title").add_theme_font_size_override("font_size", 8);
+					node.get_node("Title").add_theme_font_size_override("font_size", 16);
 					node.get_parent().get_parent().get_node("PleaseSelect").visible = true;
 					node.get_parent().get_parent().get_node("PleaseSelectMargin").size_flags_vertical = Control.SizeFlags.SIZE_EXPAND_FILL;
 					node.get_parent().get_parent().get_node("YouAre").visible = false;
 					node.get_parent().size_flags_vertical = 1;
 			var modifier_ui_container: VBoxContainer = modifier_selection_ui.get_node("Control").get_node("VBoxContainer");
-			modifier_ui_container.get_node("Modifier").add_theme_font_size_override("font_size", 26);
+			modifier_ui_container.get_node("Modifier").add_theme_font_size_override("font_size", 48);
 			modifier_ui_container.get_node("Modifier").text = "";
 			modifier_ui_container.get_node("WaitingForExperimental").visible = true;
 			modifier_ui_container.get_node("ModifierDescription").self_modulate.a = 0;
@@ -457,6 +477,8 @@ func handle_game_state_update(new_game_state: Enums.GameState) -> void:
 				results_page.get_node("LVP").text = lvp_name;
 			else:
 				results_page.get_node("ExperimentalWNotes").visible = true;
+				results_page.get_node("MVP").text = "";
+				results_page.get_node("LVP").text = "";
 			
 			await get_tree().create_timer(1).timeout;
 			if ready_for_minigame.has(Main.player_steam_id):
@@ -559,7 +581,7 @@ func _update_experimental_group_modifier() -> void:
 	var modifier_container: VBoxContainer = chosen_modifier.get_parent();
 	var modifier: Dictionary;
 	for mod in minigame_modifiers[current_minigame]["experimental"]:
-		if mod.get("name") == modifier_container.get_node("Title").text:
+		if mod.get("name").to_upper() == modifier_container.get_node("Title").text:
 			modifier = mod;
 			break;
 	var experimental_group_modifier_update: Dictionary = {
@@ -580,13 +602,13 @@ func set_experimental_group_modifier(readable_data: Dictionary) -> void:
 		if Main.player_steam_id == current_experimental_group:
 			for node in modifier_selection_ui.get_node("Experimental").get_node("VBoxContainer").get_node("Modifier").get_children():
 				if node is VBoxContainer:
-					if node.get_node("Title").text != current_modifiers["experimental"]["name"]:
+					if node.get_node("Title").text != current_modifiers["experimental"]["name"].to_upper():
 						node.visible = false;
 					else:
 						node.alignment = 1;
 						node.get_node("Pick").visible = false;
 						node.get_node("Gradient").visible = false;
-						node.get_node("Title").add_theme_font_size_override("font_size", 20);
+						node.get_node("Title").add_theme_font_size_override("font_size", 48);
 						node.get_parent().get_parent().get_node("PleaseSelect").visible = false;
 						node.get_parent().get_parent().get_node("PleaseSelectMargin").size_flags_vertical = Control.SizeFlags.SIZE_SHRINK_BEGIN;
 						node.get_parent().get_parent().get_node("YouAre").visible = true;
@@ -594,13 +616,13 @@ func set_experimental_group_modifier(readable_data: Dictionary) -> void:
 		else:
 			var modifier_ui_container: VBoxContainer = modifier_selection_ui.get_node("Control").get_node("VBoxContainer");
 			var modifier = current_modifiers["control"][Main.player_steam_id];
-			modifier_ui_container.get_node("Modifier").text = modifier["name"];
-			modifier_ui_container.get_node("Modifier").add_theme_font_size_override("font_size", 20);
+			modifier_ui_container.get_node("Modifier").text = modifier["name"].to_upper();
+			modifier_ui_container.get_node("Modifier").add_theme_font_size_override("font_size", 48);
 			modifier_ui_container.get_node("WaitingForExperimental").visible = false;
 			modifier_ui_container.get_node("ModifierDescription").self_modulate.a = 1;
-			modifier_ui_container.get_node("ModifierDescription").add_theme_color_override("font_color", Constants.GAME_COLORS["gray"]);
-			modifier_ui_container.get_node("ModifierDescription").text = modifier["description"];
-			modifier_ui_container.get_node("ModifierDescription").add_theme_font_size_override("font_size", 8);
+			modifier_ui_container.get_node("ModifierDescription").add_theme_color_override("font_color", Constants.GAME_COLORS["light_gray"]);
+			modifier_ui_container.get_node("ModifierDescription").text = modifier["description"].to_upper();
+			modifier_ui_container.get_node("ModifierDescription").add_theme_font_size_override("font_size", 16);
 		
 		await get_tree().create_timer(3).timeout;
 	
@@ -861,6 +883,23 @@ func player_lock(readable_data: Dictionary):
 func toggle_barrier(readable_data: Dictionary):
 	var flag = get_tree().current_scene.get_node("CTF").get_node("FlagComponent");
 	flag.toggle_barrier(readable_data["toggle"], false);
+
+
+## Fair game's a player in the RLGL minigame
+func fair_game(readable_data: Dictionary):
+	for player in get_tree().current_scene.get_node("Players").get_children():
+		if player.is_local:
+			player.global_position = Vector2(1264, 1168);
+
+
+## Grayscales a player
+func grayscale(readable_data: Dictionary):
+	for player in get_tree().current_scene.get_node("Players").get_children():
+		if player.is_local:
+			player.set_grayscale_overlay(0);
+			await get_tree().create_timer(readable_data["time"]).timeout;
+			if not player.is_dead:
+				player.set_grayscale_overlay(1);
 
 
 ## Kills a player

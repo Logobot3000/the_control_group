@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=4 uid="uid://c5cn7sv8m118v"]
+[gd_scene load_steps=16 format=4 uid="uid://c5cn7sv8m118v"]
 
 [ext_resource type="PackedScene" uid="uid://7101ew6iodi4" path="res://scenes/minigames/base_minigame.tscn" id="1_6vvl3"]
 [ext_resource type="Script" uid="uid://dv0a2lgqgckrq" path="res://scripts/minigames/archery.gd" id="1_53fg1"]
@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://cuggu4te88tce" path="res://scenes/tiles/non_interactable_tiles_fg.tscn" id="4_oco7x"]
 [ext_resource type="PackedScene" uid="uid://cdokncf28uuvf" path="res://scenes/tiles/non_interactable_tiles_bg.tscn" id="5_572ne"]
 [ext_resource type="Texture2D" uid="uid://6cask74dpbph" path="res://assets/sprites/minigames/archery/targets.png" id="6_oco7x"]
+[ext_resource type="Texture2D" uid="uid://dmf6748xv0toh" path="res://assets/sprites/legrands_saxophone.png" id="7_572ne"]
 
 [sub_resource type="Gradient" id="Gradient_oco7x"]
 offsets = PackedFloat32Array(0, 0.559387, 1)
@@ -200,3 +201,7 @@ texture = SubResource("AtlasTexture_10y37")
 position = Vector2(1136, 1168)
 
 [node name="SkyTargets" type="Node2D" parent="."]
+
+[node name="LeGrandsSaxophone" type="Sprite2D" parent="."]
+position = Vector2(1176, 1160)
+texture = ExtResource("7_572ne")

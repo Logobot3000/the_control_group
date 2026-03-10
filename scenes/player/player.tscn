@@ -3181,10 +3181,8 @@ color_ramp = SubResource("Gradient_tffgl")
 
 [node name="GrayscaleOverlay" type="Panel" parent="Overlay"]
 material = ExtResource("27_j4nxn")
-offset_left = 3.0
-offset_top = -4.0
-offset_right = 643.0
-offset_bottom = 356.0
+offset_right = 640.0
+offset_bottom = 360.0
 mouse_filter = 2
 
 [node name="LaserShotGUI" type="Control" parent="Overlay"]
@@ -3239,6 +3237,14 @@ collision_mask = 2
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="JuggernautHitbox"]
 polygon = PackedVector2Array(-6, 15, 0, 15, -2, 10, 2, 10, 4, 15, 10, 15, 8, 10, 8, -1, 15, 2, 10, -2, 15, -5, 8, -3, 6, -7, 3, -15, -5, -15, -8, -7, -9, -6, -11, -7, -14, -7, -15, -6, -15, 5, -14, 6, -11, 6, -10, 5, -8, 7, -8, 9, -7, 10)
+
+[node name="YouIndicator" type="RichTextLabel" parent="."]
+visible = false
+offset_left = -1.0
+offset_top = -20.0
+offset_right = 39.0
+offset_bottom = 20.0
+text = "v"
 
 [connection signal="area_entered" from="HurtboxComponent" to="HurtboxComponent" method="_on_area_entered"]
 [connection signal="body_entered" from="JuggernautHitbox" to="." method="_on_juggernaut_hitbox_body_entered"]

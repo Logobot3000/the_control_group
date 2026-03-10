@@ -228,6 +228,10 @@ func _handle_recieved_packet(sender_id: int, readable_data: Dictionary) -> void:
 				MinigameManager.player_lock(readable_data);
 			"toggle_barrier":
 				MinigameManager.toggle_barrier(readable_data);
+			"fair_game":
+				MinigameManager.fair_game(readable_data);
+			"grayscale":
+				MinigameManager.grayscale(readable_data);
 			"player_died":
 				MinigameManager.player_died(readable_data);
 			"player_undied":

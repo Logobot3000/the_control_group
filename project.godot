@@ -35,6 +35,10 @@ window/size/viewport_height=360
 window/size/mode=2
 window/stretch/mode="viewport"
 
+[gui]
+
+theme/custom_font="uid://o4jx81yhj076"
+
 [input]
 
 move_up={

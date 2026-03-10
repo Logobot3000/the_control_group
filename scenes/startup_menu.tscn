@@ -1342,6 +1342,17 @@ libraries = {
 stream = ExtResource("16_57fdt")
 volume_db = -5.0
 autoplay = true
+bus = &"GameMusic"
+
+[node name="VersionNumber" type="RichTextLabel" parent="."]
+offset_left = 424.0
+offset_top = 336.0
+offset_right = 640.0
+offset_bottom = 368.0
+theme_override_colors/default_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/normal_font_size = 32
+text = "V0.8.0000"
+horizontal_alignment = 2
 
 [connection signal="mouse_entered" from="Start" to="Start" method="_on_mouse_entered"]
 [connection signal="mouse_exited" from="Start" to="Start" method="_on_mouse_exited"]

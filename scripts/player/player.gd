@@ -42,6 +42,8 @@ var collector_active: bool = false;
 var kaching_active: bool = false;
 ## Whether or not the capture the flag minigame is active.
 var ctf_active: bool = false;
+## Whether or not the red light green light minigame is active.
+var rlgl_active: bool = false;
 
 ## Whether or not the plaeyer is in the experimental group.
 var is_experimental: bool = false;
@@ -144,6 +146,17 @@ var ctf_dash_enabled: bool = false;
 ## Whether or not the dash timer is active in the capture the flag minigame.
 var ctf_dash_timer_active: bool = false;
 
+## Whether or not the colorblind modifier is active in the red light green light minigame.
+var rlgl_colorblind_enabled: bool = false;
+## Whether or not the colorblind modifier timer is active in the red light green light minigame.
+var rlgl_colorblind_timer_active: bool = false;
+## Whether or not the jumpscare modifier is active in the red light green light minigame.
+var rlgl_jumpscare_enabled: bool = false;
+## Whether or not the fair game modifier is active in the red light green light minigame.
+var rlgl_fair_game_enabled: bool = false;
+## Whether or not the iptgb modifier is active in the red light green light minigame.
+var rlgl_iptgb_enabled: bool = false;
+
 ## super cool crouch super cool crouch super cool crouch super cool crouch super cool crouch super cool crouch
 var super_cool_crouching: bool = false; 
 
@@ -154,6 +167,10 @@ func _ready() -> void:
 
 
 func _physics_process(delta: float) -> void:
+	if is_local:
+		get_node("YouIndicator").visible = true;
+	else:
+		get_node("YouIndicator").visible = false;
 	if is_local and can_move:
 		if velocity_component.movement_mode == Enums.MovementMode.PLATFORMER:
 			# Apply gravity
@@ -617,6 +634,22 @@ func _unhandled_input(event: InputEvent) -> void:
 			ctf_stun_blast_timer_active = true;
 			await get_tree().create_timer(15).timeout;
 			ctf_stun_blast_timer_active = false;
+		elif rlgl_active and is_experimental and is_local and rlgl_colorblind_enabled and not rlgl_colorblind_timer_active:
+			Network.send_p2p_packet(MinigameManager.current_control_group[randi_range(0, MinigameManager.current_control_group.size() - 1)], {
+				"message": "grayscale",
+				"time": 10
+			});
+			rlgl_colorblind_timer_active = true;
+			await get_tree().create_timer(20).timeout;
+			rlgl_colorblind_timer_active = false;
+		elif rlgl_active and is_experimental and is_local and rlgl_fair_game_enabled:
+			var possible_players = get_tree().current_scene.get_node("RLGL").get_node("RedLightDetector").get_overlapping_bodies();
+			var player = null;
+			if possible_players.size() != 0:
+				player = possible_players[randi_range(0, possible_players.size() - 1)];
+			if player != null:
+				Network.send_p2p_packet(player.steam_id, { "message": "fair_game" });
+				rlgl_fair_game_enabled = false;
 
 
 ## Gets [member steam_id].
