@@ -232,6 +232,8 @@ func _handle_recieved_packet(sender_id: int, readable_data: Dictionary) -> void:
 				MinigameManager.fair_game(readable_data);
 			"grayscale":
 				MinigameManager.grayscale(readable_data);
+			"slow_players":
+				MinigameManager.slow_players(readable_data);
 			"player_died":
 				MinigameManager.player_died(readable_data);
 			"player_undied":

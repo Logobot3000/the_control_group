@@ -680,6 +680,11 @@ func _unhandled_input(event: InputEvent) -> void:
 					pls.get_node("AnimatedSprite2D").visible = false;
 			await get_tree().create_timer(12).timeout;
 			factory_enhanced_eyesight_timer_active = false;
+		elif factory_active and is_experimental and is_local and factory_sticky_floors_enabled and not factory_sticky_floors_timer_active:
+			factory_sticky_floors_timer_active = true;
+			Network.send_p2p_packet(0, { "message": "slow_players", "time": 3 });
+			await get_tree().create_timer(20).timeout;
+			factory_sticky_floors_timer_active = false;
 
 
 ## Gets [member steam_id].

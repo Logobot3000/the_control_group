@@ -158,7 +158,7 @@ var minigame_modifiers: Dictionary = {
 		"experimental": [
 			{"id": 1, "name": "Double Trouble", "description": "(Ability) Triggers two crushers at once (25s cooldown)."},
 			{"id": 2, "name": "OSHA Hazard", "description": "Reduced warning indicator on crushers."},
-			{"id": 3, "name": "Sticky Floors", "description": "(Ability) Reduces movement speed of control group players (20s cooldown)"}
+			{"id": 3, "name": "Sticky Floors", "description": "(Ability) Reduces movement speed of control group players for 3 seeconds. (20s cooldown)"}
 		],
 		"control": [
 			{"id": 1, "name": "Fast Feet", "description": "Allows you to move faster."},
@@ -920,6 +920,15 @@ func grayscale(readable_data: Dictionary):
 			await get_tree().create_timer(readable_data["time"]).timeout;
 			if not player.is_dead:
 				player.set_grayscale_overlay(1);
+
+
+## Slows a player
+func slow_players(readable_data: Dictionary):
+	for player in get_tree().current_scene.get_node("Players").get_children():
+		player.get_node("VelocityComponent").max_speed = 100;
+		await get_tree().create_timer(readable_data["time"]).timeout;
+		player.get_node("VelocityComponent").max_speed = 150;
+		break;
 
 
 ## Kills a player
