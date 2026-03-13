@@ -5,6 +5,7 @@ var button_1_pressed: bool = false;
 var button_2_pressed: bool = false;
 var button_3_pressed: bool = false;
 var button_4_pressed: bool = false;
+var warning_time: float = 1.0;
 
 
 func minigame_setup() -> void:
@@ -13,6 +14,11 @@ func minigame_setup() -> void:
 			player.factory_active = true;
 			if player.steam_id in MinigameManager.current_control_group:
 				player.can_jump = false;
+				if player.is_local:
+					get_node("ExperimentalHider").visible = true;
+					for pls in get_tree().current_scene.get_node("Players").get_children():
+						if pls.steam_id == MinigameManager.current_experimental_group:
+							pls.get_node("AnimatedSprite2D").visible = false;
 	
 	experimental_points_container = get_node("BaseMinigame/TV/ExperimentalPoints");
 	control_points_container = get_node("BaseMinigame/TV/ControlPoints");
@@ -26,20 +32,20 @@ func load_modifiers() -> void:
 				chosen_modifier_id = MinigameManager.current_modifiers["experimental"]["id"];
 				match chosen_modifier_id:
 					1:
-						print("e1")
+						player.factory_double_trouble_enabled = true;
 					2:
-						print("e2")
+						warning_time = 0.5;
 					3:
-						print("e3")
+						player.factory_sticky_floors_enabled = true;
 			else:
 				chosen_modifier_id = MinigameManager.current_modifiers["control"][player.steam_id]["id"];
 				match chosen_modifier_id:
 					1:
-						print("c1")
+						player.get_node("VelocityComponent").max_speed = 162;
 					2:
-						print("c2")
+						player.factory_hard_hat_enabled = true;
 					3:
-						print("c3")
+						player.factory_enhanced_eyesight_enabled = true;
 
 
 func on_minigame_ended() -> void:
@@ -48,8 +54,18 @@ func on_minigame_ended() -> void:
 			if not player.is_dead and MinigameManager.current_control_group.has(player.steam_id):
 				if get_tree().current_scene.get_node("Factory") and player.is_local:
 					score_point(5);
+			for pls in get_tree().current_scene.get_node("Players").get_children():
+					if pls.steam_id == MinigameManager.current_experimental_group:
+						pls.get_node("AnimatedSprite2D").visible = true;
+			get_node("ExperimentalHider").visible = false;
+			player.get_node("VelocityComponent").max_speed = 150;
+			warning_time = 1.0;
 			player.factory_active = false;
 			player.can_jump = true;
+			player.factory_hard_hat_enabled = false;
+			player.factory_enhanced_eyesight_enabled = false;
+			player.factory_double_trouble_enabled = false;
+			player.factory_sticky_floors_enabled = false;
 
 
 func _physics_process(delta: float) -> void:
@@ -110,21 +126,30 @@ func fire_piston(id: int) -> void:
 			button_4_pressed = true;
 	var sprite = piston.get_node("AnimatedSprite2D");
 	sprite.play("warning");
-	await get_tree().create_timer(1).timeout;
+	await get_tree().create_timer(warning_time).timeout;
 	sprite.play("press_down");
 	await get_tree().create_timer(0.4).timeout;
 	sprite.play("pressed");
 	
 	for player in piston.get_node("Area2D").get_overlapping_bodies():
 		if player.get_parent().name == "Players":
-			player.die();
-			for exp in get_tree().current_scene.get_node("Players").get_children():
-				if exp.steam_id == MinigameManager.current_experimental_group and exp.is_local:
-					score_point(1);
+			if player.factory_hard_hat_enabled:
+				player.factory_hard_hat_enabled = false;
+				player.can_move = false;
+			else:
+				player.die();
+				for exp in get_tree().current_scene.get_node("Players").get_children():
+					if exp.steam_id == MinigameManager.current_experimental_group and exp.is_local:
+						score_point(1);
 
 	piston.get_node("StaticBody2D").get_node("CollisionPolygon2D").disabled = false;
 	await get_tree().create_timer(3).timeout;
 	piston.get_node("StaticBody2D").get_node("CollisionPolygon2D").disabled = true;
+	
+	for player in piston.get_node("Area2D").get_overlapping_bodies():
+		if player.get_parent().name == "Players":
+			player.can_move = true;
+	
 	sprite.play_backwards("press_down");
 	await get_tree().create_timer(0.4).timeout;
 	sprite.play("no_press");

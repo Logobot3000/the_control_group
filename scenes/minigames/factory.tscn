@@ -1,4 +1,4 @@
-[gd_scene load_steps=43 format=4 uid="uid://cugqkrvejeos4"]
+[gd_scene load_steps=45 format=4 uid="uid://cugqkrvejeos4"]
 
 [ext_resource type="PackedScene" uid="uid://7101ew6iodi4" path="res://scenes/minigames/base_minigame.tscn" id="1_feeis"]
 [ext_resource type="Script" uid="uid://n7dfgxit8ply" path="res://scripts/minigames/factory.gd" id="1_m6ycl"]
@@ -242,6 +242,13 @@ animations = [{
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_qlsby"]
 size = Vector2(30, 3)
+
+[sub_resource type="Gradient" id="Gradient_vr410"]
+offsets = PackedFloat32Array(0, 0.981982)
+colors = PackedColorArray(0, 0, 0, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_au6qc"]
+gradient = SubResource("Gradient_vr410")
 
 [node name="Factory" type="Node2D"]
 script = ExtResource("1_m6ycl")
@@ -555,6 +562,51 @@ texture = ExtResource("8_vr410")
 
 [node name="Node2D" type="Node2D" parent="."]
 position = Vector2(1152, 1147)
+
+[node name="ExperimentalHider" type="Node2D" parent="."]
+visible = false
+
+[node name="Sprite2D" type="Sprite2D" parent="ExperimentalHider"]
+light_mask = 0
+z_index = 10
+position = Vector2(792, 879.875)
+scale = Vector2(0.75, 80.2499)
+texture = SubResource("GradientTexture1D_au6qc")
+
+[node name="Sprite2D2" type="Sprite2D" parent="ExperimentalHider"]
+light_mask = 0
+z_index = 10
+position = Vector2(1208, 880)
+scale = Vector2(0.75, 80.2499)
+texture = SubResource("GradientTexture1D_au6qc")
+
+[node name="Sprite2D3" type="Sprite2D" parent="ExperimentalHider"]
+light_mask = 0
+z_index = 10
+position = Vector2(944, 880)
+scale = Vector2(0.0624997, 80.2499)
+texture = SubResource("GradientTexture1D_au6qc")
+
+[node name="Sprite2D4" type="Sprite2D" parent="ExperimentalHider"]
+light_mask = 0
+z_index = 10
+position = Vector2(1056, 880)
+scale = Vector2(0.0624997, 80.2499)
+texture = SubResource("GradientTexture1D_au6qc")
+
+[node name="Sprite2D5" type="Sprite2D" parent="ExperimentalHider"]
+light_mask = 0
+z_index = 10
+position = Vector2(1000, 848)
+scale = Vector2(0.875, 16.1249)
+texture = SubResource("GradientTexture1D_au6qc")
+
+[node name="Sprite2D6" type="Sprite2D" parent="ExperimentalHider"]
+light_mask = 0
+z_index = 10
+position = Vector2(1000, 912)
+scale = Vector2(0.875, 16.1249)
+texture = SubResource("GradientTexture1D_au6qc")
 
 [connection signal="body_entered" from="Buttons/Button1/CollisionDetector" to="." method="_on_button_collision_detector_body_entered" binds= ["Button1"]]
 [connection signal="body_entered" from="Buttons/Button2/CollisionDetector" to="." method="_on_button_collision_detector_body_entered" binds= ["Button2"]]

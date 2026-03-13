@@ -13,10 +13,10 @@
 [ext_resource type="Texture2D" uid="uid://7160hlvhbpr7" path="res://assets/sprites/pick_buttons.png" id="9_0tnpc"]
 [ext_resource type="Texture2D" uid="uid://dsxyyrb88a2im" path="res://assets/sprites/modifier_selection.png" id="9_vtaks"]
 [ext_resource type="Texture2D" uid="uid://cpgwdlreqsx6t" path="res://assets/sprites/results.png" id="11_kvpfn"]
-[ext_resource type="Shader" path="res://assets/shaders/loading_logo.gdshader" id="12_kvuet"]
+[ext_resource type="Shader" uid="uid://dnyx2cdj7soco" path="res://assets/shaders/loading_logo.gdshader" id="12_kvuet"]
 [ext_resource type="Texture2D" uid="uid://bm2pgqollqbca" path="res://assets/logo.png" id="13_trtic"]
 [ext_resource type="PackedScene" uid="uid://cw24svt0wc285" path="res://scenes/components/narrator_component.tscn" id="14_trtic"]
-[ext_resource type="Script" path="res://scripts/ui/host_settings.gd" id="15_rysoc"]
+[ext_resource type="Script" uid="uid://36m5lw3rnrjg" path="res://scripts/ui/host_settings.gd" id="15_rysoc"]
 [ext_resource type="Texture2D" uid="uid://dn8ocn2ayn6ym" path="res://assets/sprites/host_settings_button.png" id="16_ssvqc"]
 [ext_resource type="Texture2D" uid="uid://br4kywauffx15" path="res://assets/sprites/host_settings.png" id="17_264po"]
 

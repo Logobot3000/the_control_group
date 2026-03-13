@@ -156,14 +156,14 @@ var minigame_modifiers: Dictionary = {
 	},
 	"factory": {
 		"experimental": [
-			{"id": 1, "name": "e1", "description": "e"},
-			{"id": 2, "name": "e2", "description": "e"},
-			{"id": 3, "name": "e3", "description": "e"}
+			{"id": 1, "name": "Double Trouble", "description": "(Ability) Triggers two crushers at once (25s cooldown)."},
+			{"id": 2, "name": "OSHA Hazard", "description": "Reduced warning indicator on crushers."},
+			{"id": 3, "name": "Sticky Floors", "description": "(Ability) Reduces movement speed of control group players (20s cooldown)"}
 		],
 		"control": [
-			{"id": 1, "name": "c1", "description": "c"},
-			{"id": 2, "name": "c2", "description": "c"},
-			{"id": 3, "name": "c3", "description": "c"}
+			{"id": 1, "name": "Fast Feet", "description": "Allows you to move faster."},
+			{"id": 2, "name": "Hard Hat", "description": "Allows you to survive one hit."},
+			{"id": 3, "name": "Enhanced Eyesight", "description": "(Ability) Allows you to see the experimental group for 3 seconds (15s cooldown)."}
 		]
 	},
 };

@@ -159,6 +159,21 @@ var rlgl_fair_game_enabled: bool = false;
 ## Whether or not the iptgb modifier is active in the red light green light minigame.
 var rlgl_iptgb_enabled: bool = false;
 
+## Whether or not the double trouble modifier is active in the factory minigame.
+var factory_double_trouble_enabled: bool = false;
+## Whether or not the double trouble modifier's timer is active in the factory minigame.
+var factory_double_trouble_timer_active: bool = false;
+## Whether or not the sticky floors modifier is active in the factory minigame.
+var factory_sticky_floors_enabled: bool = false;
+## Whether or not the sticky floors modifier's timer is active in the factory minigame.
+var factory_sticky_floors_timer_active: bool = false;
+## Whether or not the hard hat modifier is active in the factory minigame.
+var factory_hard_hat_enabled: bool = false;
+## Whether or not the enhanced eyesight modifier is active in the factory minigame.
+var factory_enhanced_eyesight_enabled: bool = false;
+## Whether or not the enhanced eyesight modifier's timer is active in the factory minigame.
+var factory_enhanced_eyesight_timer_active: bool = false;
+
 ## super cool crouch super cool crouch super cool crouch super cool crouch super cool crouch super cool crouch
 var super_cool_crouching: bool = false; 
 
@@ -652,6 +667,19 @@ func _unhandled_input(event: InputEvent) -> void:
 			if player != null:
 				Network.send_p2p_packet(player.steam_id, { "message": "fair_game" });
 				rlgl_fair_game_enabled = false;
+		elif factory_active and not is_experimental and is_local and factory_enhanced_eyesight_enabled and not factory_enhanced_eyesight_timer_active:
+			factory_enhanced_eyesight_timer_active = true;
+			get_tree().current_scene.get_node("Factory").get_node("ExperimentalHider").visible = false;
+			for pls in get_tree().current_scene.get_node("Players").get_children():
+				if pls.steam_id == MinigameManager.current_experimental_group:
+					pls.get_node("AnimatedSprite2D").visible = true;
+			await get_tree().create_timer(3).timeout;
+			get_tree().current_scene.get_node("Factory").get_node("ExperimentalHider").visible = true;
+			for pls in get_tree().current_scene.get_node("Players").get_children():
+				if pls.steam_id == MinigameManager.current_experimental_group:
+					pls.get_node("AnimatedSprite2D").visible = false;
+			await get_tree().create_timer(12).timeout;
+			factory_enhanced_eyesight_timer_active = false;
 
 
 ## Gets [member steam_id].
