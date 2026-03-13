@@ -44,6 +44,8 @@ var kaching_active: bool = false;
 var ctf_active: bool = false;
 ## Whether or not the red light green light minigame is active.
 var rlgl_active: bool = false;
+## Whether or not thefactory minigame is active.
+var factory_active: bool = false;
 
 ## Whether or not the plaeyer is in the experimental group.
 var is_experimental: bool = false;

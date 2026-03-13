@@ -40,7 +40,7 @@ func on_minigame_ended() -> void:
 		if MinigameManager.ready_for_minigame.has(Main.player_steam_id):
 			if not player.is_dead and MinigameManager.current_control_group.has(player.steam_id):
 				if get_tree().current_scene.get_node("Juggernaut") and player.is_local:
-					get_tree().current_scene.get_node("Juggernaut").score_point(1);
+					score_point(5);
 			player.get_node("VelocityComponent").max_speed = 150;
 			player.get_node("VelocityComponent").jump_strength = 400;
 			for mine in get_tree().current_scene.get_node("Juggernaut").get_node("Mines").get_children():

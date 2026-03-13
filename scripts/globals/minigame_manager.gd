@@ -41,7 +41,8 @@ var available_minigames: Array = [
 	"collector",
 	"kaching",
 	"ctf",
-	"rlgl"
+	"rlgl",
+	"factory",
 ];
 ## The array of the display names of all available minigames. UPDATE THIS WHENEVER A MINIGAME IS ADDED. This shouldn't be necessary but it is.
 var available_minigame_names: Dictionary = {
@@ -52,7 +53,8 @@ var available_minigame_names: Dictionary = {
 	"collector": "Collector",
 	"kaching": "Kaching",
 	"ctf": "CTF",
-	"rlgl": "RLGL"
+	"rlgl": "RLGL",
+	"factory": "Factory"
 };
 ## The modifier definitions for each available minigame. UPDATE THIS WHENEVER A MINIGAME IS ADDED.
 var minigame_modifiers: Dictionary = {
@@ -152,6 +154,18 @@ var minigame_modifiers: Dictionary = {
 			{"id": 3, "name": "Jump Boost", "description": "Allows you to jump higher."}
 		]
 	},
+	"factory": {
+		"experimental": [
+			{"id": 1, "name": "e1", "description": "e"},
+			{"id": 2, "name": "e2", "description": "e"},
+			{"id": 3, "name": "e3", "description": "e"}
+		],
+		"control": [
+			{"id": 1, "name": "c1", "description": "c"},
+			{"id": 2, "name": "c2", "description": "c"},
+			{"id": 3, "name": "c3", "description": "c"}
+		]
+	},
 };
 
 ## The spawn positions for each available minigame. UPDATE THIS WHENEVER A MINIGAME IS ADDED.
@@ -204,6 +218,12 @@ var spawn_positions: Dictionary = {
 			Vector2(264, 168), Vector2(280, 168), Vector2(296, 168)
 		]
 	},
+	"factory": {
+		"experimental": Vector2(0, -88),
+		"control": [
+			Vector2(-152, 168), Vector2(152, 168), Vector2(0, 168)
+		]
+	}
 };
 
 
@@ -224,7 +244,7 @@ func handle_game_state_update(new_game_state: Enums.GameState) -> void:
 			if Network.is_host:
 				current_minigame = available_minigames[randi() % (available_minigames.size())];
 				
-				#current_minigame = "rlgl" # for if one needs to be selected
+				current_minigame = "factory" # for if one needs to be selected
 				
 				var minigame_chosen_data: Dictionary = {
 					"message": "minigame_chosen",

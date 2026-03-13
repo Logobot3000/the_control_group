@@ -7,20 +7,20 @@
 [ext_resource type="PackedScene" uid="uid://cdokncf28uuvf" path="res://scenes/tiles/non_interactable_tiles_bg.tscn" id="5_5db54"]
 [ext_resource type="PackedScene" uid="uid://wbv3righmmdf" path="res://scenes/components/minigames/ctf/flag_component.tscn" id="6_xlauu"]
 
-[sub_resource type="Gradient" id="Gradient_oco7x"]
+[sub_resource type="Gradient" id="Gradient_ecfry"]
 offsets = PackedFloat32Array(0, 0.559387, 1)
 colors = PackedColorArray(0, 0, 0, 1, 0.62069, 0.62069, 0.62069, 1, 1, 1, 1, 1)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_ecfry"]
-gradient = SubResource("Gradient_oco7x")
+gradient = SubResource("Gradient_ecfry")
 fill_from = Vector2(0.48433, 0.037037)
 fill_to = Vector2(0.863248, 0.205128)
 
-[sub_resource type="Gradient" id="Gradient_572ne"]
+[sub_resource type="Gradient" id="Gradient_1eluw"]
 colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_44i0x"]
-gradient = SubResource("Gradient_572ne")
+gradient = SubResource("Gradient_1eluw")
 fill = 1
 fill_from = Vector2(0.5, 0.5)
 
