@@ -55,8 +55,8 @@ func on_minigame_ended() -> void:
 				if get_tree().current_scene.get_node("Factory") and player.is_local:
 					score_point(5);
 			for pls in get_tree().current_scene.get_node("Players").get_children():
-					if pls.steam_id == MinigameManager.current_experimental_group:
-						pls.get_node("AnimatedSprite2D").visible = true;
+				if pls.is_experimental:
+					pls.get_node("AnimatedSprite2D").visible = true;
 			get_node("ExperimentalHider").visible = false;
 			player.get_node("VelocityComponent").max_speed = 150;
 			warning_time = 1.0;
@@ -98,32 +98,36 @@ func _on_button_collision_detector_body_entered(body, btn_name: String) -> void:
 	if body.get_parent().name == "Players":
 		match btn_name:
 			"Button1":
-				fire_piston(1);
+				fire_piston(1, false);
 			"Button2":
-				fire_piston(2);
+				fire_piston(2, false);
 			"Button3":
-				fire_piston(3);
+				fire_piston(3, false);
 			"Button4":
-				fire_piston(4);
+				fire_piston(4, false);
 
 
-func fire_piston(id: int) -> void:
+func fire_piston(id: int, double: bool) -> void:
 	if button_1_pressed or button_2_pressed or button_3_pressed or button_4_pressed:
 		return;
 	var piston;
 	match id:
 		1:
 			piston = get_tree().current_scene.get_node("Factory").get_node("Pistons").get_node("Piston1");
-			button_1_pressed = true;
+			if not double:
+				button_1_pressed = true;
 		2:
 			piston = get_tree().current_scene.get_node("Factory").get_node("Pistons").get_node("Piston2");
-			button_2_pressed = true;
+			if not double:
+				button_2_pressed = true;
 		3:
 			piston = get_tree().current_scene.get_node("Factory").get_node("Pistons").get_node("Piston3");
-			button_3_pressed = true;
+			if not double:
+				button_3_pressed = true;
 		4:
 			piston = get_tree().current_scene.get_node("Factory").get_node("Pistons").get_node("Piston4");
-			button_4_pressed = true;
+			if not double:
+				button_4_pressed = true;
 	var sprite = piston.get_node("AnimatedSprite2D");
 	sprite.play("warning");
 	await get_tree().create_timer(warning_time).timeout;

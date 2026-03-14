@@ -230,6 +230,8 @@ func _handle_recieved_packet(sender_id: int, readable_data: Dictionary) -> void:
 				MinigameManager.toggle_barrier(readable_data);
 			"fair_game":
 				MinigameManager.fair_game(readable_data);
+			"double_trouble":
+				MinigameManager.double_trouble(readable_data);
 			"grayscale":
 				MinigameManager.grayscale(readable_data);
 			"slow_players":

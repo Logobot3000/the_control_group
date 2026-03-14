@@ -27,7 +27,7 @@ var can_disable: bool = true;
 ## The current intro that the narrator will perform.
 var intro_num: int = 0;
 ## The maximum amount of narrator intros. UPDATE THIS WHENEVER A NARRATOR INTRO IS ADDED.
-var max_intros: int = 7;
+var max_intros: int = 13;
 ## The path for the fish component for the fishing minigame.
 var fish_component_path: PackedScene = preload("res://scenes/components/minigames/fishing/fish_component.tscn");
 ## The path for the laser component for the space minigame.
@@ -158,7 +158,7 @@ var minigame_modifiers: Dictionary = {
 		"experimental": [
 			{"id": 1, "name": "Double Trouble", "description": "(Ability) Triggers two crushers at once (25s cooldown)."},
 			{"id": 2, "name": "OSHA Hazard", "description": "Reduced warning indicator on crushers."},
-			{"id": 3, "name": "Sticky Floors", "description": "(Ability) Reduces movement speed of control group players for 3 seeconds. (20s cooldown)"}
+			{"id": 3, "name": "Sticky Floors", "description": "(Ability) Reduces movement speed of other players for 5 seeconds. (20s cooldown)"}
 		],
 		"control": [
 			{"id": 1, "name": "Fast Feet", "description": "Allows you to move faster."},
@@ -244,7 +244,7 @@ func handle_game_state_update(new_game_state: Enums.GameState) -> void:
 			if Network.is_host:
 				current_minigame = available_minigames[randi() % (available_minigames.size())];
 				
-				current_minigame = "factory" # for if one needs to be selected
+				#current_minigame = "factory" # for if one needs to be selected
 				
 				var minigame_chosen_data: Dictionary = {
 					"message": "minigame_chosen",
@@ -506,6 +506,11 @@ func handle_game_state_update(new_game_state: Enums.GameState) -> void:
 				await get_tree().create_timer(0.5).timeout;
 				results_page.get_node("Confetti").emitting = true;
 				await get_tree().create_timer(4.5).timeout;
+				
+				for player in get_tree().current_scene.get_node("Players").get_children():
+					player.is_experimental = false;
+					player.revive();
+				
 				results_page.get_node("AnimationPlayer").play("hide");
 				await get_tree().create_timer(1).timeout;
 				results_page.visible = false;
@@ -910,6 +915,23 @@ func fair_game(readable_data: Dictionary):
 	for player in get_tree().current_scene.get_node("Players").get_children():
 		if player.is_local:
 			player.global_position = Vector2(1264, 1168);
+
+
+## Does the double trouble in the factory minigame
+func double_trouble(readable_data: Dictionary):
+	var factory = get_tree().current_scene.get_node("Factory");
+	get_tree().current_scene.get_node("Factory").fire_piston(readable_data["pistons"][0], true);
+	get_tree().current_scene.get_node("Factory").fire_piston(readable_data["pistons"][1], true);
+	for piston in readable_data["pistons"]:
+		match piston:
+			1:
+				factory.button_1_pressed = true;
+			2:
+				factory.button_2_pressed = true;
+			3:
+				factory.button_3_pressed = true;
+			4:
+				factory.button_4_pressed = true;
 
 
 ## Grayscales a player

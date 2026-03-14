@@ -682,9 +682,21 @@ func _unhandled_input(event: InputEvent) -> void:
 			factory_enhanced_eyesight_timer_active = false;
 		elif factory_active and is_experimental and is_local and factory_sticky_floors_enabled and not factory_sticky_floors_timer_active:
 			factory_sticky_floors_timer_active = true;
-			Network.send_p2p_packet(0, { "message": "slow_players", "time": 3 });
+			Network.send_p2p_packet(0, { "message": "slow_players", "time": 5 });
 			await get_tree().create_timer(20).timeout;
 			factory_sticky_floors_timer_active = false;
+		elif factory_active and is_experimental and is_local and factory_double_trouble_enabled and not factory_double_trouble_timer_active:
+			var factory = get_tree().current_scene.get_node("Factory");
+			if factory.button_1_pressed or factory.button_2_pressed or factory.button_3_pressed or factory.button_4_pressed:
+				return;
+			factory_double_trouble_timer_active = true;
+			var pistons = [1, 2, 3, 4];
+			pistons.shuffle();
+			var chosen_pistons = [pistons[0], pistons[2]];
+			Network.send_p2p_packet(0, { "message": "double_trouble", "pistons": chosen_pistons });
+			MinigameManager.double_trouble({ "message": "double_trouble", "pistons": chosen_pistons });
+			await get_tree().create_timer(25).timeout;
+			factory_double_trouble_timer_active = false;
 
 
 ## Gets [member steam_id].
