@@ -19,7 +19,7 @@ var is_timer_running: bool = false;
 ## Whether or not the experimental group has chosen their modifiers, meant for the host.
 var has_experimental_chosen: bool = false;
 ## The current minigame instance.
-var current_minigame_instance: BaseMinigame = null;
+var current_minigame_instance: Node2D = null;
 ## Whether or not the narrator is disabled.
 var narrator_disabled: bool = false;
 ## Determines whether or not you can disable the narrator.
@@ -43,6 +43,8 @@ var available_minigames: Array = [
 	"ctf",
 	"rlgl",
 	"factory",
+	"bombtag",
+	"secret"
 ];
 ## The array of the display names of all available minigames. UPDATE THIS WHENEVER A MINIGAME IS ADDED. This shouldn't be necessary but it is.
 var available_minigame_names: Dictionary = {
@@ -54,7 +56,9 @@ var available_minigame_names: Dictionary = {
 	"kaching": "Kaching",
 	"ctf": "CTF",
 	"rlgl": "RLGL",
-	"factory": "Factory"
+	"factory": "Factory",
+	"bombtag": "BombTag",
+	"secret": "MrTannersWrath"
 };
 ## The modifier definitions for each available minigame. UPDATE THIS WHENEVER A MINIGAME IS ADDED.
 var minigame_modifiers: Dictionary = {
@@ -62,7 +66,7 @@ var minigame_modifiers: Dictionary = {
 		"experimental": [
 			{"id": 1, "name": "Net Harpoon", "description": "Catches multiple fish, but has a slow reel speed. Ignores jellyfish."},
 			{"id": 2, "name": "Antivenom Hook", "description": "Allows reeling in jellyfish, also adds more jellyfish."},
-			{"id": 3, "name": "EMP", "description": "(Ability) Stuns ships around you (20s cooldown). Gives a temporary rod upgrade per player stunned."}
+			{"id": 3, "name": "EMP", "description": "(Ability) Stuns ships around you (20s cooldown). Temporary rod upgrade per player stunned."}
 		],
 		"control": [
 			{"id": 1, "name": "Upgraded Rod", "description": "Reels in fish faster."},
@@ -158,12 +162,36 @@ var minigame_modifiers: Dictionary = {
 		"experimental": [
 			{"id": 1, "name": "Double Trouble", "description": "(Ability) Triggers two crushers at once (25s cooldown)."},
 			{"id": 2, "name": "OSHA Hazard", "description": "Reduced warning indicator on crushers."},
-			{"id": 3, "name": "Sticky Floors", "description": "(Ability) Reduces movement speed of other players for 5 seeconds. (20s cooldown)"}
+			{"id": 3, "name": "Sticky Floors", "description": "(Ability) Reduces movement speed of other players for 5 seeconds (20s cooldown)."}
 		],
 		"control": [
 			{"id": 1, "name": "Fast Feet", "description": "Allows you to move faster."},
 			{"id": 2, "name": "Hard Hat", "description": "Allows you to survive one hit."},
-			{"id": 3, "name": "Enhanced Eyesight", "description": "(Ability) Allows you to see the experimental group for 3 seconds (15s cooldown)."}
+			{"id": 3, "name": "Enhanced Sight", "description": "(Ability) Allows you to see the experimental group for 3 seconds (15s cooldown)."}
+		]
+	},
+	"bombtag": {
+		"experimental": [
+			{"id": 1, "name": "'Salt' Spray", "description": "(Ability) Blinds all other players for 5 seconds (2x per game)."},
+			{"id": 2, "name": "Speedrun", "description": "Halves bomb explosion time. Also increases movement speed."},
+			{"id": 3, "name": "Hot Potato", "description": "(Ability) Randomly gives the bomb to someone else (1x per game)."}
+		],
+		"control": [
+			{"id": 1, "name": "Speed Boost", "description": "Allows you to move faster."},
+			{"id": 2, "name": "Jump Boost", "description": "Allows you to jump higher."},
+			{"id": 3, "name": "Sick Dodge", "description": "5% chance for the bomb to not be given to you if tagged."}
+		]
+	},
+	"secret": {
+		"experimental": [
+			{"id": 1, "name": "Rawdog­؜؜͏᠋᠋", "description": "No modifier for you!"},
+			{"id": 2, "name": "We Ball", "description": "No modifier for you!"},
+			{"id": 3, "name": "Rise and Grind", "description": "No modifier for you!"}
+		],
+		"control": [
+			{"id": 1, "name": "Rawdog", "description": "No modifier for you!"},
+			{"id": 2, "name": "We Ball", "description": "No modifier for you!"},
+			{"id": 3, "name": "Rise and Grind", "description": "No modifier for you!"}
 		]
 	},
 };
@@ -223,8 +251,21 @@ var spawn_positions: Dictionary = {
 		"control": [
 			Vector2(-152, 168), Vector2(152, 168), Vector2(0, 168)
 		]
-	}
+	},
+	"bombtag": {
+		"experimental": Vector2(-112, 168),
+		"control": [
+			Vector2(64, 168), Vector2(112, 168), Vector2(160, 168)
+		]
+	},
+	"secret": {
+		"experimental": Vector2(-24, 64),
+		"control": [
+			Vector2(-8, 64), Vector2(8, 64), Vector2(24, 64)
+		]
+	},
 };
+var secret_enabled: bool = false;
 
 
 ## Handles updates in game state.
@@ -241,40 +282,54 @@ func handle_game_state_update(new_game_state: Enums.GameState) -> void:
 			current_minigame = "";
 			can_disable = true;
 			
-			if Network.is_host:
-				current_minigame = available_minigames[randi() % (available_minigames.size())];
+			if secret_enabled:
+				if Network.is_host:
+					current_minigame = "secret";
+					var minigame_chosen_data: Dictionary = {
+						"message": "minigame_chosen",
+						"minigame": "secret"
+					};
+					Network.send_p2p_packet(0, minigame_chosen_data);
+					ready_for_minigame.clear();
+					for player in get_tree().current_scene.get_node("Players").get_children():
+						ready_for_minigame.append(player.steam_id);
+					Network.send_p2p_packet(0, { "message": "ready_for_minigame_update", "ready_for_minigame" : ready_for_minigame });
+					_finish_lobby_handling();
+			else:
+				if Network.is_host:
+					current_minigame = available_minigames[randi_range(0, available_minigames.size() - 2)];
+					
+					#current_minigame = "bombtag" # for if one needs to be selected
+					
+					var minigame_chosen_data: Dictionary = {
+						"message": "minigame_chosen",
+						"minigame": current_minigame
+					};
+					Network.send_p2p_packet(0, minigame_chosen_data);
+					
+					intro_num = randi_range(1, max_intros);
+					var intro_num_update: Dictionary = {
+						"message": "intro_num_update",
+						"num": intro_num
+					};
+					Network.send_p2p_packet(0, intro_num_update);
 				
-				#current_minigame = "factory" # for if one needs to be selected
+				## Add narrator dialogue and tv logic here
+				await get_tree().create_timer(3).timeout;
 				
-				var minigame_chosen_data: Dictionary = {
-					"message": "minigame_chosen",
-					"minigame": current_minigame
-				};
-				Network.send_p2p_packet(0, minigame_chosen_data);
+				if not narrator_disabled:
+					var narrator: NarratorComponent = get_tree().current_scene.get_node("NarratorComponent");
+					narrator.narrator_intro(intro_num);
+					await narrator.finished;
 				
-				intro_num = randi_range(1, max_intros);
-				var intro_num_update: Dictionary = {
-					"message": "intro_num_update",
-					"num": intro_num
-				};
-				Network.send_p2p_packet(0, intro_num_update);
-			
-			## Add narrator dialogue and tv logic here
-			await get_tree().create_timer(3).timeout;
-			
-			if not narrator_disabled:
-				var narrator: NarratorComponent = get_tree().current_scene.get_node("NarratorComponent");
-				narrator.narrator_intro(intro_num);
-				await narrator.finished;
-			
-			can_disable = false;
-			
-			var door: MinigameDoor = get_tree().current_scene.get_node("MinigameDoor");
-			if is_door_open == false:
-				door.open_door();
-				is_door_open = true;
-			await get_tree().create_timer(2.5).timeout; ## Wait for door to open
-			countdown_timer(10);
+				can_disable = false;
+				
+				var door: MinigameDoor = get_tree().current_scene.get_node("MinigameDoor");
+				if is_door_open == false:
+					door.open_door();
+					is_door_open = true;
+				await get_tree().create_timer(2.5).timeout; ## Wait for door to open
+				countdown_timer(10);
 		
 		Enums.GameState.GROUP_ASSIGNMENT:
 			print("STATE UPDATE: GROUP_ASSIGNMENT")
@@ -334,12 +389,6 @@ func handle_game_state_update(new_game_state: Enums.GameState) -> void:
 					"message": "control_group_modifier_update",
 					"modifiers": {}
 				};
-				var i: int = 0;
-				var ids: Array = [];
-				for member in current_control_group:
-					ids.append(i);
-					i += 1;
-				ids.shuffle();
 				if current_control_group.size() == 1:
 					control_group_modifier_update["modifiers"] = {
 						current_control_group[0]: minigame_modifiers[current_minigame]["control"][randi_range(0, 2)]
@@ -359,6 +408,8 @@ func handle_game_state_update(new_game_state: Enums.GameState) -> void:
 						current_control_group[1]: minigame_modifiers[current_minigame]["control"][rand_two]
 					};
 				else:
+					var ids = [0, 1, 2];
+					ids.shuffle();
 					control_group_modifier_update["modifiers"] = {
 						current_control_group[0]: minigame_modifiers[current_minigame]["control"][ids[0]],
 						current_control_group[1]: minigame_modifiers[current_minigame]["control"][ids[1]],
@@ -568,10 +619,11 @@ func update_timer(readable_data: Dictionary) -> void:
 
 ## Do the second half of the logic for the lobby game state.
 func _finish_lobby_handling() -> void:
-	var door: MinigameDoor = get_tree().current_scene.get_node("MinigameDoor");
-	await get_tree().create_timer(2).timeout; ## Wait for door to close
-	door.close_door();
-	is_door_open = false;
+	if not secret_enabled:
+		var door: MinigameDoor = get_tree().current_scene.get_node("MinigameDoor");
+		await get_tree().create_timer(2).timeout; ## Wait for door to close
+		door.close_door();
+		is_door_open = false;
 	if ready_for_minigame.size() < 2:
 		print("Not enough players to start a minigame");
 		for player in get_tree().current_scene.get_node("Players").get_children():
@@ -932,6 +984,25 @@ func double_trouble(readable_data: Dictionary):
 				factory.button_3_pressed = true;
 			4:
 				factory.button_4_pressed = true;
+
+
+## Selects a player to have the bomb in the bomb tag minigame
+func select_bomb(readable_data: Dictionary):
+	for player in get_tree().current_scene.get_node("Players").get_children():
+		if player.steam_id == readable_data["steam_id"]:
+			player.bombtag_bomb_active = readable_data["bomb"];
+			if readable_data["bomb"]:
+				player.bombtag_just_passed = true;
+				await get_tree().create_timer(0.1).timeout;
+				player.bombtag_just_passed = false;
+
+
+func blind(readable_data: Dictionary):
+	for player in get_tree().current_scene.get_node("Players").get_children():
+		if player.is_local:
+			get_tree().current_scene.get_node("BombTag").get_node("Blinded").visible = true;
+			await get_tree().create_timer(5).timeout;
+			get_tree().current_scene.get_node("BombTag").get_node("Blinded").visible = false;
 
 
 ## Grayscales a player

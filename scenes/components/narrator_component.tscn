@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://cw24svt0wc285"]
+[gd_scene load_steps=18 format=3 uid="uid://cw24svt0wc285"]
 
 [ext_resource type="Script" uid="uid://t6ne022ma4dk" path="res://scripts/components/narrator_component.gd" id="1_7mchb"]
 [ext_resource type="AudioStream" uid="uid://t5jgxgo5vf2" path="res://assets/audio/narrator/narrator_intro_1.mp3" id="1_qh6b4"]
@@ -16,6 +16,7 @@
 [ext_resource type="AudioStream" uid="uid://cair0iaw1v0ua" path="res://assets/audio/narrator/narrator_intro_11.mp3" id="12_glb80"]
 [ext_resource type="AudioStream" uid="uid://dh40g0yx2k5p8" path="res://assets/audio/narrator/narrator_intro_12.mp3" id="13_88dij"]
 [ext_resource type="AudioStream" uid="uid://dkxu2pejtaw6e" path="res://assets/audio/narrator/narrator_intro_13.mp3" id="14_fbq76"]
+[ext_resource type="AudioStream" uid="uid://kvva31ti1rvn" path="res://assets/audio/narrator/narrator_secret_intro.mp3" id="17_glb80"]
 
 [node name="NarratorComponent" type="Node2D"]
 script = ExtResource("1_7mchb")
@@ -85,3 +86,9 @@ volume_db = 3.0
 [node name="NarratorReenabled" type="AudioStreamPlayer2D" parent="NarratorReenabled"]
 stream = ExtResource("10_ikvpb")
 volume_db = 2.0
+
+[node name="NarratorSecretIntro" type="Node2D" parent="."]
+
+[node name="NarratorSecretIntro" type="AudioStreamPlayer2D" parent="NarratorSecretIntro"]
+stream = ExtResource("17_glb80")
+bus = &"Narrator"

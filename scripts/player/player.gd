@@ -44,8 +44,10 @@ var kaching_active: bool = false;
 var ctf_active: bool = false;
 ## Whether or not the red light green light minigame is active.
 var rlgl_active: bool = false;
-## Whether or not thefactory minigame is active.
+## Whether or not the factory minigame is active.
 var factory_active: bool = false;
+## Whether or not the bomb tag minigame is active.
+var bombtag_active: bool = false;
 
 ## Whether or not the plaeyer is in the experimental group.
 var is_experimental: bool = false;
@@ -174,6 +176,21 @@ var factory_enhanced_eyesight_enabled: bool = false;
 ## Whether or not the enhanced eyesight modifier's timer is active in the factory minigame.
 var factory_enhanced_eyesight_timer_active: bool = false;
 
+## Whether or not you have the bomb in the bomb tag minigame
+var bombtag_bomb_active: bool = false;
+## Whether or not you have just passed the bomb in the bomb tag minigame
+var bombtag_just_passed: bool = false;
+## Whether or not the 'salt' spray modifier is active in the bombtag minigame.
+var bombtag_salt_spray_enabled: bool = false;
+## Whether or not the 'salt' spray modifier's timer is active in the bombtag minigame.
+var bombtag_salt_spray_timer_active: bool = false;
+## Whether or not the hot potato modifier is active in the bombtag minigame.
+var bombtag_hot_potato_enabled: bool = false;
+## Whether or not the sick dodge modifier is active in the bombtag minigame.
+var bombtag_sick_dodge_enabled: bool = false;
+## Whether or not the 'salt' spray modifier is active in the bombtag minigame.
+var bombtag_ability_uses: int = 2;
+
 ## super cool crouch super cool crouch super cool crouch super cool crouch super cool crouch super cool crouch
 var super_cool_crouching: bool = false; 
 
@@ -263,6 +280,8 @@ func _physics_process(delta: float) -> void:
 		_send_position_p2p();
 	
 	collision_shape_update();
+	
+	get_node("BombTagBomb").visible = bombtag_bomb_active;
 	
 	if space_active and is_local:
 		if Input.is_action_just_pressed("jump"):
@@ -697,6 +716,16 @@ func _unhandled_input(event: InputEvent) -> void:
 			MinigameManager.double_trouble({ "message": "double_trouble", "pistons": chosen_pistons });
 			await get_tree().create_timer(25).timeout;
 			factory_double_trouble_timer_active = false;
+		elif bombtag_active and is_experimental and is_local and bombtag_salt_spray_enabled and bombtag_ability_uses != 0 and not bombtag_salt_spray_timer_active:
+			Network.send_p2p_packet(0, { "message": "blind" });
+			bombtag_ability_uses -= 1;
+			bombtag_salt_spray_timer_active = true;
+			await get_tree().create_timer(5).timeout;
+			bombtag_salt_spray_timer_active = false;
+		elif bombtag_active and is_experimental and is_local and bombtag_hot_potato_enabled and bombtag_ability_uses != 0:
+			if bombtag_bomb_active:
+				bombtag_ability_uses -= 2;
+				_on_bomb_tag_checker_body_entered(get_tree().current_scene.get_node("Players").get_children()[randi_range(0, get_tree().current_scene.get_node("Players").get_children().size() - 1)]);
 
 
 ## Gets [member steam_id].
@@ -890,6 +919,13 @@ func do_emp_particles():
 	emp_area.get_node("Particles").emitting = true;
 
 
+## Blows up a player if they have the bomb in bomb tag
+func bombtag_bomb_explode():
+	if bombtag_bomb_active:
+		die();
+		bombtag_bomb_active = false;
+
+
 func _on_juggernaut_hitbox_body_entered(body) -> void:
 	if juggernaut_active and is_experimental and body.steam_id != steam_id and body.get_parent().name == "Players":
 		print(body, " ", body.get_parent().name)
@@ -924,3 +960,14 @@ func do_winning_streak_timer():
 		if kaching_winning_streak_amt >= 4:
 			print(kaching_winning_streak_enabled)
 			get_tree().current_scene.get_node("Kaching").score_point(5);
+
+
+func _on_bomb_tag_checker_body_entered(body) -> void:
+	if bombtag_bomb_active and body.get_parent().name == "Players" and not (bombtag_just_passed or body.bombtag_just_passed):
+		if body.bombtag_sick_dodge_enabled and randi_range(1, 20) == 1:
+			pass;
+		else:
+			Network.send_p2p_packet(0, { "message": "select_bomb", "steam_id": steam_id, "bomb": false });
+			Network.send_p2p_packet(0, { "message": "select_bomb", "steam_id": body.steam_id, "bomb": true });
+			MinigameManager.select_bomb({ "message": "select_bomb", "steam_id": steam_id, "bomb": false });
+			MinigameManager.select_bomb({ "message": "select_bomb", "steam_id": body.steam_id, "bomb": true });

@@ -8,20 +8,20 @@
 [ext_resource type="Texture2D" uid="uid://6cask74dpbph" path="res://assets/sprites/minigames/archery/targets.png" id="6_oco7x"]
 [ext_resource type="Texture2D" uid="uid://dmf6748xv0toh" path="res://assets/sprites/legrands_saxophone.png" id="7_572ne"]
 
-[sub_resource type="Gradient" id="Gradient_oco7x"]
+[sub_resource type="Gradient" id="Gradient_572ne"]
 offsets = PackedFloat32Array(0, 0.559387, 1)
 colors = PackedColorArray(0, 0, 0, 1, 0.62069, 0.62069, 0.62069, 1, 1, 1, 1, 1)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_ci213"]
-gradient = SubResource("Gradient_oco7x")
+gradient = SubResource("Gradient_572ne")
 fill_from = Vector2(0.48433, 0.037037)
 fill_to = Vector2(0.863248, 0.205128)
 
-[sub_resource type="Gradient" id="Gradient_572ne"]
+[sub_resource type="Gradient" id="Gradient_ci213"]
 colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_fhyo6"]
-gradient = SubResource("Gradient_572ne")
+gradient = SubResource("Gradient_ci213")
 fill = 1
 fill_from = Vector2(0.5, 0.5)
 

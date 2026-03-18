@@ -1,4 +1,4 @@
-[gd_scene load_steps=91 format=4 uid="uid://cf2rpf337i6m6"]
+[gd_scene load_steps=93 format=4 uid="uid://cf2rpf337i6m6"]
 
 [ext_resource type="Script" uid="uid://bmkai2wd67610" path="res://scripts/game.gd" id="1_lbhrr"]
 [ext_resource type="PackedScene" uid="uid://bqt3wowp50fb2" path="res://scenes/tiles/interactable_tiles.tscn" id="2_lbhrr"]
@@ -16,7 +16,7 @@
 [ext_resource type="Shader" uid="uid://dnyx2cdj7soco" path="res://assets/shaders/loading_logo.gdshader" id="12_kvuet"]
 [ext_resource type="Texture2D" uid="uid://bm2pgqollqbca" path="res://assets/logo.png" id="13_trtic"]
 [ext_resource type="PackedScene" uid="uid://cw24svt0wc285" path="res://scenes/components/narrator_component.tscn" id="14_trtic"]
-[ext_resource type="Script" path="res://scripts/ui/host_settings.gd" id="15_rysoc"]
+[ext_resource type="Script" uid="uid://36m5lw3rnrjg" path="res://scripts/ui/host_settings.gd" id="15_rysoc"]
 [ext_resource type="Texture2D" uid="uid://dn8ocn2ayn6ym" path="res://assets/sprites/host_settings_button.png" id="16_ssvqc"]
 [ext_resource type="Texture2D" uid="uid://br4kywauffx15" path="res://assets/sprites/host_settings.png" id="17_264po"]
 
@@ -92,28 +92,32 @@ region = Rect2(36, 0, 18, 18)
 atlas = ExtResource("6_264po")
 region = Rect2(18, 0, 18, 18)
 
-[sub_resource type="Gradient" id="Gradient_p57ef"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_264po"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_1kice"]
+
+[sub_resource type="Gradient" id="Gradient_264po"]
 offsets = PackedFloat32Array(0, 0.559387, 1)
 colors = PackedColorArray(0, 0, 0, 1, 0.62069, 0.62069, 0.62069, 1, 1, 1, 1, 1)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_iywne"]
-gradient = SubResource("Gradient_p57ef")
+gradient = SubResource("Gradient_264po")
 fill_from = Vector2(0.48433, 0.037037)
 fill_to = Vector2(0.863248, 0.205128)
 
-[sub_resource type="Gradient" id="Gradient_u5sy4"]
+[sub_resource type="Gradient" id="Gradient_1kice"]
 colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_p57ef"]
-gradient = SubResource("Gradient_u5sy4")
+gradient = SubResource("Gradient_1kice")
 fill = 1
 fill_from = Vector2(0.5, 0.5)
 
-[sub_resource type="Gradient" id="Gradient_ir15t"]
+[sub_resource type="Gradient" id="Gradient_5newe"]
 colors = PackedColorArray(0, 1, 0, 1, 0, 1, 0, 1)
 
 [sub_resource type="GradientTexture1D" id="GradientTexture1D_ca42v"]
-gradient = SubResource("Gradient_ir15t")
+gradient = SubResource("Gradient_5newe")
 width = 2
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_p57ef"]
@@ -619,6 +623,19 @@ scale = Vector2(0.75, 0.75)
 focus_mode = 0
 mouse_default_cursor_shape = 2
 action_mode = 0
+
+[node name="TextEdit" type="TextEdit" parent="HostSettings/HostSettingsUI/TextureRect"]
+z_index = 10
+layout_mode = 0
+offset_left = 34.0
+offset_top = 83.6667
+offset_right = 81.0
+offset_bottom = 94.6667
+theme_override_constants/line_spacing = -5
+theme_override_font_sizes/font_size = 16
+theme_override_styles/normal = SubResource("StyleBoxEmpty_264po")
+theme_override_styles/read_only = SubResource("StyleBoxEmpty_1kice")
+placeholder_text = "???"
 
 [node name="Players" type="Node" parent="."]
 
@@ -1525,4 +1542,5 @@ libraries = {
 [connection signal="pressed" from="HostSettings/HostSettingsUI/TextureRect/BackButton" to="HostSettings" method="_on_back_button_pressed"]
 [connection signal="pressed" from="HostSettings/HostSettingsUI/TextureRect/CopyCodeButton" to="HostSettings" method="_on_copy_code_button_pressed"]
 [connection signal="toggled" from="HostSettings/HostSettingsUI/TextureRect/DisableNarrator" to="HostSettings" method="_on_disable_narrator_toggled"]
+[connection signal="text_changed" from="HostSettings/HostSettingsUI/TextureRect/TextEdit" to="HostSettings" method="_on_text_edit_text_changed"]
 [connection signal="body_entered" from="ReadyForMinigame" to="." method="_on_ready_for_minigame_entered"]

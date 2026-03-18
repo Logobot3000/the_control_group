@@ -20,3 +20,11 @@ func _on_disable_narrator_toggled(toggled_on: bool) -> void:
 	else:
 		Network.send_p2p_packet(0, {"message": "do_narrator_reenabled"});
 		MinigameManager.do_narrator_reenabled({});
+
+
+func _on_text_edit_text_changed() -> void:
+	var text: String = get_node("HostSettingsUI/TextureRect/TextEdit").text;
+	if text == Constants.SUPER_SECRET_CODE:
+		if MinigameManager.narrator_disabled and Main.current_game_state == Enums.GameState.LOBBY:
+			get_node("HostSettingsUI/TextureRect/TextEdit").editable = false;
+			MinigameManager.secret_enabled = true;

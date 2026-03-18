@@ -47,6 +47,19 @@ func narrator_reenabled() -> void:
 			finished.emit();
 
 
+func narrator_secret_intro() -> void:
+	currently_playing = get_node("NarratorSecretIntro/NarratorSecretIntro");
+	var current_currently_playing = currently_playing;
+	if currently_playing:
+		currently_playing.play();
+		playing_length = currently_playing.stream.get_length();
+		await currently_playing.finished;
+		if currently_playing == current_currently_playing:
+			currently_playing = null;
+			playing_length = 0;
+			finished.emit();
+
+
 func _process(delta: float) -> void:
 	var volume: float = 0.0;
 	if currently_playing:
@@ -60,3 +73,8 @@ func _process(delta: float) -> void:
 	for rect in get_tree().current_scene.get_node("TV").get_node("NarratorVisualizer").get_children():
 		rect.scale.y = vol_control[i];
 		i += 1;
+	if get_tree().current_scene.get_node("MrTannersWrath"):
+		i = 0;
+		for rect in get_tree().current_scene.get_node("MrTannersWrath").get_node("TV").get_node("NarratorVisualizer").get_children():
+			rect.scale.y = vol_control[i];
+			i += 1;

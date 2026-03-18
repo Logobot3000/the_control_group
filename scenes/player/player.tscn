@@ -1,4 +1,4 @@
-[gd_scene load_steps=400 format=3 uid="uid://c16w4qnbtqp14"]
+[gd_scene load_steps=401 format=3 uid="uid://c16w4qnbtqp14"]
 
 [ext_resource type="PackedScene" uid="uid://ca2wxt2wjjmqs" path="res://scenes/components/velocity_component.tscn" id="1_8afob"]
 [ext_resource type="Script" uid="uid://3eabxdixflc4" path="res://scripts/player/player.gd" id="1_dovo2"]
@@ -45,6 +45,7 @@
 [ext_resource type="Texture2D" uid="uid://bv8ynnj8rivkm" path="res://assets/sprites/characters/minigames/space/experimental_ship_purple_transition.png" id="29_uygh0"]
 [ext_resource type="Texture2D" uid="uid://bc1eortooswuf" path="res://assets/sprites/characters/minigames/space/experimental_ship_yellow_transition.png" id="30_t1aof"]
 [ext_resource type="Texture2D" uid="uid://ekb36oo2h115" path="res://assets/sprites/minigames/space/laser_charge_ui.png" id="44_ttakn"]
+[ext_resource type="Texture2D" uid="uid://chm6jdvwk0705" path="res://assets/sprites/minigames/bombtag/bomb.png" id="46_iwuka"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_gt5hh"]
 atlas = ExtResource("2_rw8a5")
@@ -3239,12 +3240,30 @@ collision_mask = 2
 polygon = PackedVector2Array(-6, 15, 0, 15, -2, 10, 2, 10, 4, 15, 10, 15, 8, 10, 8, -1, 15, 2, 10, -2, 15, -5, 8, -3, 6, -7, 3, -15, -5, -15, -8, -7, -9, -6, -11, -7, -14, -7, -15, -6, -15, 5, -14, 6, -11, 6, -10, 5, -8, 7, -8, 9, -7, 10)
 
 [node name="YouIndicator" type="RichTextLabel" parent="."]
-visible = false
+z_index = 5
 offset_left = -1.0
-offset_top = -20.0
+offset_top = -21.0
 offset_right = 39.0
-offset_bottom = 20.0
+offset_bottom = 19.0
 text = "v"
+
+[node name="BombTagBomb" type="Node2D" parent="."]
+position = Vector2(6, -15)
+scale = Vector2(1.5, 1.5)
+
+[node name="Sprite2D" type="Sprite2D" parent="BombTagBomb"]
+position = Vector2(-4, 7)
+scale = Vector2(-1, 1)
+texture = ExtResource("46_iwuka")
+
+[node name="BombTagChecker" type="Area2D" parent="."]
+collision_layer = 2
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BombTagChecker"]
+position = Vector2(0, 0.5)
+shape = SubResource("RectangleShape2D_ttakn")
 
 [connection signal="area_entered" from="HurtboxComponent" to="HurtboxComponent" method="_on_area_entered"]
 [connection signal="body_entered" from="JuggernautHitbox" to="." method="_on_juggernaut_hitbox_body_entered"]
+[connection signal="body_entered" from="BombTagChecker" to="." method="_on_bomb_tag_checker_body_entered"]

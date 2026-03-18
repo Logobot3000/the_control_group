@@ -232,6 +232,10 @@ func _handle_recieved_packet(sender_id: int, readable_data: Dictionary) -> void:
 				MinigameManager.fair_game(readable_data);
 			"double_trouble":
 				MinigameManager.double_trouble(readable_data);
+			"select_bomb":
+				MinigameManager.select_bomb(readable_data);
+			"blind":
+				MinigameManager.blind(readable_data);
 			"grayscale":
 				MinigameManager.grayscale(readable_data);
 			"slow_players":
@@ -242,6 +246,8 @@ func _handle_recieved_packet(sender_id: int, readable_data: Dictionary) -> void:
 				MinigameManager.player_undied(readable_data);
 			"intro_num_update":
 				MinigameManager.intro_num = readable_data["num"];
+			"ready_for_minigame_update":
+				MinigameManager.ready_for_minigame = readable_data["ready_for_minigame"];
 
 
 ## Reads up to [member Constants.PACKET_READ_LIMIT] packets.
