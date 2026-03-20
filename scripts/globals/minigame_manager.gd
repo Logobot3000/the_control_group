@@ -783,13 +783,23 @@ func emp_particles(readable_data: Dictionary):
 
 ## Fires a laser for the space minigame
 func laser_fired(readable_data: Dictionary):
-	var laser = laser_component_path.instantiate();
-	laser.laser_type = readable_data["laser_type"];
-	laser.shot_rotation = readable_data["shot_rotation"];
-	laser.steam_id = readable_data["steam_id"];
-	laser.tracking_active = readable_data["tracking"]
-	get_tree().current_scene.get_node("Space").get_node("Lasers").add_child(laser);
-	laser.global_position = readable_data["position"];
+	if not readable_data["secret"]:
+		var laser = laser_component_path.instantiate();
+		laser.laser_type = readable_data["laser_type"];
+		laser.shot_rotation = readable_data["shot_rotation"];
+		laser.steam_id = readable_data["steam_id"];
+		laser.tracking_active = readable_data["tracking"];
+		get_tree().current_scene.get_node("Space").get_node("Lasers").add_child(laser);
+		laser.global_position = readable_data["position"];
+	else:
+		var laser = laser_component_path.instantiate();
+		laser.laser_type = readable_data["laser_type"];
+		laser.shot_rotation = readable_data["shot_rotation"];
+		laser.steam_id = readable_data["steam_id"];
+		laser.tracking_active = false;
+		laser.secret = true;
+		get_tree().current_scene.get_node("MrTannersWrath").get_node("Lasers").add_child(laser);
+		laser.global_position = readable_data["position"];
 
 
 ## Adds a stun mine to the juggernaut minigame

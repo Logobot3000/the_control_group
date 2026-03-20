@@ -13,10 +13,13 @@ var shot_direction: Vector2;
 var steam_id = 0;
 var tracking_active: bool = true;
 var closest_player: Player = null;
+var secret: bool = false;
 
 
 func _ready() -> void:
 	shot_direction = Vector2.UP.rotated(shot_rotation);
+	if secret:
+		get_node("VelocityComponent").max_speed = 500;
 
 
 func _process(delta: float) -> void:
@@ -31,7 +34,7 @@ func _process(delta: float) -> void:
 					closest_player = player;
 		if closest_distance < 65:
 			tracking_active = false;
-		shot_direction = (closest_player.global_position - global_position).normalized()
+		shot_direction = (closest_player.global_position - global_position).normalized();
 			
 	get_node("VelocityComponent").accelerate_towards(shot_direction, delta);
 	get_node("VelocityComponent").move(self);
@@ -55,7 +58,8 @@ func change_laser_type(type: int) -> void:
 
 
 func _on_area_2d_body_entered(body: Node2D) -> void:
-	if body.get_parent().name == "Players":
+	print(body)
+	if body.get_parent().name == "Players" and body.space_active:
 		if body.steam_id != steam_id:
 			if not (MinigameManager.current_control_group.has(body.steam_id) and MinigameManager.current_control_group.has(steam_id)):
 				if not body.get_node("HealthComponent").is_dead():
@@ -70,7 +74,17 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 						else:
 							get_tree().current_scene.get_node("Space").score_point(1);
 				queue_free();
+	elif (body.name == "Enemy1" or body.name == "Enemy2" or body.name == "Enemy3" or body.name == "TheHumpher") and body.visible:
+		if body.name == "TheHumpher":
+			body.get_parent().humpher_health -= 1;
+		else:
+			body.get_parent().queue_free();
+		queue_free();
+	elif (body.name == "Enemy1" or body.name == "Enemy2" or body.name == "Enemy3" or body.name == "TheHumpher") and not body.visible:
+		pass;
 	elif body == self:
+		pass;
+	elif body.get_parent().name == "Players" and not body.space_active:
 		pass;
 	else:
 		queue_free();

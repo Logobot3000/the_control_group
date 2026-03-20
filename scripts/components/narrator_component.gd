@@ -60,7 +60,7 @@ func narrator_secret_intro() -> void:
 			finished.emit();
 
 
-func _process(delta: float) -> void:
+func _physics_process(delta: float) -> void:
 	var volume: float = 0.0;
 	if currently_playing:
 		var spectrum = AudioServer.get_bus_effect_instance(AudioServer.get_bus_index("Narrator"), 0);
@@ -73,7 +73,7 @@ func _process(delta: float) -> void:
 	for rect in get_tree().current_scene.get_node("TV").get_node("NarratorVisualizer").get_children():
 		rect.scale.y = vol_control[i];
 		i += 1;
-	if get_tree().current_scene.get_node("MrTannersWrath"):
+	if MinigameManager.current_minigame == "secret" and get_tree().current_scene.get_node("MrTannersWrath"):
 		i = 0;
 		for rect in get_tree().current_scene.get_node("MrTannersWrath").get_node("TV").get_node("NarratorVisualizer").get_children():
 			rect.scale.y = vol_control[i];

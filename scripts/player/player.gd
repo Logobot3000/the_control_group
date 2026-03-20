@@ -48,6 +48,8 @@ var rlgl_active: bool = false;
 var factory_active: bool = false;
 ## Whether or not the bomb tag minigame is active.
 var bombtag_active: bool = false;
+## Whether or not the secret minigame is active.
+var secret_active: bool = false;
 
 ## Whether or not the plaeyer is in the experimental group.
 var is_experimental: bool = false;
@@ -191,6 +193,9 @@ var bombtag_sick_dodge_enabled: bool = false;
 ## Whether or not the 'salt' spray modifier is active in the bombtag minigame.
 var bombtag_ability_uses: int = 2;
 
+## Whether or not the secret minigame shot is on cooldown.
+var secret_shot_cooldown_active: bool = false;
+
 ## super cool crouch super cool crouch super cool crouch super cool crouch super cool crouch super cool crouch
 var super_cool_crouching: bool = false; 
 
@@ -283,6 +288,22 @@ func _physics_process(delta: float) -> void:
 	
 	get_node("BombTagBomb").visible = bombtag_bomb_active;
 	
+	if secret_active and is_local and not secret_shot_cooldown_active:
+		if Input.is_action_just_pressed("use_ability"):
+			secret_shot_cooldown_active = true;
+			var laser_data: Dictionary = {
+				"message": "laser_fired",
+				"steam_id": steam_id,
+				"secret": true,
+				"laser_type": 0,
+				"shot_rotation": deg_to_rad(270) if sprite.flip_h else deg_to_rad(90),
+				"position": global_position,
+			};
+			Network.send_p2p_packet(0, laser_data);
+			MinigameManager.laser_fired(laser_data);
+			await get_tree().create_timer(0.5).timeout;
+			secret_shot_cooldown_active = false;
+	
 	if space_active and is_local:
 		if Input.is_action_just_pressed("jump"):
 			if not charge_shot_enabled:
@@ -290,6 +311,7 @@ func _physics_process(delta: float) -> void:
 					var laser_data: Dictionary = {
 						"message": "laser_fired",
 						"steam_id": steam_id,
+						"secret": false,
 						"laser_type": 0,
 						"shot_rotation": rotation,
 						"position": global_position,
@@ -304,6 +326,7 @@ func _physics_process(delta: float) -> void:
 					var laser_data: Dictionary = {
 						"message": "laser_fired",
 						"steam_id": steam_id,
+						"secret": false,
 						"laser_type": 3,
 						"shot_rotation": rotation,
 						"position": global_position,
@@ -971,3 +994,8 @@ func _on_bomb_tag_checker_body_entered(body) -> void:
 			Network.send_p2p_packet(0, { "message": "select_bomb", "steam_id": body.steam_id, "bomb": true });
 			MinigameManager.select_bomb({ "message": "select_bomb", "steam_id": steam_id, "bomb": false });
 			MinigameManager.select_bomb({ "message": "select_bomb", "steam_id": body.steam_id, "bomb": true });
+
+
+func _on_secret_enemy_checker_body_entered(body) -> void:
+	if (body.name == "Enemy1" or body.name == "Enemy2" or body.name == "Enemy3") and body.visible:
+		die();

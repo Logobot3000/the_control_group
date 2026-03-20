@@ -1351,7 +1351,7 @@ offset_right = 640.0
 offset_bottom = 368.0
 theme_override_colors/default_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/normal_font_size = 32
-text = "V0.10.0001"
+text = "V0.11.0000"
 horizontal_alignment = 2
 
 [connection signal="mouse_entered" from="Start" to="Start" method="_on_mouse_entered"]

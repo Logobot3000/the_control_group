@@ -1,4 +1,4 @@
-[gd_scene load_steps=93 format=4 uid="uid://cf2rpf337i6m6"]
+[gd_scene load_steps=94 format=4 uid="uid://cf2rpf337i6m6"]
 
 [ext_resource type="Script" uid="uid://bmkai2wd67610" path="res://scripts/game.gd" id="1_lbhrr"]
 [ext_resource type="PackedScene" uid="uid://bqt3wowp50fb2" path="res://scenes/tiles/interactable_tiles.tscn" id="2_lbhrr"]
@@ -93,6 +93,8 @@ atlas = ExtResource("6_264po")
 region = Rect2(18, 0, 18, 18)
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_264po"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_5newe"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_1kice"]
 
@@ -634,6 +636,7 @@ offset_bottom = 94.6667
 theme_override_constants/line_spacing = -5
 theme_override_font_sizes/font_size = 16
 theme_override_styles/normal = SubResource("StyleBoxEmpty_264po")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_5newe")
 theme_override_styles/read_only = SubResource("StyleBoxEmpty_1kice")
 placeholder_text = "???"
 
