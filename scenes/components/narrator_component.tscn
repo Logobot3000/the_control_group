@@ -80,12 +80,14 @@ bus = &"Narrator"
 [node name="NarratorDisabled" type="AudioStreamPlayer2D" parent="NarratorDisabled"]
 stream = ExtResource("9_w13tu")
 volume_db = 3.0
+bus = &"Narrator"
 
 [node name="NarratorReenabled" type="Node2D" parent="."]
 
 [node name="NarratorReenabled" type="AudioStreamPlayer2D" parent="NarratorReenabled"]
 stream = ExtResource("10_ikvpb")
 volume_db = 2.0
+bus = &"Narrator"
 
 [node name="NarratorSecretIntro" type="Node2D" parent="."]
 
