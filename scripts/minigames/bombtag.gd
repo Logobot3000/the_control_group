@@ -39,6 +39,15 @@ func load_modifiers() -> void:
 
 
 func on_minigame_ended() -> void:
+	var currently_dead: int = 0;
+	for player in get_tree().current_scene.get_node("Players").get_children():
+		if player.is_dead:
+			if player.is_experimental:
+				for pl in get_tree().current_scene.get_node("Players").get_children():
+					if MinigameManager.ready_for_minigame.has(pl.steam_id) and not pl.is_dead:
+						score(pl.steam_id);
+	if currently_dead == MinigameManager.current_control_group.size():
+		score(MinigameManager.current_experimental_group);
 	for player in get_tree().current_scene.get_node("Players").get_children():
 		if MinigameManager.ready_for_minigame.has(Main.player_steam_id):
 			player.bombtag_active = false;
@@ -50,6 +59,7 @@ func on_minigame_ended() -> void:
 			player.bombtag_salt_spray_enabled = false;
 			player.bombtag_hot_potato_enabled = false;
 			player.bombtag_sick_dodge_enabled = false;
+			player.bombtag_ability_uses = 2;
 
 
 func select_bombed_player() -> void:
@@ -67,11 +77,27 @@ func select_bombed_player() -> void:
 
 
 func on_minigame_started() -> void:
+	get_tree().current_scene.get_node("MinigameMusic").get_node("BombTag").play();
 	await get_tree().create_timer(1).timeout;
 	var i = 0;
 	while i < 3:
+		var txt: RichTextLabel = get_node("RichTextLabel");
+		txt.text = "BOMB IS SAFE";
+		txt.add_theme_color_override("default_color", Color("#ffffff"));
 		select_bombed_player();
-		await get_tree().create_timer(bomb_explosion_time).timeout;
+		await get_tree().create_timer(bomb_explosion_time - 10).timeout;
+		txt.text = "BOMB IS UNSAFE";
+		txt.add_theme_color_override("default_color", Color("#ff4646"));
+		await get_tree().create_timer(7).timeout;
+		txt.text = "BOMB WILL EXPLODE";
+		txt.add_theme_color_override("default_color", Color("#ff0000"));
+		await get_tree().create_timer(1).timeout;
+		txt.add_theme_color_override("default_color", Color("#ff5500"));
+		await get_tree().create_timer(1).timeout;
+		txt.add_theme_color_override("default_color", Color("#ffff00"));
+		await get_tree().create_timer(1).timeout;
+		txt.text = "BOMB HAS EXPLODED";
+		txt.add_theme_color_override("default_color", Color("#ffff6e"));
 		for player in get_tree().current_scene.get_node("Players").get_children():
 			player.bombtag_bomb_explode();
 		i += 1;
@@ -90,12 +116,8 @@ func _physics_process(delta: float) -> void:
 	for player in get_tree().current_scene.get_node("Players").get_children():
 		if player.is_dead:
 			if player.is_experimental:
-				for pl in get_tree().current_scene.get_node("Players").get_children():
-					if MinigameManager.ready_for_minigame.has(pl.steam_id) and not pl.is_dead:
-						score(pl.steam_id);
 				end_minigame_early();
 			else:
 				currently_dead += 1;
 	if currently_dead == MinigameManager.current_control_group.size():
-		score(MinigameManager.current_experimental_group);
 		end_minigame_early();

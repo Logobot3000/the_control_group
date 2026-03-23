@@ -44,13 +44,17 @@ func hit_experimental():
 
 func _on_input_event(viewport: Node, event: InputEvent, shape_idx: int) -> void:
 	if event.is_action("click"):
+		print("a")
 		var pl;
 		for player in get_tree().current_scene.get_node("Players").get_children():
 			if player.steam_id == Main.player_steam_id:
 				pl = player;
 		if not pl:
+			print("b")
 			return;
-		if not pl.arrow_cooldown and not pl.stunned:
+		if not pl.arrow_cooldown and not pl.stunned and not hit:
+			print("c")
+			pl.arrow_cooldown = true;
 			var break_target_data: Dictionary = {
 				"message": "break_target",
 				"target_id": id,
@@ -61,6 +65,6 @@ func _on_input_event(viewport: Node, event: InputEvent, shape_idx: int) -> void:
 			if pl.archery_big_clicker_enabled:
 				pl.do_big_clicker_timer();
 				pl.archery_big_clicker_amt += 1;
-			pl.arrow_cooldown = true;
 			await get_tree().create_timer(pl.arrow_cooldown_time).timeout;
 			pl.arrow_cooldown = false;
+			print("d")

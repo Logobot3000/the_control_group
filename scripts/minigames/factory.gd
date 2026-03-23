@@ -48,6 +48,10 @@ func load_modifiers() -> void:
 						player.factory_enhanced_eyesight_enabled = true;
 
 
+func on_minigame_started() -> void:
+	get_tree().current_scene.get_node("MinigameMusic").get_node("Factory").play();
+
+
 func on_minigame_ended() -> void:
 	for player in get_tree().current_scene.get_node("Players").get_children():
 		if MinigameManager.ready_for_minigame.has(Main.player_steam_id):
@@ -92,19 +96,19 @@ func _physics_process(delta: float) -> void:
 		get_tree().current_scene.get_node("Factory").get_node("Buttons").get_node("Button4").get_node("AnimatedSprite2D").play("pressed");
 	else:
 		get_tree().current_scene.get_node("Factory").get_node("Buttons").get_node("Button4").get_node("AnimatedSprite2D").play("unpressed");
-
-
-func _on_button_collision_detector_body_entered(body, btn_name: String) -> void:
-	if body.get_parent().name == "Players":
-		match btn_name:
-			"Button1":
-				fire_piston(1, false);
-			"Button2":
-				fire_piston(2, false);
-			"Button3":
-				fire_piston(3, false);
-			"Button4":
-				fire_piston(4, false);
+	
+	for button in get_node("Buttons").get_children():
+		for body in button.get_node("CollisionDetector").get_overlapping_bodies():
+			if body.get_parent().name == "Players":
+				match button.name:
+					"Button1":
+						fire_piston(1, false);
+					"Button2":
+						fire_piston(2, false);
+					"Button3":
+						fire_piston(3, false);
+					"Button4":
+						fire_piston(4, false);
 
 
 func fire_piston(id: int, double: bool) -> void:
@@ -157,13 +161,8 @@ func fire_piston(id: int, double: bool) -> void:
 	sprite.play_backwards("press_down");
 	await get_tree().create_timer(0.4).timeout;
 	sprite.play("no_press");
-	match id:
-		1:
-			button_1_pressed = false;
-		2:
-			button_2_pressed = false;
-		3:
-			button_3_pressed = false;
-		4:
-			button_4_pressed = false;
+	button_1_pressed = false;
+	button_2_pressed = false;
+	button_3_pressed = false;
+	button_4_pressed = false;
 	

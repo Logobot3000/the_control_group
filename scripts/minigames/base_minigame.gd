@@ -25,6 +25,8 @@ var control_points: int = 0;
 var is_timer_running: bool = false;
 ## Whether or not the current minigame is active.
 var minigame_active: bool = false;
+## Timer start time
+var timer_start_time = 0.0;
 
 
 func _ready() -> void:
@@ -44,7 +46,13 @@ func _ready() -> void:
 	
 	if name != "BaseMinigame":
 		get_node("BaseMinigame").get_node("AnimationPlayer").play("go");
-	await get_tree().create_timer(4).timeout;
+	await get_tree().create_timer(1).timeout;
+	get_tree().current_scene.get_node("SFX/Select").play();
+	await get_tree().create_timer(1).timeout;
+	get_tree().current_scene.get_node("SFX/Select").play();
+	await get_tree().create_timer(1).timeout;
+	get_tree().current_scene.get_node("SFX/Select").play();
+	await get_tree().create_timer(1).timeout;
 	
 	minigame_started.emit();
 	for player in get_tree().current_scene.get_node("Players").get_children():
@@ -68,6 +76,8 @@ func score_point(amount: int) -> void:
 		MinigameManager.current_scores[Main.player_steam_id] = amount;
 	else:
 		MinigameManager.current_scores[Main.player_steam_id] += amount;
+	
+	get_tree().current_scene.get_node("SFX/PointScored").play();
 	
 	var score_update: Dictionary = {
 		"message": "score_update",
@@ -94,6 +104,7 @@ func update_group_scores() -> void:
 
 ## A virtual function that is called whenever the minigame has started.
 func on_minigame_started() -> void:
+	timer_start_time = 0.0;
 	pass;
 
 
@@ -113,25 +124,37 @@ func on_minigame_ended() -> void:
 ## Countdown timer for game.
 func countdown_timer(time: float) -> void:
 	if not is_timer_running and time == minigame_timer_length:
-		is_timer_running = true;
-	elif is_timer_running and time == minigame_timer_length:
-		return;
+		is_timer_running = true
+		timer_start_time = Time.get_ticks_msec() / 1000.0
 	
 	if Network.is_host:
-		time = snapped(time, 0.1);
+		var now = Time.get_ticks_msec() / 1000.0
+		var real_elapsed = now - timer_start_time
+		var corrected_time = max(0.0, minigame_timer_length - real_elapsed)
+		
+		var snapped_time = floor(corrected_time * 10.0) / 10.0;
+		
 		var timer_update: Dictionary = {
 			"message": "minigame_timer_updated",
-			"time": time
-		};
-		Network.send_p2p_packet(0, timer_update);
-		MinigameManager.update_minigame_timer({"time": time});
+			"time": snapped_time
+		}
 		
-		await get_tree().create_timer(0.1).timeout;
-		if time > 0: countdown_timer(time - 0.1);
+		Network.send_p2p_packet(0, timer_update)
+		MinigameManager.update_minigame_timer({"time": snapped_time})
+		
+		await get_tree().create_timer(0.1).timeout
+		
+		if corrected_time > 0:
+			countdown_timer(corrected_time)
+		else:
+			is_timer_running = false;
+			minigame_ended.emit();
 
 
 ## Ends a minigame early.
 func end_minigame_early() -> void:
 	await get_tree().create_timer(1).timeout;
 	is_timer_running = false;
+	for music in get_tree().current_scene.get_node("MinigameMusic").get_children():
+		music.stop();
 	minigame_ended.emit();

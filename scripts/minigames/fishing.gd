@@ -61,6 +61,7 @@ func load_modifiers() -> void:
 
 func on_minigame_started() -> void:
 	spawn_fish_timer();
+	get_tree().current_scene.get_node("MinigameMusic").get_node("Fishing").play();
 
 
 func on_minigame_ended() -> void:

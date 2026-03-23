@@ -40,6 +40,7 @@ func load_modifiers() -> void:
 
 func on_minigame_started() -> void:
 	spawn_ball_timer();
+	get_tree().current_scene.get_node("MinigameMusic").get_node("Collector").play();
 
 
 func on_minigame_ended() -> void:

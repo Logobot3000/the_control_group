@@ -53,6 +53,10 @@ func load_modifiers() -> void:
 						player.laser_reload_time = 0.5;
 
 
+func on_minigame_started() -> void:
+	get_tree().current_scene.get_node("MinigameMusic").get_node("Space").play();
+
+
 func on_minigame_ended() -> void:
 	if get_tree().current_scene.get_node("ShieldComponent"):
 		get_tree().current_scene.get_node("ShieldComponent").queue_free();

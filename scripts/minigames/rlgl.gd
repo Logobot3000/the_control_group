@@ -41,6 +41,10 @@ func load_modifiers() -> void:
 						player.get_node("VelocityComponent").jump_strength = 450;
 
 
+func on_minigame_started() -> void:
+	get_tree().current_scene.get_node("MinigameMusic").get_node("RLGL").play();
+
+
 func on_minigame_ended() -> void:
 	for player in get_tree().current_scene.get_node("Players").get_children():
 		if MinigameManager.ready_for_minigame.has(Main.player_steam_id):

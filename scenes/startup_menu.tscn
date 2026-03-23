@@ -1,4 +1,4 @@
-[gd_scene load_steps=97 format=4 uid="uid://bscdj2wh22vxs"]
+[gd_scene load_steps=120 format=4 uid="uid://bscdj2wh22vxs"]
 
 [ext_resource type="Script" uid="uid://c31vxh33c7ku5" path="res://scripts/ui/startup_menu.gd" id="1_ebq67"]
 [ext_resource type="Texture2D" uid="uid://bm2pgqollqbca" path="res://assets/logo.png" id="1_s5o28"]
@@ -12,12 +12,20 @@
 [ext_resource type="Script" uid="uid://f3ooutu51jo4" path="res://scripts/settings.gd" id="6_op02l"]
 [ext_resource type="Texture2D" uid="uid://ddprdwjjir5a7" path="res://assets/sprites/settings.png" id="8_g470g"]
 [ext_resource type="Script" uid="uid://rfv4g2k8qu4w" path="res://scripts/ui/main_menu.gd" id="9_oe7rv"]
+[ext_resource type="Script" uid="uid://bcfuotnvys7by" path="res://scripts/credits.gd" id="10_armpk"]
 [ext_resource type="Texture2D" uid="uid://dolvvd6ctrqfo" path="res://assets/sprites/network_menu.png" id="10_ee2qx"]
 [ext_resource type="Texture2D" uid="uid://jn3o3o4cl7b" path="res://assets/sprites/back_button.png" id="11_cohpv"]
+[ext_resource type="Texture2D" uid="uid://bi3ou3dltw24q" path="res://assets/sprites/credits_button.png" id="11_o1t3v"]
 [ext_resource type="Texture2D" uid="uid://msg7jcj17ea1" path="res://assets/sprites/host_button.png" id="11_utgyn"]
 [ext_resource type="Texture2D" uid="uid://dgvpsu6wi06lf" path="res://assets/sprites/join_button.png" id="12_5gn0v"]
+[ext_resource type="Texture2D" uid="uid://clpp10rsc7ivy" path="res://assets/sprites/credits.png" id="12_vmyij"]
 [ext_resource type="Shader" uid="uid://dnyx2cdj7soco" path="res://assets/shaders/loading_logo.gdshader" id="14_rhd0x"]
+[ext_resource type="Texture2D" uid="uid://dxbs27lwq73jj" path="res://assets/sprites/reload_lobby_list.png" id="14_t25jn"]
 [ext_resource type="AudioStream" uid="uid://co0ple2g1mijw" path="res://assets/audio/background/control_group_main_menu.wav" id="16_57fdt"]
+[ext_resource type="Texture2D" uid="uid://bwn2hna5lcyqb" path="res://assets/sprites/lobby_visibility_icons.png" id="16_g470g"]
+[ext_resource type="AudioStream" uid="uid://bdrk73y08jhx5" path="res://assets/audio/sfx/go.wav" id="24_o1t3v"]
+[ext_resource type="AudioStream" uid="uid://ba57fv1p5rcv8" path="res://assets/audio/sfx/back.wav" id="25_vmyij"]
+[ext_resource type="AudioStream" uid="uid://w7ul1ijpp06t" path="res://assets/audio/sfx/select.wav" id="26_c1l6a"]
 
 [sub_resource type="Gradient" id="Gradient_8k8b7"]
 colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 1)
@@ -297,6 +305,18 @@ thickness = 8
 [sub_resource type="StyleBoxLine" id="StyleBoxLine_rc6jl"]
 color = Color(0.831373, 0.831373, 0.831373, 1)
 thickness = 8
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hy22a"]
+atlas = ExtResource("11_o1t3v")
+region = Rect2(0, 0, 18, 18)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vvqrf"]
+atlas = ExtResource("11_o1t3v")
+region = Rect2(36, 0, 18, 18)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ewirf"]
+atlas = ExtResource("11_o1t3v")
+region = Rect2(18, 0, 18, 18)
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_t8iw3"]
 load_path = "res://.godot/imported/logo.png-e2220799298e3631eb0e245316e0501a.ctex"
@@ -670,6 +690,18 @@ region = Rect2(36, 0, 18, 18)
 atlas = ExtResource("11_cohpv")
 region = Rect2(18, 0, 18, 18)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_rvrqk"]
+atlas = ExtResource("14_t25jn")
+region = Rect2(0, 0, 18, 18)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lq0dj"]
+atlas = ExtResource("14_t25jn")
+region = Rect2(36, 0, 18, 18)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_y8i3s"]
+atlas = ExtResource("14_t25jn")
+region = Rect2(18, 0, 18, 18)
+
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_cohpv"]
 load_path = "res://.godot/imported/host_button.png-f0c3eab2ed0b7deeb60afcd6b9015697.ctex"
 
@@ -831,7 +863,58 @@ _data = {
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_utgyn"]
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_t25jn"]
+bg_color = Color(0.709804, 0.4, 0.4, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.709804, 0.4, 0.4, 0.392157)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jky6q"]
+bg_color = Color(0.784314, 1, 0.784314, 0.392157)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_s3yu3"]
+bg_color = Color(0.392157, 1, 0.392157, 0.392157)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_g470g"]
+bg_color = Color(0, 1, 0, 0.392157)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_goa74"]
+atlas = ExtResource("16_g470g")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_grpks"]
+atlas = ExtResource("16_g470g")
+region = Rect2(32, 0, 32, 32)
+
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_cohpv"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_armpk"]
+content_margin_left = 5.0
+bg_color = Color(0.709804, 0.4, 0.4, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.709804, 0.4, 0.4, 0.392157)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_o1t3v"]
+bg_color = Color(0.4, 0.654902, 0.701961, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.537255, 0.784314, 0.831373, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_op02l"]
+content_margin_left = 5.0
+bg_color = Color(0.4, 0.654902, 0.701961, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.4, 0.654902, 0.701961, 0.392157)
 
 [sub_resource type="Gradient" id="Gradient_ir15t"]
 offsets = PackedFloat32Array(0, 0.828829, 1)
@@ -1012,6 +1095,7 @@ mouse_filter = 2
 script = ExtResource("6_op02l")
 
 [node name="Settings" type="TextureButton" parent="Settings"]
+layout_mode = 0
 offset_left = 311.0
 offset_top = 313.0
 offset_right = 329.0
@@ -1098,6 +1182,206 @@ max_value = 1.0
 step = 0.01
 value = 1.0
 scrollable = false
+
+[node name="Credits" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 288.0
+offset_bottom = 160.0
+mouse_filter = 2
+script = ExtResource("10_armpk")
+
+[node name="Credits" type="TextureButton" parent="Credits"]
+layout_mode = 0
+offset_left = 620.0
+offset_top = 324.0
+offset_right = 638.0
+offset_bottom = 342.0
+pivot_offset = Vector2(9, 9)
+texture_normal = SubResource("AtlasTexture_hy22a")
+texture_pressed = SubResource("AtlasTexture_vvqrf")
+texture_hover = SubResource("AtlasTexture_ewirf")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Credits"]
+libraries = {
+&"": SubResource("AnimationLibrary_264po")
+}
+
+[node name="HostSettingsUI" type="CanvasLayer" parent="Credits"]
+
+[node name="TextureRect" type="TextureRect" parent="Credits/HostSettingsUI"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -100.0
+offset_top = -50.0
+offset_right = 100.0
+offset_bottom = 50.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(1e-05, 1e-05)
+pivot_offset = Vector2(100, 50)
+size_flags_horizontal = 4
+size_flags_vertical = 4
+mouse_filter = 2
+texture = ExtResource("12_vmyij")
+
+[node name="BackButton" type="TextureButton" parent="Credits/HostSettingsUI/TextureRect"]
+layout_mode = 0
+offset_left = 7.0
+offset_top = 7.0
+offset_right = 25.0
+offset_bottom = 25.0
+scale = Vector2(0.5, 0.5)
+focus_mode = 0
+mouse_default_cursor_shape = 2
+texture_normal = SubResource("AtlasTexture_vmyij")
+texture_pressed = SubResource("AtlasTexture_c1l6a")
+texture_hover = SubResource("AtlasTexture_rc6jl")
+
+[node name="CreditsDesc" type="RichTextLabel" parent="Credits/HostSettingsUI/TextureRect"]
+layout_mode = 0
+offset_left = 49.0
+offset_top = 28.0
+offset_right = 193.0
+offset_bottom = 43.0
+scale = Vector2(0.333, 0.333)
+theme_override_font_sizes/normal_font_size = 16
+text = "CEO | GAME DESIGNER | PROGRAMMER | SFX | PRODUCER | VA (NARRATOR) | EDITOR"
+
+[node name="CreditsDesc13" type="RichTextLabel" parent="Credits/HostSettingsUI/TextureRect"]
+layout_mode = 0
+offset_left = 119.333
+offset_top = 6.0
+offset_right = 340.333
+offset_bottom = 51.0
+scale = Vector2(0.333, 0.333)
+theme_override_colors/default_color = Color(1, 1, 1, 0.0745098)
+theme_override_font_sizes/normal_font_size = 16
+text = "* NOTE: AI USE WAS LIMITED TO SMALL CODING SUPPORT (NETWORKING/DEBUGGING). WE DID NOT USE AND DO NOT CONDONE THE USE OF AI-GENERATED ART OR MUSIC."
+horizontal_alignment = 2
+
+[node name="CreditsDesc2" type="RichTextLabel" parent="Credits/HostSettingsUI/TextureRect"]
+layout_mode = 0
+offset_left = 45.0
+offset_top = 36.0
+offset_right = 201.0
+offset_bottom = 51.0
+scale = Vector2(0.333, 0.333)
+text = "CREATIVE DIR. | SPRITE CREATOR"
+autowrap_mode = 1
+
+[node name="CreditsDesc3" type="RichTextLabel" parent="Credits/HostSettingsUI/TextureRect"]
+layout_mode = 0
+offset_left = 49.0
+offset_top = 44.0
+offset_right = 191.0
+offset_bottom = 59.0
+scale = Vector2(0.333, 0.333)
+text = "MANAGER | VA (ALT. INTERN + MISC) "
+autowrap_mode = 1
+
+[node name="CreditsDesc4" type="RichTextLabel" parent="Credits/HostSettingsUI/TextureRect"]
+layout_mode = 0
+offset_left = 56.6667
+offset_top = 52.0
+offset_right = 156.667
+offset_bottom = 67.0
+scale = Vector2(0.333, 0.333)
+text = "PR | VA (KEVIN) | TESTER"
+autowrap_mode = 1
+
+[node name="CreditsDesc5" type="RichTextLabel" parent="Credits/HostSettingsUI/TextureRect"]
+layout_mode = 0
+offset_left = 56.6667
+offset_top = 60.0
+offset_right = 156.667
+offset_bottom = 75.0
+scale = Vector2(0.333, 0.333)
+text = "CFO | FINANCIAL ANALYST"
+autowrap_mode = 1
+
+[node name="CreditsDesc6" type="RichTextLabel" parent="Credits/HostSettingsUI/TextureRect"]
+layout_mode = 0
+offset_left = 53.0
+offset_top = 68.0
+offset_right = 211.0
+offset_bottom = 83.0
+scale = Vector2(0.333, 0.333)
+text = "AUDIO ASST. | VA (\"OWN LITTLE PERSON\")"
+autowrap_mode = 1
+
+[node name="CreditsDesc7" type="RichTextLabel" parent="Credits/HostSettingsUI/TextureRect"]
+layout_mode = 0
+offset_left = 64.6667
+offset_top = 76.0
+offset_right = 164.667
+offset_bottom = 91.0
+scale = Vector2(0.333, 0.333)
+text = "VA (MORMON)"
+autowrap_mode = 1
+
+[node name="CreditsDesc8" type="RichTextLabel" parent="Credits/HostSettingsUI/TextureRect"]
+layout_mode = 0
+offset_left = 72.6667
+offset_top = 84.0
+offset_right = 172.667
+offset_bottom = 99.0
+scale = Vector2(0.333, 0.333)
+text = "TESTER | \"SPONSOR\""
+autowrap_mode = 1
+
+[node name="CreditsDesc9" type="RichTextLabel" parent="Credits/HostSettingsUI/TextureRect"]
+layout_mode = 0
+offset_left = 140.0
+offset_top = 27.6667
+offset_right = 276.0
+offset_bottom = 42.6667
+scale = Vector2(0.333, 0.333)
+text = "ENTREPRENEURSHIP TEACHER | ???"
+autowrap_mode = 1
+
+[node name="CreditsDesc10" type="RichTextLabel" parent="Credits/HostSettingsUI/TextureRect"]
+layout_mode = 0
+offset_left = 130.0
+offset_top = 36.0
+offset_right = 230.0
+offset_bottom = 51.0
+scale = Vector2(0.333, 0.333)
+text = "ASKED FOR HIS SAXOPHONE"
+autowrap_mode = 1
+
+[node name="CreditsDesc11" type="RichTextLabel" parent="Credits/HostSettingsUI/TextureRect"]
+layout_mode = 0
+offset_left = 149.667
+offset_top = 43.6667
+offset_right = 249.667
+offset_bottom = 58.6667
+scale = Vector2(0.333, 0.333)
+text = "TESTER | LURKER"
+autowrap_mode = 1
+
+[node name="CreditsDesc12" type="RichTextLabel" parent="Credits/HostSettingsUI/TextureRect"]
+layout_mode = 0
+offset_left = 133.667
+offset_top = 52.0
+offset_right = 233.667
+offset_bottom = 67.0
+scale = Vector2(0.333, 0.333)
+text = "TESTER "
+autowrap_mode = 1
+
+[node name="CreditsDesc14" type="RichTextLabel" parent="Credits/HostSettingsUI/TextureRect"]
+layout_mode = 0
+offset_left = 135.667
+offset_top = 60.0
+offset_right = 235.667
+offset_bottom = 75.0
+scale = Vector2(0.333, 0.333)
+text = "\"RAPPER\""
+autowrap_mode = 1
 
 [node name="MouseBlocker" type="Panel" parent="."]
 visible = false
@@ -1398,6 +1682,18 @@ texture_normal = SubResource("AtlasTexture_op02l")
 texture_pressed = SubResource("AtlasTexture_g470g")
 texture_hover = SubResource("AtlasTexture_t25jn")
 
+[node name="Reload" type="TextureButton" parent="NetworkMenu/MainMenuUI/PanelContainer"]
+layout_mode = 0
+offset_left = 258.0
+offset_top = 20.0
+offset_right = 276.0
+offset_bottom = 38.0
+focus_mode = 0
+mouse_default_cursor_shape = 2
+texture_normal = SubResource("AtlasTexture_rvrqk")
+texture_pressed = SubResource("AtlasTexture_lq0dj")
+texture_hover = SubResource("AtlasTexture_y8i3s")
+
 [node name="Host" type="TextureButton" parent="NetworkMenu/MainMenuUI/PanelContainer"]
 z_index = 1
 layout_mode = 2
@@ -1462,26 +1758,63 @@ alignment = 1
 layout_mode = 2
 size_flags_horizontal = 3
 mouse_filter = 2
+theme_override_constants/separation = 12
 
 [node name="LobbyVisibility" type="ItemList" parent="NetworkMenu/MainMenuUI/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer"]
-custom_minimum_size = Vector2(0, 65)
 layout_mode = 2
+focus_mode = 0
+theme_override_colors/guide_color = Color(0.835294, 0.537255, 0.537255, 1)
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_constants/v_separation = 16
+theme_override_constants/icon_margin = 15
+theme_override_constants/h_separation = 10
+theme_override_font_sizes/font_size = 32
 theme_override_styles/focus = SubResource("StyleBoxEmpty_utgyn")
-item_count = 4
-item_0/text = "Public"
-item_1/text = "Friends-Only"
-item_2/text = "Private"
-item_3/text = "Invisible"
+theme_override_styles/panel = SubResource("StyleBoxFlat_t25jn")
+theme_override_styles/hovered = SubResource("StyleBoxFlat_jky6q")
+theme_override_styles/hovered_selected = SubResource("StyleBoxFlat_s3yu3")
+theme_override_styles/hovered_selected_focus = SubResource("StyleBoxFlat_s3yu3")
+theme_override_styles/selected = SubResource("StyleBoxFlat_g470g")
+theme_override_styles/selected_focus = SubResource("StyleBoxFlat_g470g")
+auto_height = true
+item_count = 2
+item_0/text = "PUBLIC"
+item_0/icon = SubResource("AtlasTexture_goa74")
+item_1/text = "PRIVATE"
+item_1/icon = SubResource("AtlasTexture_grpks")
+
+[node name="LobbyName" type="LineEdit" parent="NetworkMenu/MainMenuUI/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_placeholder_color = Color(1, 1, 1, 0.278431)
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_styles/focus = SubResource("StyleBoxEmpty_cohpv")
+theme_override_styles/normal = SubResource("StyleBoxFlat_armpk")
+placeholder_text = "IF YOU SO CHOOSE, NAME YOUR LOBBY!"
 
 [node name="VBoxContainer2" type="VBoxContainer" parent="NetworkMenu/MainMenuUI/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 mouse_filter = 2
 
+[node name="LobbyContainer" type="ScrollContainer" parent="NetworkMenu/MainMenuUI/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer2"]
+custom_minimum_size = Vector2(0, 120)
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_o1t3v")
+
+[node name="Lobbies" type="VBoxContainer" parent="NetworkMenu/MainMenuUI/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer2/LobbyContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+mouse_filter = 2
+
 [node name="LobbyID" type="LineEdit" parent="NetworkMenu/MainMenuUI/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer2"]
 layout_mode = 2
+theme_override_colors/font_placeholder_color = Color(1, 1, 1, 0.278431)
+theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_styles/focus = SubResource("StyleBoxEmpty_cohpv")
-placeholder_text = "Input Lobby ID here..."
+theme_override_styles/normal = SubResource("StyleBoxFlat_op02l")
+placeholder_text = "OR, INPUT LOBBY ID HERE..."
 
 [node name="BlackOverlay" type="TextureRect" parent="."]
 modulate = Color(1, 1, 1, 0)
@@ -1550,8 +1883,25 @@ offset_right = 640.0
 offset_bottom = 368.0
 theme_override_colors/default_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/normal_font_size = 32
-text = "V0.11.0000"
+text = "V0.12.0001"
 horizontal_alignment = 2
+
+[node name="SFX" type="Node2D" parent="."]
+
+[node name="Go" type="AudioStreamPlayer2D" parent="SFX"]
+stream = ExtResource("24_o1t3v")
+volume_db = -5.0
+bus = &"SFX"
+
+[node name="Back" type="AudioStreamPlayer2D" parent="SFX"]
+stream = ExtResource("25_vmyij")
+volume_db = -5.0
+bus = &"SFX"
+
+[node name="Select" type="AudioStreamPlayer2D" parent="SFX"]
+stream = ExtResource("26_c1l6a")
+volume_db = -5.0
+bus = &"SFX"
 
 [connection signal="mouse_entered" from="Start" to="Start" method="_on_mouse_entered"]
 [connection signal="mouse_exited" from="Start" to="Start" method="_on_mouse_exited"]
@@ -1563,10 +1913,14 @@ horizontal_alignment = 2
 [connection signal="pressed" from="Settings/HostSettingsUI/TextureRect/BackButton" to="Settings" method="_on_back_button_pressed"]
 [connection signal="value_changed" from="Settings/HostSettingsUI/TextureRect/NarratorVol" to="Settings" method="_on_narrator_vol_value_changed"]
 [connection signal="value_changed" from="Settings/HostSettingsUI/TextureRect/MusicVol" to="Settings" method="_on_music_vol_value_changed"]
+[connection signal="pressed" from="Credits/Credits" to="Credits" method="_on_credits_button_pressed"]
+[connection signal="pressed" from="Credits/HostSettingsUI/TextureRect/BackButton" to="Credits" method="_on_back_button_pressed"]
 [connection signal="pressed" from="NetworkMenu/MainMenuUI/PanelContainer/Back" to="Start" method="_on_back_pressed"]
+[connection signal="pressed" from="NetworkMenu/MainMenuUI/PanelContainer/Reload" to="NetworkMenu" method="_on_reload_pressed"]
 [connection signal="mouse_entered" from="NetworkMenu/MainMenuUI/PanelContainer/Host" to="NetworkMenu" method="_on_host_button_hover"]
 [connection signal="mouse_exited" from="NetworkMenu/MainMenuUI/PanelContainer/Host" to="NetworkMenu" method="_on_host_button_hover_out"]
 [connection signal="pressed" from="NetworkMenu/MainMenuUI/PanelContainer/Host" to="NetworkMenu" method="_on_host_button_pressed"]
 [connection signal="mouse_entered" from="NetworkMenu/MainMenuUI/PanelContainer/Join" to="NetworkMenu" method="_on_join_button_hover"]
 [connection signal="mouse_exited" from="NetworkMenu/MainMenuUI/PanelContainer/Join" to="NetworkMenu" method="_on_join_button_hover_out"]
 [connection signal="pressed" from="NetworkMenu/MainMenuUI/PanelContainer/Join" to="NetworkMenu" method="_on_join_button_pressed"]
+[connection signal="item_selected" from="NetworkMenu/MainMenuUI/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/LobbyVisibility" to="NetworkMenu" method="_on_lobby_visibility_item_selected"]

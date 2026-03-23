@@ -19,6 +19,8 @@ var max_lobby_members: int = 4;
 var multiplayer_peer: ENetMultiplayerPeer;
 ## The server port to use for local networking. Screw you Manogna.
 var port: int = 42069;
+## The lobby name.
+var lobby_name: String = "";
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -53,11 +55,12 @@ func _process(delta: float) -> void:
 
 
 ## Creates a lobby.
-func create_lobby(lobby_type: int) -> void:
+func create_lobby(lobby_type: int, lname: String) -> void:
 	Main.current_game_state = Enums.GameState.LOBBY;
 	if not use_local_networking:
 		if lobby_id == 0: # If the player is not already in a lobby
 			is_host = true;
+			lobby_name = lname;
 			Steam.createLobby(lobby_type, max_lobby_members);
 	else:
 		var error: Error = multiplayer_peer.create_server(port, max_lobby_members);
@@ -79,7 +82,10 @@ func _on_lobby_created(connected: int, this_lobby_id: int) -> void:
 	if connected == 1: # If the player is connected to the lobby
 		lobby_id = this_lobby_id;
 		Steam.setLobbyJoinable(lobby_id, true);
-		Steam.setLobbyData(lobby_id, "name", Main.player_username + "'s Lobby");
+		if lobby_name != "":
+			Steam.setLobbyData(lobby_id, "name",lobby_name);
+		else:
+			Steam.setLobbyData(lobby_id, "name", Main.player_username + "'s Lobby");
 		
 		print("CREATED LOBBY: ", Main.lobby_id_to_base64(lobby_id));
 		var set_relay: bool = Steam.allowP2PPacketRelay(true);
@@ -284,10 +290,18 @@ func remove_player(steam_id: int) -> void:
 	var game = get_tree().current_scene;
 	if not game: return;
 	
+	lobby_members.erase(steam_id)
+	
 	for player in game.get_node("Players").get_children():
 		if player.get_steam_id() == steam_id:
-			player.queue_free();
-			break;
+			if player.player_color_index == 0:
+				Steam.setLobbyJoinable(lobby_id, false);
+				Steam.leaveLobby(Network.lobby_id);
+				lobby_id = 0;
+				get_tree().change_scene_to_file("res://scenes/startup_menu.tscn");
+			else:
+				player.queue_free();
+				break;
 
 
 ## Called whenever a P2P handshake happens.
@@ -340,7 +354,10 @@ func _update_remote_player_position(data: Dictionary) -> void:
 	var is_on_floor: bool = data["is_on_floor"];
 	
 	var game = get_tree().current_scene;
-	if not game: return;
+	if not game: 
+		return;
+	elif game.name != "Game":
+		return;
 	
 	for player in game.get_node("Players").get_children():
 		if player.get_steam_id() == remote_steam_id and not player.get_is_local():

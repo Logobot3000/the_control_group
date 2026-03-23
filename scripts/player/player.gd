@@ -630,7 +630,9 @@ func _send_position_p2p() -> void:
 
 
 func _unhandled_input(event: InputEvent) -> void:
-	if Input.is_action_just_pressed("use_ability"):
+	if Input.is_action_just_pressed("leave_lobby") and is_local:
+		get_node("Overlay/ExitOverlay/AnimationPlayer").play("go");
+	elif Input.is_action_just_pressed("use_ability"):
 		if emp_enabled and fishing_active and is_experimental and is_local:
 			use_emp_ability();
 		elif juggernaut_active and is_experimental and is_local:
@@ -999,3 +1001,15 @@ func _on_bomb_tag_checker_body_entered(body) -> void:
 func _on_secret_enemy_checker_body_entered(body) -> void:
 	if (body.name == "Enemy1" or body.name == "Enemy2" or body.name == "Enemy3") and body.visible:
 		die();
+
+
+func _on_exit_lobby_back_button_pressed() -> void:
+	get_node("Overlay/ExitOverlay/AnimationPlayer").play_backwards("go");
+
+
+func _on_leave_button_pressed() -> void:
+	if player_color_index == 0:
+		Steam.setLobbyJoinable(Network.lobby_id, false);
+	Steam.leaveLobby(Network.lobby_id);
+	Network.lobby_id = 0;
+	get_tree().change_scene_to_file("res://scenes/startup_menu.tscn");

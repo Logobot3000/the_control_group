@@ -607,8 +607,3 @@ z_index = 10
 position = Vector2(1000, 912)
 scale = Vector2(0.875, 16.1249)
 texture = SubResource("GradientTexture1D_au6qc")
-
-[connection signal="body_entered" from="Buttons/Button1/CollisionDetector" to="." method="_on_button_collision_detector_body_entered" binds= ["Button1"]]
-[connection signal="body_entered" from="Buttons/Button2/CollisionDetector" to="." method="_on_button_collision_detector_body_entered" binds= ["Button2"]]
-[connection signal="body_entered" from="Buttons/Button3/CollisionDetector" to="." method="_on_button_collision_detector_body_entered" binds= ["Button3"]]
-[connection signal="body_entered" from="Buttons/Button4/CollisionDetector" to="." method="_on_button_collision_detector_body_entered" binds= ["Button4"]]

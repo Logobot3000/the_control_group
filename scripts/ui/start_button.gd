@@ -18,8 +18,11 @@ func _on_mouse_exited() -> void:
 func _on_pressed() -> void:
 	if !anim_player.is_playing():
 		anim_player.play("hit_play_button");
+		get_parent().get_node("SFX/Go").play();
+		get_parent().get_node("NetworkMenu").open_lobby_list();
 
 
 func _on_back_pressed() -> void:
 	if !anim_player.is_playing():
+		get_parent().get_node("SFX/Back").play();
 		anim_player.play_backwards("hit_play_button");

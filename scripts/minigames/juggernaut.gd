@@ -53,6 +53,10 @@ func on_minigame_ended() -> void:
 			player.juggernaut_sketchy_tp_uses = 3;
 
 
+func on_minigame_started() -> void:
+	get_tree().current_scene.get_node("MinigameMusic").get_node("Juggernaut").play();
+
+
 func _on_portal_hitbox_body_entered(body) -> void:
 	print(body, " ", body.get_parent().name)
 	if body.get_parent().name == "Players":

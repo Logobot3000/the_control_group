@@ -34,6 +34,10 @@ func load_modifiers() -> void:
 						player.ctf_flag_hunter_enabled = true;
 
 
+func on_minigame_started() -> void:
+	get_tree().current_scene.get_node("MinigameMusic").get_node("CTF").play();
+
+
 func on_minigame_ended() -> void:
 	for player in get_tree().current_scene.get_node("Players").get_children():
 		if MinigameManager.ready_for_minigame.has(Main.player_steam_id):

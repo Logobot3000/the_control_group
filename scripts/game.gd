@@ -28,6 +28,7 @@ func _ready() -> void:
 	
 	get_node("BlackOverlay").visible = true;
 	get_node("BlackOverlay/AnimationPlayer").play("go");
+	get_node("SFX/Complete").play();
 	
 	await get_tree().process_frame;
 

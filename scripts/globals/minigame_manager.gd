@@ -27,7 +27,7 @@ var can_disable: bool = true;
 ## The current intro that the narrator will perform.
 var intro_num: int = 0;
 ## The maximum amount of narrator intros. UPDATE THIS WHENEVER A NARRATOR INTRO IS ADDED.
-var max_intros: int = 13;
+var max_intros: int = 33;
 ## The path for the fish component for the fishing minigame.
 var fish_component_path: PackedScene = preload("res://scenes/components/minigames/fishing/fish_component.tscn");
 ## The path for the laser component for the space minigame.
@@ -282,6 +282,13 @@ func handle_game_state_update(new_game_state: Enums.GameState) -> void:
 			current_minigame = "";
 			can_disable = true;
 			
+			for player in get_tree().current_scene.get_node("Players").get_children():
+				player.bombtag_bomb_active = false;
+				player.arrow_cooldown = false;
+			
+			if Network.is_host and Steam.getLobbyData(Network.lobby_id, "type") == "public":
+				Steam.setLobbyJoinable(Network.lobby_id, true);
+			
 			if secret_enabled:
 				if Network.is_host:
 					current_minigame = "secret";
@@ -299,7 +306,7 @@ func handle_game_state_update(new_game_state: Enums.GameState) -> void:
 				if Network.is_host:
 					current_minigame = available_minigames[randi_range(0, available_minigames.size() - 2)];
 					
-					#current_minigame = "bombtag" # for if one needs to be selected
+					current_minigame = "collector" # for if one needs to be selected
 					
 					var minigame_chosen_data: Dictionary = {
 						"message": "minigame_chosen",
@@ -319,20 +326,26 @@ func handle_game_state_update(new_game_state: Enums.GameState) -> void:
 				
 				if not narrator_disabled:
 					var narrator: NarratorComponent = get_tree().current_scene.get_node("NarratorComponent");
-					narrator.narrator_intro(intro_num);
-					await narrator.finished;
+					if narrator:
+						narrator.narrator_intro(intro_num);
+						await narrator.finished;
 				
 				can_disable = false;
 				
 				var door: MinigameDoor = get_tree().current_scene.get_node("MinigameDoor");
 				if is_door_open == false:
-					door.open_door();
+					if door:
+						door.open_door();
 					is_door_open = true;
 				await get_tree().create_timer(2.5).timeout; ## Wait for door to open
 				countdown_timer(10);
 		
 		Enums.GameState.GROUP_ASSIGNMENT:
-			print("STATE UPDATE: GROUP_ASSIGNMENT")
+			print("STATE UPDATE: GROUP_ASSIGNMENT");
+			
+			if Network.is_host:
+				Steam.setLobbyJoinable(Network.lobby_id, false);
+			
 			if Network.is_host:
 				current_experimental_group = ready_for_minigame[randi() % ready_for_minigame.size()];
 				for id in ready_for_minigame:
@@ -355,6 +368,8 @@ func handle_game_state_update(new_game_state: Enums.GameState) -> void:
 			experimental_group_label.visible = false;
 			
 			await get_tree().create_timer(3).timeout;
+			
+			get_tree().current_scene.get_node("SFX/GroupAssign").play();
 			
 			if Main.player_steam_id == current_experimental_group:
 				experimental_group_label.visible = true;
@@ -550,12 +565,15 @@ func handle_game_state_update(new_game_state: Enums.GameState) -> void:
 				results_page.get_node("ExperimentalWNotes").visible = true;
 				results_page.get_node("MVP").text = "";
 				results_page.get_node("LVP").text = "";
+				
+			get_tree().current_scene.get_node("SFX/Results").play();
 			
 			await get_tree().create_timer(1).timeout;
 			if ready_for_minigame.has(Main.player_steam_id):
 				results_page.get_node("AnimationPlayer").play("show");
 				await get_tree().create_timer(0.5).timeout;
 				results_page.get_node("Confetti").emitting = true;
+				get_tree().current_scene.get_node("SFX/Yayyyy").play();
 				await get_tree().create_timer(4.5).timeout;
 				
 				for player in get_tree().current_scene.get_node("Players").get_children():
@@ -675,7 +693,7 @@ func set_experimental_group_modifier(readable_data: Dictionary) -> void:
 		current_modifiers["experimental"] = readable_data["modifier"];
 		has_experimental_chosen = true;
 		var modifier_selection_ui: Control = get_tree().current_scene.get_node("Selection").get_node("ModifierSelection");
-		
+		get_tree().current_scene.get_node("SFX/ModifierSelect").play();
 		if Main.player_steam_id == current_experimental_group:
 			for node in modifier_selection_ui.get_node("Experimental").get_node("VBoxContainer").get_node("Modifier").get_children():
 				if node is VBoxContainer:
@@ -722,6 +740,7 @@ func spawn_pos_update(readable_data: Dictionary) -> void:
 
 ## Updates the current score.
 func update_scores(readable_data: Dictionary) -> void:
+	get_tree().current_scene.get_node("SFX/PointScored").play();
 	current_scores = readable_data["scores"];
 
 
@@ -863,7 +882,7 @@ func break_target(readable_data: Dictionary):
 								else:
 									get_tree().current_scene.get_node("Archery").score_point(5);
 					target.hit = true;
-					await get_tree().create_timer(1).timeout;
+					await get_tree().create_timer(3).timeout;
 					if target:
 						target.queue_free();
 				else:
@@ -1036,6 +1055,7 @@ func slow_players(readable_data: Dictionary):
 
 ## Kills a player
 func player_died(readable_data: Dictionary):
+	get_tree().current_scene.get_node("SFX/Death").play();
 	for player in get_tree().current_scene.get_node("Players").get_children():
 		if player.steam_id == readable_data["steam_id"]:
 			var explosion = load("res://scenes/components/death_effect_component.tscn").instantiate();

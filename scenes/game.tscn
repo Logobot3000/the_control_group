@@ -1,4 +1,4 @@
-[gd_scene load_steps=94 format=4 uid="uid://cf2rpf337i6m6"]
+[gd_scene load_steps=124 format=4 uid="uid://cf2rpf337i6m6"]
 
 [ext_resource type="Script" uid="uid://bmkai2wd67610" path="res://scripts/game.gd" id="1_lbhrr"]
 [ext_resource type="PackedScene" uid="uid://bqt3wowp50fb2" path="res://scenes/tiles/interactable_tiles.tscn" id="2_lbhrr"]
@@ -19,6 +19,26 @@
 [ext_resource type="Script" uid="uid://36m5lw3rnrjg" path="res://scripts/ui/host_settings.gd" id="15_rysoc"]
 [ext_resource type="Texture2D" uid="uid://dn8ocn2ayn6ym" path="res://assets/sprites/host_settings_button.png" id="16_ssvqc"]
 [ext_resource type="Texture2D" uid="uid://br4kywauffx15" path="res://assets/sprites/host_settings.png" id="17_264po"]
+[ext_resource type="AudioStream" uid="uid://d0dhdsdm5jv5n" path="res://assets/audio/minigames/control_group_fishing.wav" id="20_37s47"]
+[ext_resource type="AudioStream" uid="uid://ccrkvaucu4vvo" path="res://assets/audio/minigames/control_group_space.wav" id="21_bt5mj"]
+[ext_resource type="AudioStream" uid="uid://bev13uf640bnx" path="res://assets/audio/minigames/control_group_juggernaut.wav" id="22_e1j6l"]
+[ext_resource type="AudioStream" uid="uid://dvun8mswt57qe" path="res://assets/audio/minigames/control_group_archery.wav" id="23_e1j6l"]
+[ext_resource type="AudioStream" uid="uid://ysc4qv2opkvg" path="res://assets/audio/minigames/control_group_collector.wav" id="24_pl11u"]
+[ext_resource type="AudioStream" uid="uid://d21olcfr2311d" path="res://assets/audio/minigames/control_group_kaching.wav" id="25_pl11u"]
+[ext_resource type="AudioStream" uid="uid://d2gp30f062j7k" path="res://assets/audio/minigames/control_group_ctf.wav" id="26_bhx41"]
+[ext_resource type="AudioStream" uid="uid://pvfihiqoonlj" path="res://assets/audio/minigames/control_group_rlgl.wav" id="27_qnb83"]
+[ext_resource type="AudioStream" uid="uid://bcf7ndb4nhxrp" path="res://assets/audio/minigames/control_group_factory.wav" id="28_suyxu"]
+[ext_resource type="AudioStream" uid="uid://j3yn1q5rrv5o" path="res://assets/audio/minigames/control_group_bombtag.wav" id="29_sgl2t"]
+[ext_resource type="AudioStream" uid="uid://duakf134it8mh" path="res://assets/audio/sfx/complete.wav" id="30_sgl2t"]
+[ext_resource type="AudioStream" uid="uid://mbouh6i6uc6c" path="res://assets/audio/sfx/death.wav" id="31_qouja"]
+[ext_resource type="AudioStream" uid="uid://c3u00ih37h01q" path="res://assets/audio/sfx/results.wav" id="31_wljb1"]
+[ext_resource type="AudioStream" uid="uid://bv3ujwrnbqdpo" path="res://assets/audio/sfx/yayyyy.wav" id="32_v2yb1"]
+[ext_resource type="AudioStream" uid="uid://bu42j5ms3mhyu" path="res://assets/audio/sfx/point_scored.wav" id="34_js0lu"]
+[ext_resource type="AudioStream" uid="uid://ccs5g3hp2ini5" path="res://assets/audio/sfx/group_assignment.wav" id="35_twgab"]
+[ext_resource type="AudioStream" uid="uid://jhpp1cpyilyc" path="res://assets/audio/sfx/modifier_selection.wav" id="36_02fa5"]
+[ext_resource type="AudioStream" uid="uid://bdrk73y08jhx5" path="res://assets/audio/sfx/go.wav" id="37_7025r"]
+[ext_resource type="AudioStream" uid="uid://ba57fv1p5rcv8" path="res://assets/audio/sfx/back.wav" id="38_m4url"]
+[ext_resource type="AudioStream" uid="uid://w7ul1ijpp06t" path="res://assets/audio/sfx/select.wav" id="39_8ool0"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_suyxu"]
 atlas = ExtResource("16_ssvqc")
@@ -91,6 +111,50 @@ region = Rect2(36, 0, 18, 18)
 [sub_resource type="AtlasTexture" id="AtlasTexture_02fa5"]
 atlas = ExtResource("6_264po")
 region = Rect2(18, 0, 18, 18)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_m4url"]
+content_margin_left = 4.0
+bg_color = Color(0.45, 0.252, 0.252, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7025r"]
+content_margin_left = 4.0
+bg_color = Color(0.709804, 0.4, 0.4, 1)
+
+[sub_resource type="Gradient" id="Gradient_7025r"]
+offsets = PackedFloat32Array(0)
+colors = PackedColorArray(0.2016, 0.72, 0.27936, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_m4url"]
+gradient = SubResource("Gradient_7025r")
+width = 16
+height = 16
+
+[sub_resource type="Gradient" id="Gradient_m4url"]
+offsets = PackedFloat32Array(0)
+colors = PackedColorArray(0.75, 0.12, 0.12, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_pr1ej"]
+gradient = SubResource("Gradient_m4url")
+width = 16
+height = 16
+
+[sub_resource type="Gradient" id="Gradient_0sl42"]
+offsets = PackedFloat32Array(0)
+colors = PackedColorArray(0.308, 0.55, 0.3322, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_oaba0"]
+gradient = SubResource("Gradient_0sl42")
+width = 16
+height = 16
+
+[sub_resource type="Gradient" id="Gradient_8ool0"]
+offsets = PackedFloat32Array(0)
+colors = PackedColorArray(0.55, 0.308, 0.308, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_05nbr"]
+gradient = SubResource("Gradient_8ool0")
+width = 16
+height = 16
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_264po"]
 
@@ -617,13 +681,24 @@ texture_hover = SubResource("AtlasTexture_02fa5")
 
 [node name="DisableNarrator" type="CheckBox" parent="HostSettings/HostSettingsUI/TextureRect"]
 layout_mode = 0
-offset_left = 86.3333
-offset_top = 33.0
-offset_right = 110.333
-offset_bottom = 57.0
-scale = Vector2(0.75, 0.75)
+offset_left = 89.0
+offset_top = 37.6667
+offset_right = 113.0
+offset_bottom = 61.6667
+scale = Vector2(0.389151, 0.389151)
 focus_mode = 0
 mouse_default_cursor_shape = 2
+theme_override_styles/disabled = SubResource("StyleBoxFlat_m4url")
+theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_7025r")
+theme_override_styles/hover = SubResource("StyleBoxFlat_7025r")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_7025r")
+theme_override_styles/normal = SubResource("StyleBoxFlat_7025r")
+theme_override_icons/checked = SubResource("GradientTexture2D_m4url")
+theme_override_icons/unchecked = SubResource("GradientTexture2D_pr1ej")
+theme_override_icons/radio_checked = SubResource("GradientTexture2D_m4url")
+theme_override_icons/radio_unchecked = SubResource("GradientTexture2D_pr1ej")
+theme_override_icons/checked_disabled = SubResource("GradientTexture2D_oaba0")
+theme_override_icons/unchecked_disabled = SubResource("GradientTexture2D_05nbr")
 action_mode = 0
 
 [node name="TextEdit" type="TextEdit" parent="HostSettings/HostSettingsUI/TextureRect"]
@@ -1540,6 +1615,116 @@ libraries = {
 }
 
 [node name="NarratorComponent" parent="." instance=ExtResource("14_trtic")]
+
+[node name="MinigameMusic" type="Node2D" parent="."]
+
+[node name="Fishing" type="AudioStreamPlayer2D" parent="MinigameMusic"]
+position = Vector2(1000, 1000)
+stream = ExtResource("20_37s47")
+bus = &"GameMusic"
+
+[node name="Space" type="AudioStreamPlayer2D" parent="MinigameMusic"]
+position = Vector2(1000, 1000)
+stream = ExtResource("21_bt5mj")
+bus = &"GameMusic"
+
+[node name="Juggernaut" type="AudioStreamPlayer2D" parent="MinigameMusic"]
+position = Vector2(1000, 1000)
+stream = ExtResource("22_e1j6l")
+bus = &"GameMusic"
+
+[node name="Archery" type="AudioStreamPlayer2D" parent="MinigameMusic"]
+position = Vector2(1000, 1000)
+stream = ExtResource("23_e1j6l")
+bus = &"GameMusic"
+
+[node name="Collector" type="AudioStreamPlayer2D" parent="MinigameMusic"]
+position = Vector2(1000, 1000)
+stream = ExtResource("24_pl11u")
+bus = &"GameMusic"
+
+[node name="Kaching" type="AudioStreamPlayer2D" parent="MinigameMusic"]
+position = Vector2(1000, 1000)
+stream = ExtResource("25_pl11u")
+bus = &"GameMusic"
+
+[node name="CTF" type="AudioStreamPlayer2D" parent="MinigameMusic"]
+position = Vector2(1000, 1000)
+stream = ExtResource("26_bhx41")
+bus = &"GameMusic"
+
+[node name="RLGL" type="AudioStreamPlayer2D" parent="MinigameMusic"]
+position = Vector2(1000, 1000)
+stream = ExtResource("27_qnb83")
+bus = &"GameMusic"
+
+[node name="Factory" type="AudioStreamPlayer2D" parent="MinigameMusic"]
+position = Vector2(1000, 1000)
+stream = ExtResource("28_suyxu")
+bus = &"GameMusic"
+
+[node name="BombTag" type="AudioStreamPlayer2D" parent="MinigameMusic"]
+position = Vector2(1000, 1000)
+stream = ExtResource("29_sgl2t")
+bus = &"GameMusic"
+
+[node name="SFX" type="Node2D" parent="."]
+
+[node name="Complete" type="AudioStreamPlayer2D" parent="SFX"]
+position = Vector2(1000, 1000)
+stream = ExtResource("30_sgl2t")
+volume_db = -5.0
+bus = &"SFX"
+
+[node name="Results" type="AudioStreamPlayer2D" parent="SFX"]
+position = Vector2(1000, 1000)
+stream = ExtResource("31_wljb1")
+bus = &"SFX"
+
+[node name="Yayyyy" type="AudioStreamPlayer2D" parent="SFX"]
+position = Vector2(1000, 1000)
+stream = ExtResource("32_v2yb1")
+volume_db = -4.0
+bus = &"SFX"
+
+[node name="Death" type="AudioStreamPlayer2D" parent="SFX"]
+position = Vector2(1000, 1000)
+stream = ExtResource("31_qouja")
+volume_db = -5.0
+bus = &"SFX"
+
+[node name="PointScored" type="AudioStreamPlayer2D" parent="SFX"]
+position = Vector2(1000, 1000)
+stream = ExtResource("34_js0lu")
+volume_db = -5.0
+bus = &"SFX"
+
+[node name="GroupAssign" type="AudioStreamPlayer2D" parent="SFX"]
+position = Vector2(1000, 1000)
+stream = ExtResource("35_twgab")
+volume_db = 15.0
+bus = &"SFX"
+
+[node name="ModifierSelect" type="AudioStreamPlayer2D" parent="SFX"]
+position = Vector2(1000, 1000)
+stream = ExtResource("36_02fa5")
+volume_db = 15.0
+bus = &"SFX"
+
+[node name="Go" type="AudioStreamPlayer2D" parent="SFX"]
+stream = ExtResource("37_7025r")
+volume_db = -5.0
+bus = &"SFX"
+
+[node name="Back" type="AudioStreamPlayer2D" parent="SFX"]
+stream = ExtResource("38_m4url")
+volume_db = -5.0
+bus = &"SFX"
+
+[node name="Select" type="AudioStreamPlayer2D" parent="SFX"]
+stream = ExtResource("39_8ool0")
+volume_db = -5.0
+bus = &"SFX"
 
 [connection signal="pressed" from="HostSettings/HostSettingsButton" to="HostSettings" method="_on_host_settings_button_pressed"]
 [connection signal="pressed" from="HostSettings/HostSettingsUI/TextureRect/BackButton" to="HostSettings" method="_on_back_button_pressed"]

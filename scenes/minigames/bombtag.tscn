@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=4 uid="uid://de0lgsi4y41id"]
+[gd_scene load_steps=13 format=4 uid="uid://de0lgsi4y41id"]
 
 [ext_resource type="Script" uid="uid://bquukm6bxfak6" path="res://scripts/minigames/bombtag.gd" id="1_0uk4m"]
 [ext_resource type="PackedScene" uid="uid://7101ew6iodi4" path="res://scenes/minigames/base_minigame.tscn" id="1_qgdpt"]
@@ -31,6 +31,14 @@ gradient = SubResource("Gradient_dufw4")
 fill = 1
 fill_from = Vector2(0.5, 0.5)
 fill_to = Vector2(0, 0)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dufw4"]
+bg_color = Color(0, 0, 0, 0.494118)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0, 0, 0, 0.788235)
 
 [node name="BombTag" type="Node2D"]
 script = ExtResource("1_0uk4m")
@@ -170,3 +178,19 @@ offset_top = 824.0
 offset_right = 1320.0
 offset_bottom = 1192.0
 texture = SubResource("GradientTexture2D_56hkw")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="."]
+offset_left = 940.0
+offset_top = 908.0
+offset_right = 1060.0
+offset_bottom = 924.0
+theme_override_constants/outline_size = 0
+text = "BOMB IS SAFE"
+horizontal_alignment = 1
+
+[node name="Panel" type="Panel" parent="RichTextLabel"]
+z_index = -1
+layout_mode = 0
+offset_right = 120.0
+offset_bottom = 15.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_dufw4")

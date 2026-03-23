@@ -1,4 +1,4 @@
-[gd_scene load_steps=401 format=3 uid="uid://c16w4qnbtqp14"]
+[gd_scene load_steps=413 format=3 uid="uid://c16w4qnbtqp14"]
 
 [ext_resource type="PackedScene" uid="uid://ca2wxt2wjjmqs" path="res://scenes/components/velocity_component.tscn" id="1_8afob"]
 [ext_resource type="Script" uid="uid://3eabxdixflc4" path="res://scripts/player/player.gd" id="1_dovo2"]
@@ -45,7 +45,10 @@
 [ext_resource type="Texture2D" uid="uid://bv8ynnj8rivkm" path="res://assets/sprites/characters/minigames/space/experimental_ship_purple_transition.png" id="29_uygh0"]
 [ext_resource type="Texture2D" uid="uid://bc1eortooswuf" path="res://assets/sprites/characters/minigames/space/experimental_ship_yellow_transition.png" id="30_t1aof"]
 [ext_resource type="Texture2D" uid="uid://ekb36oo2h115" path="res://assets/sprites/minigames/space/laser_charge_ui.png" id="44_ttakn"]
+[ext_resource type="Texture2D" uid="uid://cetm8o2cdtuyi" path="res://assets/sprites/leave_lobby_menu.png" id="46_1u1sw"]
 [ext_resource type="Texture2D" uid="uid://chm6jdvwk0705" path="res://assets/sprites/minigames/bombtag/bomb.png" id="46_iwuka"]
+[ext_resource type="Texture2D" uid="uid://c4n8x5klkhbe7" path="res://assets/sprites/leave_lobby_button.png" id="47_2t3bg"]
+[ext_resource type="Texture2D" uid="uid://jn3o3o4cl7b" path="res://assets/sprites/back_button.png" id="48_jrbya"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_gt5hh"]
 atlas = ExtResource("2_rw8a5")
@@ -3124,6 +3127,67 @@ _data = {
 &"go": SubResource("Animation_iwuka")
 }
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_eehw1"]
+atlas = ExtResource("47_2t3bg")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4aaab"]
+atlas = ExtResource("47_2t3bg")
+region = Rect2(128, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nukj6"]
+atlas = ExtResource("47_2t3bg")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sjxw1"]
+atlas = ExtResource("48_jrbya")
+region = Rect2(0, 0, 18, 18)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nl1qp"]
+atlas = ExtResource("48_jrbya")
+region = Rect2(36, 0, 18, 18)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_x65m5"]
+atlas = ExtResource("48_jrbya")
+region = Rect2(18, 0, 18, 18)
+
+[sub_resource type="Animation" id="Animation_ja6t6"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("TextureRect:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1e-05, 1e-05)]
+}
+
+[sub_resource type="Animation" id="Animation_48q65"]
+resource_name = "go"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("TextureRect:scale")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(1e-05, 1e-05), Vector2(1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_l1jm0"]
+_data = {
+&"RESET": SubResource("Animation_ja6t6"),
+&"go": SubResource("Animation_48q65")
+}
+
 [node name="Player" type="CharacterBody2D"]
 collision_layer = 2
 collision_mask = 9
@@ -3233,6 +3297,53 @@ libraries = {
 &"": SubResource("AnimationLibrary_ds1xl")
 }
 
+[node name="ExitOverlay" type="Control" parent="Overlay"]
+z_index = 50
+layout_mode = 3
+anchors_preset = 0
+offset_right = 640.0
+offset_bottom = 360.0
+mouse_filter = 2
+
+[node name="TextureRect" type="TextureRect" parent="Overlay/ExitOverlay"]
+layout_mode = 0
+offset_left = 195.0
+offset_top = 105.0
+offset_right = 445.0
+offset_bottom = 255.0
+scale = Vector2(1e-05, 1e-05)
+pivot_offset = Vector2(125, 75)
+mouse_filter = 2
+texture = ExtResource("46_1u1sw")
+
+[node name="LeaveButton" type="TextureButton" parent="Overlay/ExitOverlay/TextureRect"]
+layout_mode = 0
+offset_left = 93.0
+offset_top = 70.0
+offset_right = 157.0
+offset_bottom = 134.0
+focus_mode = 0
+texture_normal = SubResource("AtlasTexture_eehw1")
+texture_pressed = SubResource("AtlasTexture_4aaab")
+texture_hover = SubResource("AtlasTexture_nukj6")
+
+[node name="BackButton" type="TextureButton" parent="Overlay/ExitOverlay/TextureRect"]
+layout_mode = 0
+offset_left = 13.0
+offset_top = 13.0
+offset_right = 31.0
+offset_bottom = 31.0
+focus_mode = 0
+mouse_default_cursor_shape = 2
+texture_normal = SubResource("AtlasTexture_sjxw1")
+texture_pressed = SubResource("AtlasTexture_nl1qp")
+texture_hover = SubResource("AtlasTexture_x65m5")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Overlay/ExitOverlay"]
+libraries = {
+&"": SubResource("AnimationLibrary_l1jm0")
+}
+
 [node name="JuggernautHitbox" type="Area2D" parent="."]
 collision_mask = 2
 
@@ -3273,6 +3384,8 @@ position = Vector2(0, 0.5)
 shape = SubResource("RectangleShape2D_ttakn")
 
 [connection signal="area_entered" from="HurtboxComponent" to="HurtboxComponent" method="_on_area_entered"]
+[connection signal="pressed" from="Overlay/ExitOverlay/TextureRect/LeaveButton" to="." method="_on_leave_button_pressed"]
+[connection signal="pressed" from="Overlay/ExitOverlay/TextureRect/BackButton" to="." method="_on_exit_lobby_back_button_pressed"]
 [connection signal="body_entered" from="JuggernautHitbox" to="." method="_on_juggernaut_hitbox_body_entered"]
 [connection signal="body_entered" from="BombTagChecker" to="." method="_on_bomb_tag_checker_body_entered"]
 [connection signal="body_entered" from="SecretEnemyChecker" to="." method="_on_secret_enemy_checker_body_entered"]

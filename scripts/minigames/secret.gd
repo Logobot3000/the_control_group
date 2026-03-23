@@ -23,6 +23,7 @@ func _ready() -> void:
 		player.secret_active = true;
 	get_node("AnimationPlayer2").play("see_lobby");
 	await get_tree().create_timer(6).timeout;
+	get_node("MinigameMusic").play();
 	wave_active = false;
 	pause = false;
 

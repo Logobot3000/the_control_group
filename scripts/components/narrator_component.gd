@@ -9,6 +9,7 @@ var vol_control = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 
 
 func narrator_intro(intro_num: int = 0) -> void:
+	shut_up();
 	currently_playing = get_node("NarratorIntro").get_node("NarratorIntro" + str(intro_num));
 	var current_currently_playing = currently_playing;
 	if currently_playing:
@@ -22,6 +23,7 @@ func narrator_intro(intro_num: int = 0) -> void:
 
 
 func narrator_disabled() -> void:
+	shut_up();
 	currently_playing = get_node("NarratorDisabled/NarratorDisabled");
 	var current_currently_playing = currently_playing;
 	if currently_playing:
@@ -35,6 +37,7 @@ func narrator_disabled() -> void:
 
 
 func narrator_reenabled() -> void:
+	shut_up();
 	currently_playing = get_node("NarratorReenabled/NarratorReenabled");
 	var current_currently_playing = currently_playing;
 	if currently_playing:
@@ -48,6 +51,7 @@ func narrator_reenabled() -> void:
 
 
 func narrator_secret_intro() -> void:
+	shut_up();
 	currently_playing = get_node("NarratorSecretIntro/NarratorSecretIntro");
 	var current_currently_playing = currently_playing;
 	if currently_playing:
@@ -58,6 +62,11 @@ func narrator_secret_intro() -> void:
 			currently_playing = null;
 			playing_length = 0;
 			finished.emit();
+
+
+func shut_up() -> void:
+	if currently_playing:
+		currently_playing.stop();
 
 
 func _physics_process(delta: float) -> void:
