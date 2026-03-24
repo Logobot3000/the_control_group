@@ -99,7 +99,7 @@ func _on_red_btn_body_entered(body: Node2D) -> void:
 		get_node("StaticBody2D/AnimatedSprite2D").play("pressed");
 		light_status = 1;
 		if jumpscare_enabled:
-			await get_tree().create_timer(0.4).timeout;
+			await get_tree().create_timer(0.6).timeout;
 		else:
 			await get_tree().create_timer(0.8).timeout;
 		light_status = 2;

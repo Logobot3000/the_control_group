@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://cw24svt0wc285"]
+[gd_scene load_steps=38 format=3 uid="uid://cw24svt0wc285"]
 
 [ext_resource type="Script" uid="uid://t6ne022ma4dk" path="res://scripts/components/narrator_component.gd" id="1_7mchb"]
 [ext_resource type="AudioStream" uid="uid://t5jgxgo5vf2" path="res://assets/audio/narrator/narrator_intro_1.mp3" id="1_qh6b4"]
@@ -19,6 +19,24 @@
 [ext_resource type="AudioStream" uid="uid://xwgkf8v5aqt6" path="res://assets/audio/narrator/narrator_intro_14.mp3" id="15_1c6pj"]
 [ext_resource type="AudioStream" uid="uid://cu2d0j4l010cs" path="res://assets/audio/narrator/narrator_intro_15.mp3" id="16_yoc44"]
 [ext_resource type="AudioStream" uid="uid://kvva31ti1rvn" path="res://assets/audio/narrator/narrator_secret_intro.mp3" id="17_glb80"]
+[ext_resource type="AudioStream" uid="uid://dcf5rkyt52btm" path="res://assets/audio/narrator/narrator_intro_16.mp3" id="17_uwn71"]
+[ext_resource type="AudioStream" uid="uid://cylf6n04umah6" path="res://assets/audio/narrator/narrator_intro_17.mp3" id="18_uw0g8"]
+[ext_resource type="AudioStream" uid="uid://didubpk60d354" path="res://assets/audio/narrator/narrator_intro_18.mp3" id="19_wwtjm"]
+[ext_resource type="AudioStream" uid="uid://xmykx4fequkm" path="res://assets/audio/narrator/narrator_intro_19.mp3" id="20_siq2e"]
+[ext_resource type="AudioStream" uid="uid://bw4kw0kled4sw" path="res://assets/audio/narrator/narrator_intro_20.mp3" id="21_k0hwx"]
+[ext_resource type="AudioStream" uid="uid://c6e4vk7pij6ny" path="res://assets/audio/narrator/narrator_intro_21.mp3" id="22_6mqss"]
+[ext_resource type="AudioStream" uid="uid://clu22o4ao1apg" path="res://assets/audio/narrator/narrator_intro_22.mp3" id="23_e1x0a"]
+[ext_resource type="AudioStream" uid="uid://bwj2ytucaeerd" path="res://assets/audio/narrator/narrator_intro_23.mp3" id="24_r1b4m"]
+[ext_resource type="AudioStream" uid="uid://rju8xbq8bxt2" path="res://assets/audio/narrator/narrator_intro_24.mp3" id="25_nqgyl"]
+[ext_resource type="AudioStream" uid="uid://dt1i2asms3s67" path="res://assets/audio/narrator/narrator_intro_25.mp3" id="26_iupmo"]
+[ext_resource type="AudioStream" uid="uid://ce0lexndtrum6" path="res://assets/audio/narrator/narrator_intro_26.mp3" id="27_scthb"]
+[ext_resource type="AudioStream" uid="uid://el6ytvw2n5uu" path="res://assets/audio/narrator/narrator_intro_27.mp3" id="28_ed4ns"]
+[ext_resource type="AudioStream" uid="uid://l35wmir4en77" path="res://assets/audio/narrator/narrator_intro_28.mp3" id="29_dp333"]
+[ext_resource type="AudioStream" uid="uid://ceg0dcfort34k" path="res://assets/audio/narrator/narrator_intro_29.mp3" id="30_vpqg4"]
+[ext_resource type="AudioStream" uid="uid://dkosch0l6kqlc" path="res://assets/audio/narrator/narrator_intro_30.mp3" id="31_7mqlk"]
+[ext_resource type="AudioStream" uid="uid://bd4dw8a5x6yd8" path="res://assets/audio/narrator/narrator_intro_31.mp3" id="32_c7f5n"]
+[ext_resource type="AudioStream" uid="uid://cpyt5r5xo58bg" path="res://assets/audio/narrator/narrator_intro_32.mp3" id="33_ja4cr"]
+[ext_resource type="AudioStream" uid="uid://cxnnr5e8g3xoh" path="res://assets/audio/narrator/narrator_intro_33.mp3" id="34_rcar1"]
 
 [node name="NarratorComponent" type="Node2D"]
 script = ExtResource("1_7mchb")
@@ -83,6 +101,78 @@ bus = &"Narrator"
 
 [node name="NarratorIntro15" type="AudioStreamPlayer2D" parent="NarratorIntro"]
 stream = ExtResource("16_yoc44")
+bus = &"Narrator"
+
+[node name="NarratorIntro16" type="AudioStreamPlayer2D" parent="NarratorIntro"]
+stream = ExtResource("17_uwn71")
+bus = &"Narrator"
+
+[node name="NarratorIntro17" type="AudioStreamPlayer2D" parent="NarratorIntro"]
+stream = ExtResource("18_uw0g8")
+bus = &"Narrator"
+
+[node name="NarratorIntro18" type="AudioStreamPlayer2D" parent="NarratorIntro"]
+stream = ExtResource("19_wwtjm")
+bus = &"Narrator"
+
+[node name="NarratorIntro19" type="AudioStreamPlayer2D" parent="NarratorIntro"]
+stream = ExtResource("20_siq2e")
+bus = &"Narrator"
+
+[node name="NarratorIntro20" type="AudioStreamPlayer2D" parent="NarratorIntro"]
+stream = ExtResource("21_k0hwx")
+bus = &"Narrator"
+
+[node name="NarratorIntro21" type="AudioStreamPlayer2D" parent="NarratorIntro"]
+stream = ExtResource("22_6mqss")
+bus = &"Narrator"
+
+[node name="NarratorIntro22" type="AudioStreamPlayer2D" parent="NarratorIntro"]
+stream = ExtResource("23_e1x0a")
+bus = &"Narrator"
+
+[node name="NarratorIntro23" type="AudioStreamPlayer2D" parent="NarratorIntro"]
+stream = ExtResource("24_r1b4m")
+bus = &"Narrator"
+
+[node name="NarratorIntro24" type="AudioStreamPlayer2D" parent="NarratorIntro"]
+stream = ExtResource("25_nqgyl")
+bus = &"Narrator"
+
+[node name="NarratorIntro25" type="AudioStreamPlayer2D" parent="NarratorIntro"]
+stream = ExtResource("26_iupmo")
+bus = &"Narrator"
+
+[node name="NarratorIntro26" type="AudioStreamPlayer2D" parent="NarratorIntro"]
+stream = ExtResource("27_scthb")
+bus = &"Narrator"
+
+[node name="NarratorIntro27" type="AudioStreamPlayer2D" parent="NarratorIntro"]
+stream = ExtResource("28_ed4ns")
+bus = &"Narrator"
+
+[node name="NarratorIntro28" type="AudioStreamPlayer2D" parent="NarratorIntro"]
+stream = ExtResource("29_dp333")
+bus = &"Narrator"
+
+[node name="NarratorIntro29" type="AudioStreamPlayer2D" parent="NarratorIntro"]
+stream = ExtResource("30_vpqg4")
+bus = &"Narrator"
+
+[node name="NarratorIntro30" type="AudioStreamPlayer2D" parent="NarratorIntro"]
+stream = ExtResource("31_7mqlk")
+bus = &"Narrator"
+
+[node name="NarratorIntro31" type="AudioStreamPlayer2D" parent="NarratorIntro"]
+stream = ExtResource("32_c7f5n")
+bus = &"Narrator"
+
+[node name="NarratorIntro32" type="AudioStreamPlayer2D" parent="NarratorIntro"]
+stream = ExtResource("33_ja4cr")
+bus = &"Narrator"
+
+[node name="NarratorIntro33" type="AudioStreamPlayer2D" parent="NarratorIntro"]
+stream = ExtResource("34_rcar1")
 bus = &"Narrator"
 
 [node name="NarratorDisabled" type="Node2D" parent="."]

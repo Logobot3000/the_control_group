@@ -12,7 +12,7 @@
 [ext_resource type="Script" uid="uid://f3ooutu51jo4" path="res://scripts/settings.gd" id="6_op02l"]
 [ext_resource type="Texture2D" uid="uid://ddprdwjjir5a7" path="res://assets/sprites/settings.png" id="8_g470g"]
 [ext_resource type="Script" uid="uid://rfv4g2k8qu4w" path="res://scripts/ui/main_menu.gd" id="9_oe7rv"]
-[ext_resource type="Script" uid="uid://bcfuotnvys7by" path="res://scripts/credits.gd" id="10_armpk"]
+[ext_resource type="Script" path="res://scripts/credits.gd" id="10_armpk"]
 [ext_resource type="Texture2D" uid="uid://dolvvd6ctrqfo" path="res://assets/sprites/network_menu.png" id="10_ee2qx"]
 [ext_resource type="Texture2D" uid="uid://jn3o3o4cl7b" path="res://assets/sprites/back_button.png" id="11_cohpv"]
 [ext_resource type="Texture2D" uid="uid://bi3ou3dltw24q" path="res://assets/sprites/credits_button.png" id="11_o1t3v"]

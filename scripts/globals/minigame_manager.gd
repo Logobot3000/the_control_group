@@ -88,7 +88,7 @@ var minigame_modifiers: Dictionary = {
 	},
 	"juggernaut": {
 		"experimental": [
-			{"id": 1, "name": "Speed Boost", "description": "Allows you to move faster (10s cooldown, 4s duration)."},
+			{"id": 1, "name": "Speed Boost", "description": "(Ability) Allows you to move faster (10s cooldown, 4s duration)."},
 			{"id": 2, "name": "Sketchy Teleportation", "description": "(Ability) Teleport to a random position on the map (3x a game)."},
 			{"id": 3, "name": "Stun Mines", "description": "(Ability) Place mines down that stun Control Group players for 2s (10s cooldown)."}
 		],
